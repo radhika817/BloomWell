@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
-import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/decorative_badge.dart';
+import '../../../../core/widgets/glass_card.dart';
 import '../../../../l10n/app_localizations.dart';
 
-/// Supportive daily encouragement card with gentle pastel gradient
+/// Supportive daily encouragement card with gentle soft glass aesthetic
 /// and session-only bookmark toggle.
 class EncouragementCard extends StatefulWidget {
   const EncouragementCard({super.key});
@@ -22,17 +22,9 @@ class _EncouragementCardState extends State<EncouragementCard> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return AppCard(
-      gradient: const LinearGradient(
-        colors: [
-          Color(0xFFFFF0F5), // Blush pink
-          Color(0xFFEEE5FF), // Lavender
-          Color(0xFFFFF7F2), // Soft peach glow
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      borderColor: const Color(0xFFEAD8F7),
+    return GlassCard(
+      backgroundColor: Colors.white.withValues(alpha: 0.85),
+      borderColor: Colors.white.withValues(alpha: 0.9),
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +35,7 @@ class _EncouragementCardState extends State<EncouragementCard> {
               DecorativeBadge(
                 label: l10n?.dailyEncouragementBadge ?? 'Daily Bloom Thought',
                 emoji: '🌸',
-                backgroundColor: Colors.white,
+                backgroundColor: AppColors.blushPink,
                 textColor: AppColors.deepPurple,
                 borderColor: const Color(0xFFE4D5F2),
               ),
@@ -53,7 +45,8 @@ class _EncouragementCardState extends State<EncouragementCard> {
                     l10n?.bookmarkSessionTooltip ?? 'Bookmark for this session',
                 child: IconButton(
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
+                  constraints:
+                      const BoxConstraints(minWidth: 44.0, minHeight: 44.0),
                   icon: Icon(
                     _isBookmarked
                         ? Icons.bookmark_rounded
@@ -83,8 +76,8 @@ class _EncouragementCardState extends State<EncouragementCard> {
                         backgroundColor: AppColors.deepPurple,
                         duration: const Duration(seconds: 2),
                         behavior: SnackBarBehavior.floating,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: AppSpacing.roundedMd,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
                         ),
                       ),
                     );
@@ -99,7 +92,7 @@ class _EncouragementCardState extends State<EncouragementCard> {
                 '"Give yourself credit for how far you\'ve come. Soft days and slow progress still count. You don\'t have to carry the whole world today."',
             style: AppTypography.titleMedium.copyWith(
               fontWeight: FontWeight.w600,
-              fontSize: 16.5,
+              fontSize: 16.0,
               height: 1.5,
               color: AppColors.primaryText,
             ),

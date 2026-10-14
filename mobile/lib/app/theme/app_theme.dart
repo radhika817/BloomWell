@@ -6,7 +6,7 @@ import 'app_typography.dart';
 
 /// App-wide theme configuration for BloomWell.
 ///
-/// Implements Flutter Material 3 with soft feminine aesthetics,
+/// Implements Flutter Material 3 with soft glass aesthetics,
 /// calming pastel tones, rounded corners, and gentle elevation.
 abstract class AppTheme {
   static ThemeData get lightTheme {
@@ -34,7 +34,9 @@ abstract class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: AppColors.background,
+      fontFamily: AppTypography.headingFont,
+      fontFamilyFallback: AppTypography.fontFallbacks,
+      scaffoldBackgroundColor: Colors.transparent,
       canvasColor: AppColors.background,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
@@ -80,8 +82,9 @@ abstract class AppTheme {
             borderRadius: AppSpacing.roundedPill,
           ),
           textStyle: const TextStyle(
+            fontFamily: AppTypography.headingFont,
             fontSize: 15,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             letterSpacing: 0.2,
           ),
         ),

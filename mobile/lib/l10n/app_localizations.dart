@@ -699,6 +699,354 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'HelpHub connects you to verified campus dispensers, health center resources, helplines, and period-product access points with real verification dates and student reporting.'**
   String get helpPlaceholderDescription;
+
+  /// No description provided for @avatarInitials.
+  ///
+  /// In en, this message translates to:
+  /// **'BW'**
+  String get avatarInitials;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You are all caught up! No new notifications right now. 🌸'**
+  String get notificationsEmpty;
+
+  /// No description provided for @notificationsClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get notificationsClose;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @filterCalm.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm'**
+  String get filterCalm;
+
+  /// No description provided for @filterEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get filterEnergy;
+
+  /// No description provided for @filterSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get filterSleep;
+
+  /// No description provided for @filterFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get filterFocus;
+
+  /// No description provided for @filterMovement.
+  ///
+  /// In en, this message translates to:
+  /// **'Movement'**
+  String get filterMovement;
+
+  /// No description provided for @featuredHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured for You'**
+  String get featuredHeading;
+
+  /// No description provided for @featuredBreathingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep Breathing'**
+  String get featuredBreathingTitle;
+
+  /// No description provided for @featuredBreathingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2 min soothing rhythm'**
+  String get featuredBreathingSubtitle;
+
+  /// No description provided for @featuredBodyScanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Scan & Unwind'**
+  String get featuredBodyScanTitle;
+
+  /// No description provided for @featuredBodyScanSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'5 min gentle tension release'**
+  String get featuredBodyScanSubtitle;
+
+  /// No description provided for @featuredJournalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful Journal'**
+  String get featuredJournalTitle;
+
+  /// No description provided for @featuredJournalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Express your thoughts safely'**
+  String get featuredJournalSubtitle;
+
+  /// No description provided for @featuredStretchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle Stretch'**
+  String get featuredStretchTitle;
+
+  /// No description provided for @featuredStretchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Release back and neck tension'**
+  String get featuredStretchSubtitle;
+
+  /// No description provided for @featuredSleepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nighttime Wind Down'**
+  String get featuredSleepTitle;
+
+  /// No description provided for @featuredSleepSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft soothing sleep sounds'**
+  String get featuredSleepSubtitle;
+
+  /// No description provided for @reminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Little Reminder'**
+  String get reminderTitle;
+
+  /// No description provided for @reminderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink a glass of water and take a deep breath. You are doing great today.'**
+  String get reminderBody;
+
+  /// No description provided for @cyclePreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle & Body Rhythm'**
+  String get cyclePreviewTitle;
+
+  /// No description provided for @cyclePreviewBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Educational'**
+  String get cyclePreviewBadge;
+
+  /// No description provided for @cyclePreviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand your natural flow'**
+  String get cyclePreviewSubtitle;
+
+  /// No description provided for @cyclePreviewTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s gentle tip: Stay hydrated and rest when your body asks.'**
+  String get cyclePreviewTip;
+
+  /// No description provided for @cyclePreviewDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle insights are personal suggestions and never medical diagnoses.'**
+  String get cyclePreviewDisclaimer;
+
+  /// No description provided for @breatheScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful Breathing'**
+  String get breatheScreenTitle;
+
+  /// No description provided for @breatheScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'8 soothing cycles · ~2 min'**
+  String get breatheScreenSubtitle;
+
+  /// No description provided for @breatheRemainingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds}s remaining'**
+  String breatheRemainingLabel(int seconds);
+
+  /// No description provided for @breathePhaseInhale.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe In'**
+  String get breathePhaseInhale;
+
+  /// No description provided for @breathePhaseHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold Softly'**
+  String get breathePhaseHold;
+
+  /// No description provided for @breathePhaseExhale.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe Out'**
+  String get breathePhaseExhale;
+
+  /// No description provided for @breathePhaseRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest & Center'**
+  String get breathePhaseRest;
+
+  /// No description provided for @breathePlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get breathePlay;
+
+  /// No description provided for @breathePause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get breathePause;
+
+  /// No description provided for @breatheFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get breatheFinish;
+
+  /// No description provided for @breatheCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session Complete 🌸'**
+  String get breatheCompletedTitle;
+
+  /// No description provided for @breatheCompletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Wonderful job taking this peaceful moment for your mind and body.'**
+  String get breatheCompletedMessage;
+
+  /// No description provided for @breatheReturnHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to Home'**
+  String get breatheReturnHome;
+
+  /// No description provided for @breatheRestart.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe Again'**
+  String get breatheRestart;
+
+  /// No description provided for @breatheNonDiagnosticNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-diagnostic relaxation exercise. Stop anytime if you feel lightheaded.'**
+  String get breatheNonDiagnosticNote;
+
+  /// No description provided for @myMoodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Mood'**
+  String get myMoodTitle;
+
+  /// No description provided for @myMoodEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in with your feelings'**
+  String get myMoodEmptyTitle;
+
+  /// No description provided for @myMoodEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice how your body and emotions feel today. Your reflections are private and never leave your phone.'**
+  String get myMoodEmptySubtitle;
+
+  /// No description provided for @myMoodCheckInButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Check In on Home'**
+  String get myMoodCheckInButton;
+
+  /// No description provided for @myMoodPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Strictly on-device · No tracking'**
+  String get myMoodPrivacyNote;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to BloomWell'**
+  String get welcomeTitle;
+
+  /// No description provided for @welcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A gentle, private wellness companion made for students.'**
+  String get welcomeSubtitle;
+
+  /// No description provided for @welcomeFeature1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy First'**
+  String get welcomeFeature1Title;
+
+  /// No description provided for @welcomeFeature1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your journal, mood, and cycle reflections are private and owner-scoped.'**
+  String get welcomeFeature1Desc;
+
+  /// No description provided for @welcomeFeature2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm & Supportive'**
+  String get welcomeFeature2Title;
+
+  /// No description provided for @welcomeFeature2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle pacing, mindful breathing, and non-judgmental comfort.'**
+  String get welcomeFeature2Desc;
+
+  /// No description provided for @welcomeFeature3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Academic Pacing'**
+  String get welcomeFeature3Title;
+
+  /// No description provided for @welcomeFeature3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle-aware, exam-aware suggestions to pace study and rest.'**
+  String get welcomeFeature3Desc;
+
+  /// No description provided for @welcomeCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore BloomWell'**
+  String get welcomeCta;
+
+  /// No description provided for @debugPreviewWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview Welcome Screen (Debug)'**
+  String get debugPreviewWelcome;
 }
 
 class _AppLocalizationsDelegate

@@ -340,4 +340,191 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpPlaceholderDescription =>
       'HelpHub connects you to verified campus dispensers, health center resources, helplines, and period-product access points with real verification dates and student reporting.';
+
+  @override
+  String get avatarInitials => 'BW';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmpty =>
+      'You are all caught up! No new notifications right now. 🌸';
+
+  @override
+  String get notificationsClose => 'Close';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterCalm => 'Calm';
+
+  @override
+  String get filterEnergy => 'Energy';
+
+  @override
+  String get filterSleep => 'Sleep';
+
+  @override
+  String get filterFocus => 'Focus';
+
+  @override
+  String get filterMovement => 'Movement';
+
+  @override
+  String get featuredHeading => 'Featured for You';
+
+  @override
+  String get featuredBreathingTitle => 'Deep Breathing';
+
+  @override
+  String get featuredBreathingSubtitle => '2 min soothing rhythm';
+
+  @override
+  String get featuredBodyScanTitle => 'Body Scan & Unwind';
+
+  @override
+  String get featuredBodyScanSubtitle => '5 min gentle tension release';
+
+  @override
+  String get featuredJournalTitle => 'Mindful Journal';
+
+  @override
+  String get featuredJournalSubtitle => 'Express your thoughts safely';
+
+  @override
+  String get featuredStretchTitle => 'Gentle Stretch';
+
+  @override
+  String get featuredStretchSubtitle => 'Release back and neck tension';
+
+  @override
+  String get featuredSleepTitle => 'Nighttime Wind Down';
+
+  @override
+  String get featuredSleepSubtitle => 'Soft soothing sleep sounds';
+
+  @override
+  String get reminderTitle => 'Little Reminder';
+
+  @override
+  String get reminderBody =>
+      'Drink a glass of water and take a deep breath. You are doing great today.';
+
+  @override
+  String get cyclePreviewTitle => 'Cycle & Body Rhythm';
+
+  @override
+  String get cyclePreviewBadge => 'Educational';
+
+  @override
+  String get cyclePreviewSubtitle => 'Understand your natural flow';
+
+  @override
+  String get cyclePreviewTip =>
+      'Today\'s gentle tip: Stay hydrated and rest when your body asks.';
+
+  @override
+  String get cyclePreviewDisclaimer =>
+      'Cycle insights are personal suggestions and never medical diagnoses.';
+
+  @override
+  String get breatheScreenTitle => 'Mindful Breathing';
+
+  @override
+  String get breatheScreenSubtitle => '8 soothing cycles · ~2 min';
+
+  @override
+  String breatheRemainingLabel(int seconds) {
+    return '${seconds}s remaining';
+  }
+
+  @override
+  String get breathePhaseInhale => 'Breathe In';
+
+  @override
+  String get breathePhaseHold => 'Hold Softly';
+
+  @override
+  String get breathePhaseExhale => 'Breathe Out';
+
+  @override
+  String get breathePhaseRest => 'Rest & Center';
+
+  @override
+  String get breathePlay => 'Play';
+
+  @override
+  String get breathePause => 'Pause';
+
+  @override
+  String get breatheFinish => 'Finish';
+
+  @override
+  String get breatheCompletedTitle => 'Session Complete 🌸';
+
+  @override
+  String get breatheCompletedMessage =>
+      'Wonderful job taking this peaceful moment for your mind and body.';
+
+  @override
+  String get breatheReturnHome => 'Return to Home';
+
+  @override
+  String get breatheRestart => 'Breathe Again';
+
+  @override
+  String get breatheNonDiagnosticNote =>
+      'Non-diagnostic relaxation exercise. Stop anytime if you feel lightheaded.';
+
+  @override
+  String get myMoodTitle => 'My Mood';
+
+  @override
+  String get myMoodEmptyTitle => 'Check in with your feelings';
+
+  @override
+  String get myMoodEmptySubtitle =>
+      'Notice how your body and emotions feel today. Your reflections are private and never leave your phone.';
+
+  @override
+  String get myMoodCheckInButton => 'Check In on Home';
+
+  @override
+  String get myMoodPrivacyNote => 'Strictly on-device · No tracking';
+
+  @override
+  String get welcomeTitle => 'Welcome to BloomWell';
+
+  @override
+  String get welcomeSubtitle =>
+      'A gentle, private wellness companion made for students.';
+
+  @override
+  String get welcomeFeature1Title => 'Privacy First';
+
+  @override
+  String get welcomeFeature1Desc =>
+      'Your journal, mood, and cycle reflections are private and owner-scoped.';
+
+  @override
+  String get welcomeFeature2Title => 'Calm & Supportive';
+
+  @override
+  String get welcomeFeature2Desc =>
+      'Gentle pacing, mindful breathing, and non-judgmental comfort.';
+
+  @override
+  String get welcomeFeature3Title => 'Academic Pacing';
+
+  @override
+  String get welcomeFeature3Desc =>
+      'Cycle-aware, exam-aware suggestions to pace study and rest.';
+
+  @override
+  String get welcomeCta => 'Explore BloomWell';
+
+  @override
+  String get debugPreviewWelcome => 'Preview Welcome Screen (Debug)';
 }

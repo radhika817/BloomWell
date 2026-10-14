@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
-import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/widgets/mood_bubble.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../mood/application/mood_notifier.dart';
 import '../../../mood/domain/mood_kind.dart';
@@ -18,14 +19,14 @@ class _MoodVisual {
 }
 
 const List<_MoodVisual> _moodVisuals = [
-  _MoodVisual(MoodKind.happy, '😊', '🌸', AppColors.peach),
-  _MoodVisual(MoodKind.calm, '😌', '🌿', AppColors.mint),
-  _MoodVisual(MoodKind.okay, '🙂', '☁️', AppColors.lavender),
-  _MoodVisual(MoodKind.sad, '🥺', '🌧️', Color(0xFFDCEBFF)),
-  _MoodVisual(MoodKind.stressed, '😣', '⚡', AppColors.blushPink),
+  _MoodVisual(MoodKind.happy, '😊', '🌸', AppColors.moodHappy),
+  _MoodVisual(MoodKind.calm, '😌', '🌿', AppColors.moodCalm),
+  _MoodVisual(MoodKind.okay, '🙂', '☁️', AppColors.moodOkay),
+  _MoodVisual(MoodKind.sad, '🥺', '🌧️', AppColors.moodSad),
+  _MoodVisual(MoodKind.stressed, '😣', '⚡', AppColors.moodStressed),
 ];
 
-/// Interactive mood check-in card connected to Riverpod session state.
+/// Interactive mood check-in card using frosted glass and pastel MoodBubbles.
 class MoodCheckinCard extends ConsumerWidget {
   final VoidCallback onNavigateToComfort;
   final VoidCallback onNavigateToHelp;
@@ -83,9 +84,7 @@ class MoodCheckinCard extends ConsumerWidget {
           _moodVisuals.firstWhere((visual) => visual.kind == selectedMood);
     }
 
-    return AppCard(
-      backgroundColor: Colors.white,
-      borderColor: AppColors.borderLight,
+    return GlassCard(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +112,7 @@ class MoodCheckinCard extends ConsumerWidget {
                         l10n?.moodReset ?? 'Reset',
                         style: AppTypography.labelSmall.copyWith(
                           color: AppColors.deepPurple,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -123,26 +122,19 @@ class MoodCheckinCard extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.md),
 
-          // Mood items row
+          // Mood bubbles row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: _moodVisuals.map((visual) {
               final isSelected = selectedMood == visual.kind;
               final labelText = _label(visual.kind, l10n);
               return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.5),
-                  child: Semantics(
-                    button: true,
-                    selected: isSelected,
-                    label: '$labelText, mood check-in',
-                    child: _MoodButton(
-                      visual: visual,
-                      label: labelText,
-                      isSelected: isSelected,
-                      onTap: () => notifier.selectMood(visual.kind),
-                    ),
-                  ),
+                child: MoodBubble(
+                  label: labelText,
+                  emoji: visual.emoji,
+                  bubbleColor: visual.pastelColor,
+                  isSelected: isSelected,
+                  onTap: () => notifier.selectMood(visual.kind),
                 ),
               );
             }).toList(),
@@ -156,10 +148,10 @@ class MoodCheckinCard extends ConsumerWidget {
               curve: Curves.easeOutCubic,
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
-                color: selectedVisual.pastelColor.withValues(alpha: 0.5),
-                borderRadius: AppSpacing.roundedMd,
+                color: selectedVisual.pastelColor.withValues(alpha: 0.6),
+                borderRadius: BorderRadius.circular(18.0),
                 border: Border.all(
-                  color: AppColors.primaryPurple.withValues(alpha: 0.2),
+                  color: AppColors.primaryPurple.withValues(alpha: 0.25),
                   width: 1.0,
                 ),
               ),
@@ -179,7 +171,7 @@ class MoodCheckinCard extends ConsumerWidget {
                           _affirmation(selectedVisual.kind, l10n),
                           style: AppTypography.bodySmall.copyWith(
                             color: AppColors.primaryText,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                             height: 1.45,
                           ),
                         ),
@@ -193,8 +185,8 @@ class MoodCheckinCard extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.all(AppSpacing.sm),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.8),
-                        borderRadius: AppSpacing.roundedSm,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        borderRadius: BorderRadius.circular(14.0),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,21 +264,22 @@ class _SupportActionChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      borderRadius: AppSpacing.roundedPill,
+      borderRadius: BorderRadius.circular(100.0),
       child: InkWell(
         onTap: onTap,
-        borderRadius: AppSpacing.roundedPill,
+        borderRadius: BorderRadius.circular(100.0),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 7.0),
+          constraints: const BoxConstraints(minHeight: 44.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
           decoration: BoxDecoration(
-            borderRadius: AppSpacing.roundedPill,
-            border: Border.all(color: AppColors.primaryPurple, width: 1.0),
+            borderRadius: BorderRadius.circular(100.0),
+            border: Border.all(color: AppColors.primaryPurple, width: 1.2),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 12)),
+              Text(emoji, style: const TextStyle(fontSize: 13)),
               const SizedBox(width: 4),
               Flexible(
                 child: Text(
@@ -298,77 +291,6 @@ class _SupportActionChip extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: 11,
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _MoodButton extends StatelessWidget {
-  final _MoodVisual visual;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _MoodButton({
-    required this.visual,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: AppSpacing.roundedMd,
-        splashColor: AppColors.primaryPurple.withValues(alpha: 0.15),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-          decoration: BoxDecoration(
-            color: isSelected ? visual.pastelColor : AppColors.surfaceElevated,
-            borderRadius: AppSpacing.roundedMd,
-            border: Border.all(
-              color:
-                  isSelected ? AppColors.primaryPurple : AppColors.borderLight,
-              width: isSelected ? 1.8 : 1.0,
-            ),
-            boxShadow: isSelected
-                ? const [
-                    BoxShadow(
-                      color: AppColors.shadowMedium,
-                      blurRadius: 8,
-                      offset: Offset(0, 3),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                visual.emoji,
-                style: const TextStyle(fontSize: 24),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTypography.labelSmall.copyWith(
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected
-                      ? AppColors.deepPurple
-                      : AppColors.secondaryText,
-                  fontSize: 11,
                 ),
               ),
             ],

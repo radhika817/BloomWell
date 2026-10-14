@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
-import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
-import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/decorative_badge.dart';
+import '../../../../core/widgets/soft_card.dart';
 
-/// Individual self-care routine card with distinct pastel theme and icon.
+/// Individual self-care routine card with distinct pastel theme,
+/// soft card elevation, and responsive typography.
 class SelfCareCard extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -31,10 +31,8 @@ class SelfCareCard extends StatelessWidget {
     return Semantics(
       button: true,
       label: '$title, $subtitle',
-      child: AppCard(
+      child: SoftCard(
         onTap: onTap,
-        backgroundColor: Colors.white,
-        borderColor: AppColors.borderLight,
         padding: const EdgeInsets.all(14.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,11 +42,11 @@ class SelfCareCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 42,
+                  height: 42,
                   decoration: BoxDecoration(
                     color: pastelBackground,
-                    borderRadius: AppSpacing.roundedMd,
+                    borderRadius: BorderRadius.circular(14.0),
                     border: Border.all(
                       color: accentColor.withValues(alpha: 0.2),
                       width: 1.0,
@@ -70,7 +68,7 @@ class SelfCareCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: AppSpacing.md),
+            const SizedBox(height: 10.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -82,7 +80,7 @@ class SelfCareCard extends StatelessWidget {
                     fontSize: 14.5,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.xs),
+                const SizedBox(height: 4.0),
                 Text(
                   subtitle,
                   maxLines: 2,

@@ -16,6 +16,7 @@ class PlaceholderScreen extends StatelessWidget {
   final String? arrivalInfo;
   final String featureDescription;
   final VoidCallback? onReturnHome;
+  final Widget? extraChild;
 
   const PlaceholderScreen({
     super.key,
@@ -25,6 +26,7 @@ class PlaceholderScreen extends StatelessWidget {
     this.arrivalInfo,
     required this.featureDescription,
     this.onReturnHome,
+    this.extraChild,
   });
 
   @override
@@ -155,6 +157,10 @@ class PlaceholderScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (extraChild != null) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    extraChild!,
+                  ],
                   if (onReturnHome != null) ...[
                     const SizedBox(height: AppSpacing.xxl),
                     BloomButton(
