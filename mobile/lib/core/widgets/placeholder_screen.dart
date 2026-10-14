@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_spacing.dart';
 import '../../app/theme/app_typography.dart';
+import '../../l10n/app_localizations.dart';
 import 'app_card.dart';
 import 'bloom_button.dart';
 import 'decorative_badge.dart';
 
 /// Honest, beautifully designed placeholder screen for features planned
-/// for subsequent implementation phases.
+/// for subsequent updates.
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   final String subtitle;
   final String emoji;
-  final String phaseInfo;
+  final String? arrivalInfo;
   final String featureDescription;
   final VoidCallback? onReturnHome;
 
@@ -21,13 +22,18 @@ class PlaceholderScreen extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.emoji,
-    required this.phaseInfo,
+    this.arrivalInfo,
     required this.featureDescription,
     this.onReturnHome,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final effectiveArrival = arrivalInfo ??
+        l10n?.placeholderPlannedLabel ??
+        'Coming in a later update';
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -85,7 +91,7 @@ class PlaceholderScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   DecorativeBadge(
-                    label: phaseInfo,
+                    label: effectiveArrival,
                     emoji: '🌱',
                     backgroundColor: AppColors.blushPink,
                     textColor: AppColors.deepPurple,
@@ -107,7 +113,8 @@ class PlaceholderScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: AppSpacing.sm),
                             Text(
-                              'Planned Implementation',
+                              l10n?.placeholderPlannedHeading ??
+                                  'Planned Implementation',
                               style: AppTypography.titleSmall.copyWith(
                                 color: AppColors.deepPurple,
                               ),
@@ -134,7 +141,8 @@ class PlaceholderScreen extends StatelessWidget {
                               const SizedBox(width: AppSpacing.sm),
                               Expanded(
                                 child: Text(
-                                  'BloomWell does not fabricate user records or mock health data. Real tracking begins when the local storage & API layers are integrated.',
+                                  l10n?.placeholderDisclaimer ??
+                                      'BloomWell does not fabricate user records or mock health data. Real tracking begins when the local storage & API layers are integrated.',
                                   style: AppTypography.bodySmall.copyWith(
                                     color: AppColors.secondaryText,
                                     fontStyle: FontStyle.italic,
@@ -150,7 +158,7 @@ class PlaceholderScreen extends StatelessWidget {
                   if (onReturnHome != null) ...[
                     const SizedBox(height: AppSpacing.xxl),
                     BloomButton(
-                      label: 'Back to Home',
+                      label: l10n?.placeholderBackToHome ?? 'Back to Home',
                       emoji: '🌸',
                       onPressed: onReturnHome,
                       variant: BloomButtonVariant.primary,

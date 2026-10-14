@@ -28,66 +28,74 @@ class SelfCareCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      onTap: onTap,
-      backgroundColor: Colors.white,
-      borderColor: AppColors.borderLight,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: pastelBackground,
-                  borderRadius: AppSpacing.roundedMd,
-                  border: Border.all(
-                    color: accentColor.withValues(alpha: 0.2),
-                    width: 1.0,
+    return Semantics(
+      button: true,
+      label: '$title, $subtitle',
+      child: AppCard(
+        onTap: onTap,
+        backgroundColor: Colors.white,
+        borderColor: AppColors.borderLight,
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: pastelBackground,
+                    borderRadius: AppSpacing.roundedMd,
+                    border: Border.all(
+                      color: accentColor.withValues(alpha: 0.2),
+                      width: 1.0,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    emoji,
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  emoji,
-                  style: const TextStyle(fontSize: 22),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: DecorativeBadge(
+                    label: badgeText,
+                    backgroundColor: pastelBackground,
+                    textColor: AppColors.deepPurple,
+                  ),
                 ),
-              ),
-              DecorativeBadge(
-                label: badgeText,
-                backgroundColor: pastelBackground,
-                textColor: AppColors.deepPurple,
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTypography.titleSmall.copyWith(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
+              ],
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: AppTypography.titleSmall.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14.5,
+                  ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                subtitle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: AppTypography.bodySmall.copyWith(
-                  color: AppColors.secondaryText,
-                  height: 1.35,
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  subtitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.bodySmall.copyWith(
+                    color: AppColors.secondaryText,
+                    height: 1.3,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/placeholder_screen.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ProfilePlaceholderScreen extends StatelessWidget {
   final VoidCallback? onReturnHome;
@@ -8,12 +9,13 @@ class ProfilePlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PlaceholderScreen(
-      title: 'Profile & Privacy Center',
-      subtitle: 'Complete control over your personal data',
+      title: l10n?.profilePlaceholderTitle ?? 'Profile & Privacy Center',
+      subtitle: l10n?.profilePlaceholderSubtitle ??
+          'Complete control over your personal data',
       emoji: '🤍',
-      phaseInfo: 'Phase 4 Feature',
-      featureDescription:
+      featureDescription: l10n?.profilePlaceholderDescription ??
           'The Privacy Center will host Discreet Mode (app lock, neutral notifications), exportable Doctor-visit summaries, language selection (English, Hindi, Marathi), and full one-tap data deletion.',
       onReturnHome: onReturnHome,
     );

@@ -4,9 +4,10 @@ import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/decorative_badge.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Supportive daily encouragement card with gentle pastel gradient
-/// and decorative motifs.
+/// and session-only bookmark toggle.
 class EncouragementCard extends StatefulWidget {
   const EncouragementCard({super.key});
 
@@ -15,10 +16,12 @@ class EncouragementCard extends StatefulWidget {
 }
 
 class _EncouragementCardState extends State<EncouragementCard> {
-  bool _isSaved = false;
+  bool _isBookmarked = false;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return AppCard(
       gradient: const LinearGradient(
         colors: [
@@ -37,53 +40,63 @@ class _EncouragementCardState extends State<EncouragementCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const DecorativeBadge(
-                label: 'Daily Bloom Thought',
+              DecorativeBadge(
+                label: l10n?.dailyEncouragementBadge ?? 'Daily Bloom Thought',
                 emoji: '🌸',
                 backgroundColor: Colors.white,
                 textColor: AppColors.deepPurple,
-                borderColor: Color(0xFFE4D5F2),
+                borderColor: const Color(0xFFE4D5F2),
               ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                icon: Icon(
-                  _isSaved
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_outline_rounded,
-                  color:
-                      _isSaved ? const Color(0xFFE56B85) : AppColors.mutedText,
-                  size: 22,
+              Semantics(
+                button: true,
+                label:
+                    l10n?.bookmarkSessionTooltip ?? 'Bookmark for this session',
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: Icon(
+                    _isBookmarked
+                        ? Icons.bookmark_rounded
+                        : Icons.bookmark_outline_rounded,
+                    color: _isBookmarked
+                        ? AppColors.primaryPurple
+                        : AppColors.mutedText,
+                    size: 24,
+                  ),
+                  tooltip: l10n?.bookmarkSessionTooltip ??
+                      'Bookmark for this session',
+                  onPressed: () {
+                    setState(() {
+                      _isBookmarked = !_isBookmarked;
+                    });
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          _isBookmarked
+                              ? (l10n?.bookmarkedFeedback ??
+                                  'Thought bookmarked for this session 💖')
+                              : (l10n?.unbookmarkedFeedback ??
+                                  'Removed bookmark'),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: AppColors.deepPurple,
+                        duration: const Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: AppSpacing.roundedMd,
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                tooltip: _isSaved ? 'Saved to heart' : 'Save to heart',
-                onPressed: () {
-                  setState(() {
-                    _isSaved = !_isSaved;
-                  });
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        _isSaved
-                            ? 'Saved to your heart for this session 💖'
-                            : 'Removed from saved thoughts',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: AppColors.deepPurple,
-                      duration: const Duration(seconds: 2),
-                      behavior: SnackBarBehavior.floating,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: AppSpacing.roundedMd,
-                      ),
-                    ),
-                  );
-                },
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
-            '"Give yourself credit for how far you\'ve come. Soft days and slow progress still count. You don\'t have to carry the whole world today."',
+            l10n?.dailyEncouragementQuote ??
+                '"Give yourself credit for how far you\'ve come. Soft days and slow progress still count. You don\'t have to carry the whole world today."',
             style: AppTypography.titleMedium.copyWith(
               fontWeight: FontWeight.w600,
               fontSize: 16.5,
@@ -98,7 +111,8 @@ class _EncouragementCardState extends State<EncouragementCard> {
               const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
-                  'Remember to take a sip of water and rest your shoulders.',
+                  l10n?.dailyEncouragementTip ??
+                      'Remember to take a sip of water and rest your shoulders.',
                   style: AppTypography.bodySmall.copyWith(
                     color: AppColors.secondaryText,
                     fontStyle: FontStyle.italic,

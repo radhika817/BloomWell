@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/placeholder_screen.dart';
+import '../../../l10n/app_localizations.dart';
 
 class BreathePlaceholderScreen extends StatelessWidget {
   final VoidCallback? onReturnHome;
@@ -8,13 +9,14 @@ class BreathePlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PlaceholderScreen(
-      title: 'Breathe & Relax',
-      subtitle: 'Gentle somatic calming & grounding exercises',
+      title: l10n?.breathePlaceholderTitle ?? 'Breathe & Relax',
+      subtitle: l10n?.breathePlaceholderSubtitle ??
+          'Gentle somatic calming & grounding exercises',
       emoji: '🍃',
-      phaseInfo: 'Phase 2 Feature',
-      featureDescription:
-          'Expanded audio sessions, 4-7-8 breathing techniques, progressive muscle relaxation, and warm compress reminders will be available here. For now, try out the 2-minute mindful breathing exercise right on your Home screen!',
+      featureDescription: l10n?.breathePlaceholderDescription ??
+          'Expanded audio sessions, 4-7-8 breathing techniques, progressive muscle relaxation, and warm compress reminders will be available here. For now, try out the mindful breathing exercise right on your Home screen!',
       onReturnHome: onReturnHome,
     );
   }

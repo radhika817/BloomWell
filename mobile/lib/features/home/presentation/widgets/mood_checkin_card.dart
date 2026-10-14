@@ -1,50 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/app_card.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../mood/application/mood_notifier.dart';
+import '../../../mood/domain/mood_kind.dart';
 
-/// The 5 supported moods for check-in.
-enum BloomMood {
-  happy('Happy', '😊', '🌸', AppColors.peach,
-      'So glad you\'re feeling radiant today! Let this light nourish your day. ✨'),
-  calm('Calm', '😌', '🌿', AppColors.mint,
-      'Cherish this peaceful energy. May your day stay gentle and unhurried. 🌿'),
-  okay('Okay', '🙂', '☁️', AppColors.lavender,
-      'Steady and okay is wonderful. Honor wherever you are today. ☁️'),
-  sad('Sad', '🥺', '🌧️', Color(0xFFDCEBFF),
-      'It is okay to be gentle and slow today, darling. Sending warm thoughts. 🤍'),
-  stressed('Stressed', '😣', '⚡', AppColors.blushPink,
-      'Take a slow, deep breath. You are capable and more than your worries. 💜');
-
-  final String label;
+class _MoodVisual {
+  final MoodKind kind;
   final String emoji;
   final String motif;
   final Color pastelColor;
-  final String affirmation;
 
-  const BloomMood(
-    this.label,
-    this.emoji,
-    this.motif,
-    this.pastelColor,
-    this.affirmation,
-  );
+  const _MoodVisual(this.kind, this.emoji, this.motif, this.pastelColor);
 }
 
-/// Interactive mood check-in card using local state.
-class MoodCheckinCard extends StatelessWidget {
-  final BloomMood? selectedMood;
-  final ValueChanged<BloomMood?> onMoodChanged;
+const List<_MoodVisual> _moodVisuals = [
+  _MoodVisual(MoodKind.happy, '😊', '🌸', AppColors.peach),
+  _MoodVisual(MoodKind.calm, '😌', '🌿', AppColors.mint),
+  _MoodVisual(MoodKind.okay, '🙂', '☁️', AppColors.lavender),
+  _MoodVisual(MoodKind.sad, '🥺', '🌧️', Color(0xFFDCEBFF)),
+  _MoodVisual(MoodKind.stressed, '😣', '⚡', AppColors.blushPink),
+];
+
+/// Interactive mood check-in card connected to Riverpod session state.
+class MoodCheckinCard extends ConsumerWidget {
+  final VoidCallback onNavigateToComfort;
+  final VoidCallback onNavigateToHelp;
 
   const MoodCheckinCard({
     super.key,
-    required this.selectedMood,
-    required this.onMoodChanged,
+    required this.onNavigateToComfort,
+    required this.onNavigateToHelp,
   });
 
+  String _label(MoodKind kind, AppLocalizations? l10n) {
+    switch (kind) {
+      case MoodKind.happy:
+        return l10n?.moodHappy ?? 'Happy';
+      case MoodKind.calm:
+        return l10n?.moodCalm ?? 'Calm';
+      case MoodKind.okay:
+        return l10n?.moodOkay ?? 'Okay';
+      case MoodKind.sad:
+        return l10n?.moodSad ?? 'Sad';
+      case MoodKind.stressed:
+        return l10n?.moodStressed ?? 'Stressed';
+    }
+  }
+
+  String _affirmation(MoodKind kind, AppLocalizations? l10n) {
+    switch (kind) {
+      case MoodKind.happy:
+        return l10n?.moodHappyAffirmation ??
+            'So glad you\'re feeling radiant today! Let this light nourish your day. ✨';
+      case MoodKind.calm:
+        return l10n?.moodCalmAffirmation ??
+            'Cherish this peaceful energy. May your day stay gentle and unhurried. 🌿';
+      case MoodKind.okay:
+        return l10n?.moodOkayAffirmation ??
+            'Steady and okay is wonderful. Honor wherever you are today. ☁️';
+      case MoodKind.sad:
+        return l10n?.moodSadAffirmation ??
+            'It is okay to be gentle and slow today, darling. Sending warm thoughts. 🤍';
+      case MoodKind.stressed:
+        return l10n?.moodStressedAffirmation ??
+            'Take a slow, deep breath. You are capable and more than your worries. 💜';
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedMood = ref.watch(moodNotifierProvider);
+    final notifier = ref.read(moodNotifierProvider.notifier);
+    final l10n = AppLocalizations.of(context);
+
+    _MoodVisual? selectedVisual;
+    if (selectedMood != null) {
+      selectedVisual =
+          _moodVisuals.firstWhere((visual) => visual.kind == selectedMood);
+    }
+
     return AppCard(
       backgroundColor: Colors.white,
       borderColor: AppColors.borderLight,
@@ -55,20 +93,29 @@ class MoodCheckinCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'How are you feeling right now?',
-                style: AppTypography.titleSmall.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  l10n?.moodQuestion ?? 'How are you feeling right now?',
+                  style: AppTypography.titleSmall.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               if (selectedMood != null)
-                GestureDetector(
-                  onTap: () => onMoodChanged(null),
-                  child: Text(
-                    'Reset',
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.deepPurple,
-                      fontWeight: FontWeight.w600,
+                Semantics(
+                  button: true,
+                  label: l10n?.moodReset ?? 'Reset mood selection',
+                  child: GestureDetector(
+                    onTap: notifier.clearMood,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        l10n?.moodReset ?? 'Reset',
+                        style: AppTypography.labelSmall.copyWith(
+                          color: AppColors.deepPurple,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -79,17 +126,22 @@ class MoodCheckinCard extends StatelessWidget {
           // Mood items row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: BloomMood.values.map((mood) {
-              final isSelected = selectedMood == mood;
+            children: _moodVisuals.map((visual) {
+              final isSelected = selectedMood == visual.kind;
+              final labelText = _label(visual.kind, l10n);
               return Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                  child: _MoodButton(
-                    mood: mood,
-                    isSelected: isSelected,
-                    onTap: () {
-                      onMoodChanged(isSelected ? null : mood);
-                    },
+                  padding: const EdgeInsets.symmetric(horizontal: 2.5),
+                  child: Semantics(
+                    button: true,
+                    selected: isSelected,
+                    label: '$labelText, mood check-in',
+                    child: _MoodButton(
+                      visual: visual,
+                      label: labelText,
+                      isSelected: isSelected,
+                      onTap: () => notifier.selectMood(visual.kind),
+                    ),
                   ),
                 ),
               );
@@ -97,14 +149,14 @@ class MoodCheckinCard extends StatelessWidget {
           ),
 
           // Feedback container when a mood is selected
-          if (selectedMood != null) ...[
+          if (selectedVisual != null) ...[
             const SizedBox(height: AppSpacing.lg),
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
-                color: selectedMood!.pastelColor.withValues(alpha: 0.5),
+                color: selectedVisual.pastelColor.withValues(alpha: 0.5),
                 borderRadius: AppSpacing.roundedMd,
                 border: Border.all(
                   color: AppColors.primaryPurple.withValues(alpha: 0.2),
@@ -118,13 +170,13 @@ class MoodCheckinCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        selectedMood!.motif,
+                        selectedVisual.motif,
                         style: const TextStyle(fontSize: 18),
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
-                          selectedMood!.affirmation,
+                          _affirmation(selectedVisual.kind, l10n),
                           style: AppTypography.bodySmall.copyWith(
                             color: AppColors.primaryText,
                             fontWeight: FontWeight.w500,
@@ -134,11 +186,60 @@ class MoodCheckinCard extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  // Supportive message and actions for Sad & Stressed
+                  if (selectedVisual.kind.needsSupportOptions) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.sm),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        borderRadius: AppSpacing.roundedSm,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n?.moodSupportiveMessage ??
+                                'It looks like today might be a bit heavy. You don\'t have to carry it alone. Please be extra gentle with yourself.',
+                            style: AppTypography.bodySmall.copyWith(
+                              color: AppColors.primaryText,
+                              fontSize: 12,
+                              height: 1.4,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _SupportActionChip(
+                                  label: l10n?.tryComfortMode ??
+                                      'Try Comfort Mode',
+                                  emoji: '🧸',
+                                  onTap: onNavigateToComfort,
+                                ),
+                              ),
+                              const SizedBox(width: AppSpacing.sm),
+                              Expanded(
+                                child: _SupportActionChip(
+                                  label: l10n?.findSupport ?? 'Find support',
+                                  emoji: '🤝',
+                                  onTap: onNavigateToHelp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+
                   const SizedBox(height: AppSpacing.xs),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'Session check-in · Not persisted',
+                      l10n?.moodDisclaimer ??
+                          'Session check-in · Not persisted',
                       style: AppTypography.labelSmall.copyWith(
                         color: AppColors.mutedText,
                         fontSize: 10,
@@ -156,13 +257,66 @@ class MoodCheckinCard extends StatelessWidget {
   }
 }
 
+class _SupportActionChip extends StatelessWidget {
+  final String label;
+  final String emoji;
+  final VoidCallback onTap;
+
+  const _SupportActionChip({
+    required this.label,
+    required this.emoji,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: AppSpacing.roundedPill,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: AppSpacing.roundedPill,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 7.0),
+          decoration: BoxDecoration(
+            borderRadius: AppSpacing.roundedPill,
+            border: Border.all(color: AppColors.primaryPurple, width: 1.0),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(emoji, style: const TextStyle(fontSize: 12)),
+              const SizedBox(width: 4),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.labelSmall.copyWith(
+                    color: AppColors.deepPurple,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _MoodButton extends StatelessWidget {
-  final BloomMood mood;
+  final _MoodVisual visual;
+  final String label;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _MoodButton({
-    required this.mood,
+    required this.visual,
+    required this.label,
     required this.isSelected,
     required this.onTap,
   });
@@ -177,9 +331,9 @@ class _MoodButton extends StatelessWidget {
         splashColor: AppColors.primaryPurple.withValues(alpha: 0.15),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
           decoration: BoxDecoration(
-            color: isSelected ? mood.pastelColor : AppColors.surfaceElevated,
+            color: isSelected ? visual.pastelColor : AppColors.surfaceElevated,
             borderRadius: AppSpacing.roundedMd,
             border: Border.all(
               color:
@@ -200,12 +354,12 @@ class _MoodButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                mood.emoji,
+                visual.emoji,
                 style: const TextStyle(fontSize: 24),
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                mood.label,
+                label,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

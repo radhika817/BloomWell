@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/placeholder_screen.dart';
+import '../../../l10n/app_localizations.dart';
 
 class CycleCarePlaceholderScreen extends StatelessWidget {
   final VoidCallback? onReturnHome;
@@ -8,12 +9,13 @@ class CycleCarePlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PlaceholderScreen(
-      title: 'CycleCare',
-      subtitle: 'Gentle, private menstrual and symptom logging',
+      title: l10n?.cycleCarePlaceholderTitle ?? 'CycleCare',
+      subtitle: l10n?.cycleCarePlaceholderSubtitle ??
+          'Gentle, private menstrual and symptom logging',
       emoji: '🌷',
-      phaseInfo: 'Phase 2 Feature',
-      featureDescription:
+      featureDescription: l10n?.cycleCarePlaceholderDescription ??
           'CycleCare will allow you to log period dates, cramp severity, bloating, and fatigue. All cycle estimates will be clearly distinguished from recorded dates, strictly non-diagnostic, and stored securely.',
       onReturnHome: onReturnHome,
     );

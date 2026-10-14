@@ -6,22 +6,18 @@ import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/bloom_button.dart';
 import '../../../../core/widgets/decorative_badge.dart';
+import '../../../../l10n/app_localizations.dart';
 
 enum BreathingPhase {
-  idle('Ready to relax', 'Take a comfortable breath when you are ready'),
-  inhale('Breathe In', 'Inhale peace and clarity...'),
-  holdIn('Hold Gently', 'Hold your breath softly...'),
-  exhale('Breathe Out', 'Release all tightness and worries...'),
-  holdOut('Rest', 'Rest in this gentle stillness...');
-
-  final String title;
-  final String instruction;
-
-  const BreathingPhase(this.title, this.instruction);
+  idle,
+  inhale,
+  holdIn,
+  exhale,
+  holdOut,
 }
 
-/// Mindful breathing card with an animated expanding/contracting circle
-/// and interactive breathing session controls.
+/// Mindful breathing card with an animated expanding/contracting circle,
+/// 8-cycle (about 2 min) calibrated timing, and accessibility motion support.
 class BreathingCard extends StatefulWidget {
   const BreathingCard({super.key});
 
@@ -31,6 +27,7 @@ class BreathingCard extends StatefulWidget {
 
 class _BreathingCardState extends State<BreathingCard>
     with SingleTickerProviderStateMixin {
+  static const int _totalCycles = 8;
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;
   Timer? _phaseTimer;
@@ -97,13 +94,11 @@ class _BreathingCardState extends State<BreathingCard>
         _controller.forward(from: 0.0);
         break;
       case BreathingPhase.holdIn:
-        // Hold at peak
         break;
       case BreathingPhase.exhale:
         _controller.reverse(from: 1.0);
         break;
       case BreathingPhase.holdOut:
-        // Hold at base
         break;
       case BreathingPhase.idle:
         break;
@@ -140,18 +135,65 @@ class _BreathingCardState extends State<BreathingCard>
         _transitionToPhase(BreathingPhase.holdOut);
         break;
       case BreathingPhase.holdOut:
-        setState(() {
-          _cycleCount++;
-        });
-        _transitionToPhase(BreathingPhase.inhale);
+        if (_cycleCount >= _totalCycles) {
+          _stopBreathing();
+        } else {
+          setState(() {
+            _cycleCount++;
+          });
+          _transitionToPhase(BreathingPhase.inhale);
+        }
         break;
       case BreathingPhase.idle:
         break;
     }
   }
 
+  String _phaseTitle(BreathingPhase phase, AppLocalizations? l10n) {
+    switch (phase) {
+      case BreathingPhase.idle:
+        return l10n?.breathingPhaseIdleTitle ?? 'Ready to relax';
+      case BreathingPhase.inhale:
+        return l10n?.breathingPhaseInhaleTitle ?? 'Breathe In';
+      case BreathingPhase.holdIn:
+        return l10n?.breathingPhaseHoldInTitle ?? 'Hold Gently';
+      case BreathingPhase.exhale:
+        return l10n?.breathingPhaseExhaleTitle ?? 'Breathe Out';
+      case BreathingPhase.holdOut:
+        return l10n?.breathingPhaseHoldOutTitle ?? 'Rest';
+    }
+  }
+
+  String _phaseInstruction(BreathingPhase phase, AppLocalizations? l10n) {
+    switch (phase) {
+      case BreathingPhase.idle:
+        return l10n?.breathingPhaseIdleInstruction ??
+            'Take a comfortable breath when you are ready';
+      case BreathingPhase.inhale:
+        return l10n?.breathingPhaseInhaleInstruction ??
+            'Inhale peace and clarity...';
+      case BreathingPhase.holdIn:
+        return l10n?.breathingPhaseHoldInInstruction ??
+            'Hold your breath softly...';
+      case BreathingPhase.exhale:
+        return l10n?.breathingPhaseExhaleInstruction ??
+            'Release all tightness and worries...';
+      case BreathingPhase.holdOut:
+        return l10n?.breathingPhaseHoldOutInstruction ??
+            'Rest in this gentle stillness...';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
+
+    final badgeLabel = _isActive
+        ? (l10n?.breathingCycleCount(_cycleCount, _totalCycles) ??
+            'Cycle $_cycleCount of $_totalCycles')
+        : (l10n?.breathingDurationBadge ?? 'about 2 min');
+
     return AppCard(
       gradient: const LinearGradient(
         colors: [
@@ -184,7 +226,7 @@ class _BreathingCardState extends State<BreathingCard>
                   ),
                   const SizedBox(width: AppSpacing.sm),
                   Text(
-                    'Mindful Breathing',
+                    l10n?.breathingCardTitle ?? 'Mindful Breathing',
                     style: AppTypography.titleSmall.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -192,7 +234,7 @@ class _BreathingCardState extends State<BreathingCard>
                 ],
               ),
               DecorativeBadge(
-                label: _isActive ? 'Cycle $_cycleCount' : '2 min',
+                label: badgeLabel,
                 icon: Icons.timer_outlined,
                 backgroundColor: Colors.white,
                 textColor: AppColors.deepPurple,
@@ -205,7 +247,13 @@ class _BreathingCardState extends State<BreathingCard>
           AnimatedBuilder(
             animation: _scaleAnimation,
             builder: (context, child) {
-              final scale = _isActive ? _scaleAnimation.value : 0.82;
+              final double scale;
+              if (reduceMotion) {
+                scale = 1.0;
+              } else {
+                scale = _isActive ? _scaleAnimation.value : 0.82;
+              }
+
               return Transform.scale(
                 scale: scale,
                 child: Container(
@@ -248,7 +296,7 @@ class _BreathingCardState extends State<BreathingCard>
                       if (_isActive) ...[
                         const SizedBox(height: 2),
                         Text(
-                          _currentPhase.title,
+                          _phaseTitle(_currentPhase, l10n),
                           style: AppTypography.labelSmall.copyWith(
                             color: AppColors.primaryText,
                             fontWeight: FontWeight.w600,
@@ -265,7 +313,7 @@ class _BreathingCardState extends State<BreathingCard>
           const SizedBox(height: AppSpacing.lg),
 
           Text(
-            _currentPhase.instruction,
+            _phaseInstruction(_currentPhase, l10n),
             textAlign: TextAlign.center,
             style: AppTypography.bodyMedium.copyWith(
               color: AppColors.primaryText,
@@ -275,21 +323,29 @@ class _BreathingCardState extends State<BreathingCard>
           const SizedBox(height: AppSpacing.md),
 
           // Control Button
-          BloomButton(
-            label: _isActive ? 'Pause Exercise' : 'Start Quick Session',
-            icon: _isActive ? Icons.pause_rounded : Icons.play_arrow_rounded,
-            emoji: _isActive ? null : '🌸',
-            variant: _isActive
-                ? BloomButtonVariant.subtle
-                : BloomButtonVariant.primary,
-            isExpanded: true,
-            onPressed: () {
-              if (_isActive) {
-                _stopBreathing();
-              } else {
-                _startBreathing();
-              }
-            },
+          Semantics(
+            button: true,
+            label: _isActive
+                ? (l10n?.breathingPauseButton ?? 'Pause Exercise')
+                : (l10n?.breathingStartButton ?? 'Start Quick Session'),
+            child: BloomButton(
+              label: _isActive
+                  ? (l10n?.breathingPauseButton ?? 'Pause Exercise')
+                  : (l10n?.breathingStartButton ?? 'Start Quick Session'),
+              icon: _isActive ? Icons.pause_rounded : Icons.play_arrow_rounded,
+              emoji: _isActive ? null : '🌸',
+              variant: _isActive
+                  ? BloomButtonVariant.subtle
+                  : BloomButtonVariant.primary,
+              isExpanded: true,
+              onPressed: () {
+                if (_isActive) {
+                  _stopBreathing();
+                } else {
+                  _startBreathing();
+                }
+              },
+            ),
           ),
         ],
       ),
