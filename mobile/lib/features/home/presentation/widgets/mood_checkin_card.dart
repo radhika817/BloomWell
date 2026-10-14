@@ -104,10 +104,10 @@ class MoodCheckinCard extends StatelessWidget {
               curve: Curves.easeOutCubic,
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
-                color: selectedMood!.pastelColor.withOpacity(0.5),
+                color: selectedMood!.pastelColor.withValues(alpha: 0.5),
                 borderRadius: AppSpacing.roundedMd,
                 border: Border.all(
-                  color: AppColors.primaryPurple.withOpacity(0.2),
+                  color: AppColors.primaryPurple.withValues(alpha: 0.2),
                   width: 1.0,
                 ),
               ),
@@ -174,7 +174,7 @@ class _MoodButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: AppSpacing.roundedMd,
-        splashColor: AppColors.primaryPurple.withOpacity(0.15),
+        splashColor: AppColors.primaryPurple.withValues(alpha: 0.15),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
@@ -182,7 +182,8 @@ class _MoodButton extends StatelessWidget {
             color: isSelected ? mood.pastelColor : AppColors.surfaceElevated,
             borderRadius: AppSpacing.roundedMd,
             border: Border.all(
-              color: isSelected ? AppColors.primaryPurple : AppColors.borderLight,
+              color:
+                  isSelected ? AppColors.primaryPurple : AppColors.borderLight,
               width: isSelected ? 1.8 : 1.0,
             ),
             boxShadow: isSelected
@@ -210,7 +211,9 @@ class _MoodButton extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: AppTypography.labelSmall.copyWith(
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppColors.deepPurple : AppColors.secondaryText,
+                  color: isSelected
+                      ? AppColors.deepPurple
+                      : AppColors.secondaryText,
                   fontSize: 11,
                 ),
               ),

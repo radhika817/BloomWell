@@ -215,19 +215,19 @@ class _BreathingCardState extends State<BreathingCard>
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        AppColors.mint.withOpacity(0.9),
-                        AppColors.lavender.withOpacity(0.6),
-                        Colors.white.withOpacity(0.4),
+                        AppColors.mint.withValues(alpha: 0.9),
+                        AppColors.lavender.withValues(alpha: 0.6),
+                        Colors.white.withValues(alpha: 0.4),
                       ],
                       stops: const [0.4, 0.75, 1.0],
                     ),
                     border: Border.all(
-                      color: AppColors.primaryPurple.withOpacity(0.35),
+                      color: AppColors.primaryPurple.withValues(alpha: 0.35),
                       width: 2.0,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.deepPurple.withOpacity(0.12),
+                        color: AppColors.deepPurple.withValues(alpha: 0.12),
                         blurRadius: 24,
                         spreadRadius: 2,
                       ),

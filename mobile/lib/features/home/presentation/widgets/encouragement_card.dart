@@ -48,8 +48,11 @@ class _EncouragementCardState extends State<EncouragementCard> {
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
                 icon: Icon(
-                  _isSaved ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                  color: _isSaved ? const Color(0xFFE56B85) : AppColors.mutedText,
+                  _isSaved
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_outline_rounded,
+                  color:
+                      _isSaved ? const Color(0xFFE56B85) : AppColors.mutedText,
                   size: 22,
                 ),
                 tooltip: _isSaved ? 'Saved to heart' : 'Save to heart',
@@ -93,11 +96,13 @@ class _EncouragementCardState extends State<EncouragementCard> {
             children: [
               const Text('✨', style: TextStyle(fontSize: 14)),
               const SizedBox(width: AppSpacing.xs),
-              Text(
-                'Remember to take a sip of water and rest your shoulders.',
-                style: AppTypography.bodySmall.copyWith(
-                  color: AppColors.secondaryText,
-                  fontStyle: FontStyle.italic,
+              Expanded(
+                child: Text(
+                  'Remember to take a sip of water and rest your shoulders.',
+                  style: AppTypography.bodySmall.copyWith(
+                    color: AppColors.secondaryText,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ),
             ],

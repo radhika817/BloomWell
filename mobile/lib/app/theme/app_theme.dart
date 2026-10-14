@@ -10,7 +10,7 @@ import 'app_typography.dart';
 /// calming pastel tones, rounded corners, and gentle elevation.
 abstract class AppTheme {
   static ThemeData get lightTheme {
-    final colorScheme = ColorScheme(
+    const colorScheme = ColorScheme(
       brightness: Brightness.light,
       primary: AppColors.primaryPurple,
       onPrimary: Colors.white,
@@ -25,7 +25,7 @@ abstract class AppTheme {
       surface: AppColors.background,
       onSurface: AppColors.primaryText,
       surfaceContainerHighest: AppColors.blushPink,
-      error: const Color(0xFFE57373),
+      error: Color(0xFFE57373),
       onError: Colors.white,
       outline: AppColors.borderLight,
       outlineVariant: AppColors.borderSubtle,
@@ -45,7 +45,7 @@ abstract class AppTheme {
         titleTextStyle: AppTypography.titleLarge,
         iconTheme: IconThemeData(color: AppColors.primaryText),
       ),
-      cardTheme: const CardTheme(
+      cardTheme: const CardThemeData(
         color: AppColors.cardSurface,
         elevation: 0,
         margin: EdgeInsets.zero,

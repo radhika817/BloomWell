@@ -23,11 +23,16 @@ abstract class AppSpacing {
   static const double radiusPill = 999.0;
 
   // Reusable BorderRadius instances
-  static const BorderRadius roundedSm = BorderRadius.all(Radius.circular(radiusSm));
-  static const BorderRadius roundedMd = BorderRadius.all(Radius.circular(radiusMd));
-  static const BorderRadius roundedLg = BorderRadius.all(Radius.circular(radiusLg));
-  static const BorderRadius roundedXl = BorderRadius.all(Radius.circular(radiusXl));
-  static const BorderRadius roundedPill = BorderRadius.all(Radius.circular(radiusPill));
+  static const BorderRadius roundedSm =
+      BorderRadius.all(Radius.circular(radiusSm));
+  static const BorderRadius roundedMd =
+      BorderRadius.all(Radius.circular(radiusMd));
+  static const BorderRadius roundedLg =
+      BorderRadius.all(Radius.circular(radiusLg));
+  static const BorderRadius roundedXl =
+      BorderRadius.all(Radius.circular(radiusXl));
+  static const BorderRadius roundedPill =
+      BorderRadius.all(Radius.circular(radiusPill));
 
   // Card padding
   static const EdgeInsets cardPadding = EdgeInsets.all(20.0);

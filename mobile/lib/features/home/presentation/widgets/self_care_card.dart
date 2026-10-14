@@ -47,7 +47,7 @@ class SelfCareCard extends StatelessWidget {
                   color: pastelBackground,
                   borderRadius: AppSpacing.roundedMd,
                   border: Border.all(
-                    color: accentColor.withOpacity(0.2),
+                    color: accentColor.withValues(alpha: 0.2),
                     width: 1.0,
                   ),
                 ),

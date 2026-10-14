@@ -1,7 +1,8 @@
 /// Constant values used throughout BloomWell.
 abstract class AppConstants {
   static const String appName = 'BloomWell';
-  static const String appTagline = 'A gentle space for your menstrual and emotional well-being.';
+  static const String appTagline =
+      'A gentle space for your menstrual and emotional well-being.';
   static const String disclaimer =
       'BloomWell is a wellness and educational companion — not a medical device, diagnostic system, or therapy service.';
 

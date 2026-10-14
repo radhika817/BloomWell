@@ -64,7 +64,7 @@ class PlaceholderScreen extends StatelessWidget {
                           offset: Offset(0, 6),
                         ),
                       ],
-                    ],
+                    ),
                     alignment: Alignment.center,
                     child: Text(
                       emoji,
@@ -124,7 +124,7 @@ class PlaceholderScreen extends StatelessWidget {
                         const SizedBox(height: AppSpacing.md),
                         Container(
                           padding: const EdgeInsets.all(AppSpacing.md),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: AppColors.background,
                             borderRadius: AppSpacing.roundedSm,
                           ),

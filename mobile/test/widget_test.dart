@@ -4,7 +4,8 @@ import 'package:bloomwell/app/app.dart';
 import 'package:bloomwell/features/home/presentation/widgets/mood_checkin_card.dart';
 
 void main() {
-  testWidgets('BloomWell loads with home screen and key elements', (WidgetTester tester) async {
+  testWidgets('BloomWell loads with home screen and key elements',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const BloomWellApp());
     await tester.pumpAndSettle();
 
@@ -27,13 +28,15 @@ void main() {
     expect(find.text('Journal'), findsOneWidget);
     expect(find.text('CycleCare'), findsWidgets); // Self-care card + bottom nav
     expect(find.text('Breathe & Relax'), findsOneWidget);
-    expect(find.text('Bloom Buddy'), findsWidgets); // Self-care card + bottom nav
+    expect(
+        find.text('Bloom Buddy'), findsWidgets); // Self-care card + bottom nav
 
     // Verify Mindful Breathing
     expect(find.text('Mindful Breathing'), findsOneWidget);
   });
 
-  testWidgets('Mood selection updates local state and shows affirmation', (WidgetTester tester) async {
+  testWidgets('Mood selection updates local state and shows affirmation',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const BloomWellApp());
     await tester.pumpAndSettle();
 
@@ -53,7 +56,8 @@ void main() {
     expect(find.text(BloomMood.calm.affirmation), findsNothing);
   });
 
-  testWidgets('Bottom navigation switches tabs and shows honest placeholder', (WidgetTester tester) async {
+  testWidgets('Bottom navigation switches tabs and shows honest placeholder',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const BloomWellApp());
     await tester.pumpAndSettle();
 
@@ -61,11 +65,12 @@ void main() {
     await tester.tap(find.byIcon(Icons.person_outline_rounded));
     await tester.pumpAndSettle();
 
-    // Verify Profile placeholder appears
-    expect(find.text('Profile & Privacy Center'), findsOneWidget);
+    // Verify Profile placeholder appears (present in AppBar and body)
+    expect(find.text('Profile & Privacy Center'), findsWidgets);
     expect(find.text('Phase 4 Feature'), findsOneWidget);
 
-    // Tap Back to Home
+    // Tap Back to Home button (scroll into view if needed)
+    await tester.ensureVisible(find.text('Back to Home'));
     await tester.tap(find.text('Back to Home'));
     await tester.pumpAndSettle();
 
