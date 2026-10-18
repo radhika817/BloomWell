@@ -223,3 +223,173 @@ Updates non-consent user preferences.
   ```
 - **Success Response (200 OK):**
   Returns the updated `UserProfileResponse`.
+
+---
+
+### 8. Mood Check-ins
+#### `POST /v1/checkins`
+Records a daily mood and wellness check-in.
+- **Idempotency Rule:** `client_id` is unique per user. Initial creation returns `201 Created`; subsequent calls with an existing `client_id` for this user return `200 OK` with the existing check-in without creating duplicates.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Request Body:**
+  ```json
+  {
+    "client_id": "c1f24d92-1b32-47c9-9524-738b5cf3c931",
+    "local_date": "2026-10-18",
+    "mood_score": 4,
+    "stress_score": 2,
+    "energy_score": 3,
+    "sleep_quality_score": 4,
+    "mood_label": "calm",
+    "tags": ["studying", "walk"],
+    "notes": "Feeling focused today."
+  }
+  ```
+- **Validation Rules:**
+  - `mood_score`, `stress_score`, `energy_score`: integer 1-5.
+  - `sleep_quality_score`: nullable integer 1-5.
+  - `mood_label`: nullable enum (`"happy"`, `"calm"`, `"okay"`, `"sad"`, `"stressed"`).
+  - `tags`: nullable array of strings, max 5 items, max 24 chars each.
+  - `notes`: nullable string, max 1000 characters.
+  - `local_date`: date string `YYYY-MM-DD`. Must not exceed 1 day into the future relative to the user's stored timezone (`user_preferences.timezone`).
+- **Success Response (201 Created or 200 OK):**
+  ```json
+  {
+    "id": "7b36f73d-f2e1-4c7a-9db2-6dcfb940ad42",
+    "client_id": "c1f24d92-1b32-47c9-9524-738b5cf3c931",
+    "local_date": "2026-10-18",
+    "mood_score": 4,
+    "stress_score": 2,
+    "energy_score": 3,
+    "sleep_quality_score": 4,
+    "mood_label": "calm",
+    "tags": ["studying", "walk"],
+    "notes": "Feeling focused today.",
+    "created_at": "2026-10-18T10:30:00Z",
+    "updated_at": "2026-10-18T10:30:00Z"
+  }
+  ```
+
+#### `GET /v1/checkins`
+Fetches cursor-paginated check-in records strictly owned by the caller.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Query Parameters:**
+  - `limit`: integer, 1-100 (default: 20).
+  - `cursor`: optional base64-encoded pagination cursor.
+  - `from_date`: optional `YYYY-MM-DD` filter (inclusive).
+  - `to_date`: optional `YYYY-MM-DD` filter (inclusive).
+- **Success Response (200 OK):**
+  ```json
+  {
+    "items": [
+      {
+        "id": "7b36f73d-f2e1-4c7a-9db2-6dcfb940ad42",
+        "client_id": "c1f24d92-1b32-47c9-9524-738b5cf3c931",
+        "local_date": "2026-10-18",
+        "mood_score": 4,
+        "stress_score": 2,
+        "energy_score": 3,
+        "sleep_quality_score": 4,
+        "mood_label": "calm",
+        "tags": ["studying", "walk"],
+        "notes": "Feeling focused today.",
+        "created_at": "2026-10-18T10:30:00Z",
+        "updated_at": "2026-10-18T10:30:00Z"
+      }
+    ],
+    "next_cursor": "eyJjcmVhdGVkX2F0IjogIjIwMjYtMTAtMThUMTA6MzA6MDBaIiwgImlkIjogIjdiMzZmNzNkLWYyZTEtNGM3YS05ZGIyLTZkY2ZiOTQwYWQ0MiIsICJsb2NhbF9kYXRlIjogIjIwMjYtMTAtMTgifQ==",
+    "has_more": false
+  }
+  ```
+
+#### `GET /v1/checkins/{id}`
+Fetches a single check-in record by UUID.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):** Check-in object.
+- **Cross-Account Security (404 Not Found):** If the record exists but belongs to another user, or does not exist, the API returns `404 Not Found` (never 403 Forbidden) to eliminate resource-existence leakage.
+
+#### `PATCH /v1/checkins/{id}`
+Updates editable fields (`mood_score`, `stress_score`, `energy_score`, `sleep_quality_score`, `mood_label`, `tags`, `notes`).
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):** Updated check-in object.
+- **Error Response (404 Not Found):** If non-existent or owned by another user.
+
+#### `DELETE /v1/checkins/{id}`
+Permanently deletes the check-in record.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response:** `204 No Content`.
+- **Error Response (404 Not Found):** If non-existent or owned by another user.
+
+---
+
+### 9. Private Journal
+#### `POST /v1/journal`
+Creates a private journal entry.
+- **Idempotency Rule:** `client_id` is unique per user. Initial creation returns `201 Created`; replay with existing `client_id` returns `200 OK`.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Request Body:**
+  ```json
+  {
+    "client_id": "a9d82341-b952-473d-8629-656df926c043",
+    "title": "Reflections on Exams",
+    "body": "Had a demanding study session in the library this morning..."
+  }
+  ```
+- **Validation Rules:**
+  - `title`: nullable string, max 120 characters.
+  - `body`: required string, 1 to 10,000 characters. Whitespace-only bodies are rejected with `422 Unprocessable Entity`.
+- **Success Response (201 Created or 200 OK):**
+  ```json
+  {
+    "id": "99b0c741-2a1e-4509-9fc6-9e8751db1162",
+    "client_id": "a9d82341-b952-473d-8629-656df926c043",
+    "title": "Reflections on Exams",
+    "body": "Had a demanding study session in the library this morning...",
+    "created_at": "2026-10-18T10:45:00Z",
+    "updated_at": "2026-10-18T10:45:00Z"
+  }
+  ```
+
+#### `GET /v1/journal`
+Lists the authenticated user's journal entries in cursor-paginated summary form.
+- **Privacy Guarantee (No Full Body Over Wire):** List responses contain a clean `preview` string (at most 80 characters, normalized whitespace) and strictly omit `body`. Full bodies must be retrieved individually.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Query Parameters:**
+  - `limit`: integer, 1-100 (default: 20).
+  - `cursor`: optional base64-encoded pagination cursor.
+- **Success Response (200 OK):**
+  ```json
+  {
+    "items": [
+      {
+        "id": "99b0c741-2a1e-4509-9fc6-9e8751db1162",
+        "client_id": "a9d82341-b952-473d-8629-656df926c043",
+        "title": "Reflections on Exams",
+        "preview": "Had a demanding study session in the library this morning...",
+        "created_at": "2026-10-18T10:45:00Z",
+        "updated_at": "2026-10-18T10:45:00Z"
+      }
+    ],
+    "next_cursor": "eyJjcmVhdGVkX2F0IjogIjIwMjYtMTAtMThUMTA6NDU6MDBaIiwgImlkIjogIjk5YjBjNzQxLTJhMWUtNDUwOS05ZmM2LTllODc1MWRiMTE2MiJ9",
+    "has_more": false
+  }
+  ```
+
+#### `GET /v1/journal/{id}`
+Retrieves a specific journal entry with its complete `body`.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):** Journal detail object (including `body`).
+- **Cross-Account Security (404 Not Found):** If owned by another user or non-existent, returns `404 Not Found` (never 403 Forbidden).
+
+#### `PATCH /v1/journal/{id}`
+Updates `title` or `body` of a journal entry.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):** Updated journal detail object.
+- **Error Response (404 Not Found):** If non-existent or owned by another user.
+
+#### `DELETE /v1/journal/{id}`
+Permanently deletes the journal entry.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response:** `204 No Content`.
+- **Error Response (404 Not Found):** If non-existent or owned by another user.
+
