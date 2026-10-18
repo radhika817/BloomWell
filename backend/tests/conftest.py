@@ -60,3 +60,20 @@ def client(db_session: Session) -> Generator[TestClient, None, None]:
     with TestClient(app, raise_server_exceptions=False) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def reset_rate_limiters():
+    """Reset rate limiter buckets before each test for test isolation."""
+    from app.api.v1.auth import (
+        login_email_limiter,
+        login_ip_limiter,
+        refresh_rate_limiter,
+        register_rate_limiter,
+    )
+
+    register_rate_limiter._records.clear()
+    refresh_rate_limiter._records.clear()
+    login_ip_limiter._records.clear()
+    login_email_limiter._records.clear()
+    yield
