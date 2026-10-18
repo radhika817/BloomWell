@@ -6,8 +6,21 @@ from app.schemas.auth import (
     RegisterRequest,
     TokenResponse,
 )
+from app.schemas.checkin import (
+    CheckinCreateRequest,
+    CheckinListResponse,
+    CheckinResponse,
+    CheckinUpdateRequest,
+)
 from app.schemas.error import ErrorResponse
 from app.schemas.health import HealthResponse
+from app.schemas.journal import (
+    JournalCreateRequest,
+    JournalDetailResponse,
+    JournalListResponse,
+    JournalSummaryResponse,
+    JournalUpdateRequest,
+)
 from app.schemas.user import PreferencesUpdateRequest, UserProfileResponse
 
 __all__ = [
@@ -20,4 +33,13 @@ __all__ = [
     "AuthSuccessResponse",
     "UserProfileResponse",
     "PreferencesUpdateRequest",
+    "CheckinCreateRequest",
+    "CheckinUpdateRequest",
+    "CheckinResponse",
+    "CheckinListResponse",
+    "JournalCreateRequest",
+    "JournalUpdateRequest",
+    "JournalSummaryResponse",
+    "JournalDetailResponse",
+    "JournalListResponse",
 ]
