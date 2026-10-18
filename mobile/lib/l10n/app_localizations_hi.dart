@@ -527,4 +527,116 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get debugPreviewWelcome => 'Preview Welcome Screen (Debug)';
+
+  @override
+  String get authSignIn => 'Sign In';
+
+  @override
+  String get authCreateAccount => 'Create Account';
+
+  @override
+  String get authRegister => 'Register';
+
+  @override
+  String get authLogin => 'Log In';
+
+  @override
+  String get authLogout => 'Log Out';
+
+  @override
+  String get authEmail => 'Email address';
+
+  @override
+  String get authEmailPlaceholder => 'you@campus.edu';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authPasswordPlaceholder => 'At least 10 characters';
+
+  @override
+  String get authPasswordConfirm => 'Confirm Password';
+
+  @override
+  String get authPasswordConfirmPlaceholder => 'Re-enter your password';
+
+  @override
+  String get authDisplayName => 'Display Name (optional)';
+
+  @override
+  String get authDisplayNamePlaceholder => 'What should we call you?';
+
+  @override
+  String get authTimezone => 'Timezone';
+
+  @override
+  String get authLoginPrompt => 'Already have an account? Sign In';
+
+  @override
+  String get authRegisterPrompt => 'Don\'t have an account? Create one';
+
+  @override
+  String get authLoginTitle => 'Welcome Back';
+
+  @override
+  String get authLoginSubtitle =>
+      'Log in to access your gentle self-care space.';
+
+  @override
+  String get authRegisterTitle => 'Join BloomWell';
+
+  @override
+  String get authRegisterSubtitle =>
+      'A private, supportive wellness sanctuary designed for students.';
+
+  @override
+  String get authPasswordMinLength => 'Password must be at least 10 characters';
+
+  @override
+  String get authPasswordMismatch => 'Passwords do not match';
+
+  @override
+  String get authEmailInvalid => 'Please enter a valid email address';
+
+  @override
+  String get authEmailRequired => 'Email is required';
+
+  @override
+  String get authPasswordRequired => 'Password is required';
+
+  @override
+  String get authErrorInvalidCredentials =>
+      'Invalid email or password. Please check your credentials.';
+
+  @override
+  String get authErrorEmailAlreadyRegistered =>
+      'An account with this email address already exists.';
+
+  @override
+  String authErrorRateLimited(int seconds) {
+    return 'Too many attempts. Please wait $seconds seconds before trying again.';
+  }
+
+  @override
+  String get authErrorGeneric =>
+      'Something went wrong. Please check your connection and try again.';
+
+  @override
+  String get authLoggingIn => 'Logging in...';
+
+  @override
+  String get authRegistering => 'Creating your account...';
+
+  @override
+  String get authLoggingOut => 'Logging out...';
+
+  @override
+  String get authLogoutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get authLogoutCancel => 'Cancel';
+
+  @override
+  String get authLogoutConfirm => 'Log Out';
 }

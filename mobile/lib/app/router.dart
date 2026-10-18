@@ -11,6 +11,8 @@ import '../features/mood/presentation/mood_screen.dart';
 import '../features/profile/presentation/profile_placeholder_screen.dart';
 import '../features/resources/presentation/help_placeholder_screen.dart';
 import '../features/study_planner/presentation/study_planner_placeholder_screen.dart';
+import '../features/auth/presentation/login_screen.dart';
+import '../features/auth/presentation/register_screen.dart';
 import '../features/welcome/presentation/welcome_screen.dart';
 import '../l10n/app_localizations.dart';
 
@@ -172,6 +174,18 @@ final GoRouter appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) =>
           const WelcomeScreen(),
+    ),
+    GoRoute(
+      path: '/login',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/register',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const RegisterScreen(),
     ),
   ],
 );

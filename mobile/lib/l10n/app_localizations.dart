@@ -1047,6 +1047,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preview Welcome Screen (Debug)'**
   String get debugPreviewWelcome;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get authSignIn;
+
+  /// No description provided for @authCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get authCreateAccount;
+
+  /// No description provided for @authRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get authRegister;
+
+  /// No description provided for @authLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get authLogin;
+
+  /// No description provided for @authLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get authLogout;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email address'**
+  String get authEmail;
+
+  /// No description provided for @authEmailPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'you@campus.edu'**
+  String get authEmailPlaceholder;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authPasswordPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 10 characters'**
+  String get authPasswordPlaceholder;
+
+  /// No description provided for @authPasswordConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get authPasswordConfirm;
+
+  /// No description provided for @authPasswordConfirmPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter your password'**
+  String get authPasswordConfirmPlaceholder;
+
+  /// No description provided for @authDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name (optional)'**
+  String get authDisplayName;
+
+  /// No description provided for @authDisplayNamePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'What should we call you?'**
+  String get authDisplayNamePlaceholder;
+
+  /// No description provided for @authTimezone.
+  ///
+  /// In en, this message translates to:
+  /// **'Timezone'**
+  String get authTimezone;
+
+  /// No description provided for @authLoginPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign In'**
+  String get authLoginPrompt;
+
+  /// No description provided for @authRegisterPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Create one'**
+  String get authRegisterPrompt;
+
+  /// No description provided for @authLoginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get authLoginTitle;
+
+  /// No description provided for @authLoginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to access your gentle self-care space.'**
+  String get authLoginSubtitle;
+
+  /// No description provided for @authRegisterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join BloomWell'**
+  String get authRegisterTitle;
+
+  /// No description provided for @authRegisterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A private, supportive wellness sanctuary designed for students.'**
+  String get authRegisterSubtitle;
+
+  /// No description provided for @authPasswordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 10 characters'**
+  String get authPasswordMinLength;
+
+  /// No description provided for @authPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get authPasswordMismatch;
+
+  /// No description provided for @authEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get authEmailInvalid;
+
+  /// No description provided for @authEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get authEmailRequired;
+
+  /// No description provided for @authPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get authPasswordRequired;
+
+  /// No description provided for @authErrorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password. Please check your credentials.'**
+  String get authErrorInvalidCredentials;
+
+  /// No description provided for @authErrorEmailAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email address already exists.'**
+  String get authErrorEmailAlreadyRegistered;
+
+  /// No description provided for @authErrorRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait {seconds} seconds before trying again.'**
+  String authErrorRateLimited(int seconds);
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please check your connection and try again.'**
+  String get authErrorGeneric;
+
+  /// No description provided for @authLoggingIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging in...'**
+  String get authLoggingIn;
+
+  /// No description provided for @authRegistering.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating your account...'**
+  String get authRegistering;
+
+  /// No description provided for @authLoggingOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging out...'**
+  String get authLoggingOut;
+
+  /// No description provided for @authLogoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get authLogoutConfirmation;
+
+  /// No description provided for @authLogoutCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get authLogoutCancel;
+
+  /// No description provided for @authLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get authLogoutConfirm;
 }
 
 class _AppLocalizationsDelegate

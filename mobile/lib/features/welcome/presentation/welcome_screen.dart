@@ -4,6 +4,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../core/widgets/bloom_background.dart';
 import '../../../core/widgets/bloom_mascot.dart';
+import '../../../core/widgets/bloom_button.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/gradient_button.dart';
 import '../../../l10n/app_localizations.dart';
@@ -80,11 +81,28 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32.0),
 
-                    // CTA Button
+                    // Auth CTA Buttons
                     GradientButton(
-                      label: l10n?.welcomeCta ?? 'Explore BloomWell',
+                      label: l10n?.authCreateAccount ?? 'Create Account',
                       isExpanded: true,
+                      onPressed: () => context.go('/register'),
+                    ),
+                    const SizedBox(height: 12.0),
+                    BloomButton(
+                      label: l10n?.authSignIn ?? 'Sign In',
+                      variant: BloomButtonVariant.secondary,
+                      isExpanded: true,
+                      onPressed: () => context.go('/login'),
+                    ),
+                    const SizedBox(height: 12.0),
+                    TextButton(
                       onPressed: () => context.go('/'),
+                      child: Text(
+                        l10n?.welcomeCta ?? 'Explore BloomWell',
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.deepPurple,
+                        ),
+                      ),
                     ),
                   ],
                 ),
