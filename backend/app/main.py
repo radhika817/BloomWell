@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from fastapi import FastAPI, HTTPException, Request, Response, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -95,6 +96,9 @@ def create_application() -> FastAPI:
         request: Request, exc: StarletteHTTPException
     ) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
+        headers = {"X-Request-ID": request_id} if request_id else {}
+        if getattr(exc, "headers", None):
+            headers.update(exc.headers)
         return JSONResponse(
             status_code=exc.status_code,
             content={
@@ -103,7 +107,7 @@ def create_application() -> FastAPI:
                 "details": None,
                 "request_id": request_id,
             },
-            headers={"X-Request-ID": request_id} if request_id else None,
+            headers=headers if headers else None,
         )
 
     @app.exception_handler(RequestValidationError)
@@ -116,7 +120,7 @@ def create_application() -> FastAPI:
             content={
                 "code": "VALIDATION_ERROR",
                 "message": "Invalid request parameters or payload",
-                "details": exc.errors(),
+                "details": jsonable_encoder(exc.errors()),
                 "request_id": request_id,
             },
             headers={"X-Request-ID": request_id} if request_id else None,

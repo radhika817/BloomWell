@@ -1,9 +1,13 @@
 from fastapi import APIRouter
 
+from app.api.v1.auth import router as auth_router
+from app.api.v1.me import router as me_router
+
 api_v1_router = APIRouter(prefix="/v1")
 
-# Feature routers (auth, checkins, cycles, planner, community, etc.)
-# will be mounted here in future steps per docs/architecture.md Section 5.
+# Mount authentication and profile routers
+api_v1_router.include_router(auth_router)
+api_v1_router.include_router(me_router)
 
 
 @api_v1_router.get(

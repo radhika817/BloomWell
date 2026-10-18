@@ -20,6 +20,9 @@ KEY_VALUE_PATTERN = re.compile(
 )
 
 
+EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
+
+
 def is_sensitive_key(key: str) -> bool:
     """Check if a dictionary key contains any sensitive keywords."""
     key_lower = str(key).lower()
@@ -30,6 +33,7 @@ def redact_string(val: str) -> str:
     """Redact known sensitive patterns inside a text string."""
     redacted = BEARER_PATTERN.sub(r"\1[REDACTED]", val)
     redacted = KEY_VALUE_PATTERN.sub(r"\1=[REDACTED]", redacted)
+    redacted = EMAIL_PATTERN.sub("[REDACTED]", redacted)
     return redacted
 
 
