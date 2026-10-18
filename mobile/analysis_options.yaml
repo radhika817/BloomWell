@@ -11,6 +11,7 @@ analyzer:
     todo: ignore
   exclude:
     - build/**
+    - web/**
 
 linter:
   rules:
