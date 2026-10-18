@@ -1,0 +1,9 @@
+"""
+Repositories layer package.
+
+Architectural Rules (docs/architecture.md Section 5):
+1. Private-data repositories represent owner-scoped records (mood, journal, cycle, symptoms, planner).
+2. Every private repository method MUST take an explicit `user_id` argument and filter by it.
+   There is no ownerless "get by id" method for private records.
+3. Moderation and Community components are architecturally isolated from private repositories.
+"""
