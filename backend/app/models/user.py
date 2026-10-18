@@ -8,6 +8,8 @@ from app.db.base import Base, GUID, TimestampMixin
 if TYPE_CHECKING:
     from app.models.preference import UserPreference
     from app.models.token import RefreshToken
+    from app.models.checkin import MoodCheckin
+    from app.models.journal import JournalEntry
 
 
 class User(Base, TimestampMixin):
@@ -53,6 +55,16 @@ class User(Base, TimestampMixin):
     )
     refresh_tokens: Mapped[List["RefreshToken"]] = relationship(
         "RefreshToken",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    checkins: Mapped[List["MoodCheckin"]] = relationship(
+        "MoodCheckin",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    journal_entries: Mapped[List["JournalEntry"]] = relationship(
+        "JournalEntry",
         back_populates="user",
         cascade="all, delete-orphan",
     )
