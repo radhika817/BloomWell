@@ -1257,6 +1257,402 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log Out'**
   String get authLogoutConfirm;
+
+  /// No description provided for @discreetOnboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Your Space Discreet 🌸'**
+  String get discreetOnboardingTitle;
+
+  /// No description provided for @discreetOnboardingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Many students share devices or live with roommates. You can add a quick PIN lock to shield your check-ins and journal notes from casual view.'**
+  String get discreetOnboardingBody;
+
+  /// No description provided for @discreetOnboardingSetupButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Up PIN Lock'**
+  String get discreetOnboardingSetupButton;
+
+  /// No description provided for @discreetOnboardingNotNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Now'**
+  String get discreetOnboardingNotNowButton;
+
+  /// No description provided for @pinTooShortMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN must be 4 to 6 digits'**
+  String get pinTooShortMessage;
+
+  /// No description provided for @pinWeakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose a stronger PIN (avoid 1234, 0000, or repeated digits)'**
+  String get pinWeakMessage;
+
+  /// No description provided for @pinMismatchMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'PINs do not match. Try again'**
+  String get pinMismatchMessage;
+
+  /// No description provided for @pinSetupSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock PIN set successfully 🌸'**
+  String get pinSetupSuccess;
+
+  /// No description provided for @pinConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Your PIN'**
+  String get pinConfirmTitle;
+
+  /// No description provided for @pinCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Up App Lock PIN'**
+  String get pinCreateTitle;
+
+  /// No description provided for @pinConfirmSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter your 4 to 6 digit PIN to confirm.'**
+  String get pinConfirmSubtitle;
+
+  /// No description provided for @pinCreateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a 4 to 6 digit convenience PIN to shield your space.'**
+  String get pinCreateSubtitle;
+
+  /// No description provided for @pinSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save PIN'**
+  String get pinSaveButton;
+
+  /// No description provided for @pinContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get pinContinueButton;
+
+  /// No description provided for @appLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BloomWell Locked'**
+  String get appLockTitle;
+
+  /// No description provided for @appLockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN to resume your gentle space.'**
+  String get appLockSubtitle;
+
+  /// No description provided for @lockoutActiveMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many failed attempts. Try again in {seconds} seconds.'**
+  String lockoutActiveMessage(int seconds);
+
+  /// No description provided for @pinIncorrectAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN. ({attempts} failed attempts)'**
+  String pinIncorrectAttempts(int attempts);
+
+  /// No description provided for @biometricUnlockPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock BloomWell to access your private space'**
+  String get biometricUnlockPrompt;
+
+  /// No description provided for @forgotPinDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot PIN?'**
+  String get forgotPinDialogTitle;
+
+  /// No description provided for @forgotPinDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no server-side PIN recovery. To reset your PIN, you must log out. This will clear the PIN on this device and your local session. You can then log back in with your account password.'**
+  String get forgotPinDialogBody;
+
+  /// No description provided for @forgotPinCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get forgotPinCancel;
+
+  /// No description provided for @forgotPinLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out & Reset'**
+  String get forgotPinLogoutConfirm;
+
+  /// No description provided for @biometricsButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with biometrics'**
+  String get biometricsButtonTooltip;
+
+  /// No description provided for @unlockButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlockButtonLabel;
+
+  /// No description provided for @forgotPinButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot PIN?'**
+  String get forgotPinButton;
+
+  /// No description provided for @privacyCenterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Center'**
+  String get privacyCenterTitle;
+
+  /// No description provided for @privacyHonestyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How App Lock Works'**
+  String get privacyHonestyTitle;
+
+  /// No description provided for @privacyHonestyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This PIN is a convenience lock against casual access (like a roommate borrowing your phone). It does NOT encrypt device data. BloomWell records are stored safely on the BloomWell server under your account and are visible only to you.'**
+  String get privacyHonestyBody;
+
+  /// No description provided for @appLockSectionHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'App Lock & PIN'**
+  String get appLockSectionHeading;
+
+  /// No description provided for @enableAppLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable App Lock'**
+  String get enableAppLockTitle;
+
+  /// No description provided for @appLockActiveSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN configured and active'**
+  String get appLockActiveSubtitle;
+
+  /// No description provided for @appLockInactiveSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Require PIN to open BloomWell'**
+  String get appLockInactiveSubtitle;
+
+  /// No description provided for @changePinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get changePinTitle;
+
+  /// No description provided for @biometricsToggleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with Biometrics'**
+  String get biometricsToggleTitle;
+
+  /// No description provided for @biometricsToggleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint or Face ID as quick fallback'**
+  String get biometricsToggleSubtitle;
+
+  /// No description provided for @biometricsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics not available or not enrolled on this device.'**
+  String get biometricsUnavailable;
+
+  /// No description provided for @webBiometricsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics unavailable on web'**
+  String get webBiometricsNote;
+
+  /// No description provided for @autoLockTimeoutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-lock timeout'**
+  String get autoLockTimeoutLabel;
+
+  /// No description provided for @screenPrivacyHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen Privacy'**
+  String get screenPrivacyHeading;
+
+  /// No description provided for @blockScreenshotsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide previews & block screenshots'**
+  String get blockScreenshotsTitle;
+
+  /// No description provided for @blockScreenshotsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Covers app in recents and blocks screenshots on Android'**
+  String get blockScreenshotsSubtitle;
+
+  /// No description provided for @webScreenshotNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot protection is exclusive to the mobile app'**
+  String get webScreenshotNote;
+
+  /// No description provided for @quickHideHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick-Hide'**
+  String get quickHideHeading;
+
+  /// No description provided for @quickHideExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the eye-off icon in the top header anytime to instantly conceal the screen. If a PIN is active, the app locks; otherwise, a peaceful cover appears until tapped.'**
+  String get quickHideExplanation;
+
+  /// No description provided for @testQuickHideButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Quick-Hide Now'**
+  String get testQuickHideButton;
+
+  /// No description provided for @comingSoonHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get comingSoonHeading;
+
+  /// No description provided for @neutralRemindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discreet Neutral Reminders'**
+  String get neutralRemindersTitle;
+
+  /// No description provided for @neutralRemindersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Local reminders with gentle, private wording'**
+  String get neutralRemindersSubtitle;
+
+  /// No description provided for @exportDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export My Data'**
+  String get exportDataTitle;
+
+  /// No description provided for @exportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download a private copy of your records'**
+  String get exportDataSubtitle;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete My Account'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete your account and all data'**
+  String get deleteAccountSubtitle;
+
+  /// No description provided for @disableLockDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Off App Lock'**
+  String get disableLockDialogTitle;
+
+  /// No description provided for @disableLockDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your current PIN to turn off app lock.'**
+  String get disableLockDialogBody;
+
+  /// No description provided for @currentPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current PIN'**
+  String get currentPinLabel;
+
+  /// No description provided for @pinCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get pinCancel;
+
+  /// No description provided for @turnOffConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Off'**
+  String get turnOffConfirm;
+
+  /// No description provided for @pinIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN'**
+  String get pinIncorrect;
+
+  /// No description provided for @lockDisabledFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock has been disabled.'**
+  String get lockDisabledFeedback;
+
+  /// No description provided for @autoLockTimeoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-Lock Timeout'**
+  String get autoLockTimeoutTitle;
+
+  /// No description provided for @timeoutImmediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get timeoutImmediately;
+
+  /// No description provided for @timeout30Seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'30 seconds (Default)'**
+  String get timeout30Seconds;
+
+  /// No description provided for @timeout1Minute.
+  ///
+  /// In en, this message translates to:
+  /// **'1 minute'**
+  String get timeout1Minute;
+
+  /// No description provided for @timeout5Minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes'**
+  String get timeout5Minutes;
+
+  /// No description provided for @quickHideSemanticsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick hide screen'**
+  String get quickHideSemanticsLabel;
 }
 
 class _AppLocalizationsDelegate

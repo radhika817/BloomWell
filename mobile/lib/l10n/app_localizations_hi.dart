@@ -639,4 +639,220 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get authLogoutConfirm => 'Log Out';
+
+  @override
+  String get discreetOnboardingTitle => 'Keep Your Space Discreet 🌸';
+
+  @override
+  String get discreetOnboardingBody =>
+      'Many students share devices or live with roommates. You can add a quick PIN lock to shield your check-ins and journal notes from casual view.';
+
+  @override
+  String get discreetOnboardingSetupButton => 'Set Up PIN Lock';
+
+  @override
+  String get discreetOnboardingNotNowButton => 'Not Now';
+
+  @override
+  String get pinTooShortMessage => 'PIN must be 4 to 6 digits';
+
+  @override
+  String get pinWeakMessage =>
+      'Please choose a stronger PIN (avoid 1234, 0000, or repeated digits)';
+
+  @override
+  String get pinMismatchMessage => 'PINs do not match. Try again';
+
+  @override
+  String get pinSetupSuccess => 'App lock PIN set successfully 🌸';
+
+  @override
+  String get pinConfirmTitle => 'Confirm Your PIN';
+
+  @override
+  String get pinCreateTitle => 'Set Up App Lock PIN';
+
+  @override
+  String get pinConfirmSubtitle => 'Re-enter your 4 to 6 digit PIN to confirm.';
+
+  @override
+  String get pinCreateSubtitle =>
+      'Choose a 4 to 6 digit convenience PIN to shield your space.';
+
+  @override
+  String get pinSaveButton => 'Save PIN';
+
+  @override
+  String get pinContinueButton => 'Continue';
+
+  @override
+  String get appLockTitle => 'BloomWell Locked';
+
+  @override
+  String get appLockSubtitle => 'Enter your PIN to resume your gentle space.';
+
+  @override
+  String lockoutActiveMessage(int seconds) {
+    return 'Too many failed attempts. Try again in $seconds seconds.';
+  }
+
+  @override
+  String pinIncorrectAttempts(int attempts) {
+    return 'Incorrect PIN. ($attempts failed attempts)';
+  }
+
+  @override
+  String get biometricUnlockPrompt =>
+      'Unlock BloomWell to access your private space';
+
+  @override
+  String get forgotPinDialogTitle => 'Forgot PIN?';
+
+  @override
+  String get forgotPinDialogBody =>
+      'There is no server-side PIN recovery. To reset your PIN, you must log out. This will clear the PIN on this device and your local session. You can then log back in with your account password.';
+
+  @override
+  String get forgotPinCancel => 'Cancel';
+
+  @override
+  String get forgotPinLogoutConfirm => 'Log Out & Reset';
+
+  @override
+  String get biometricsButtonTooltip => 'Unlock with biometrics';
+
+  @override
+  String get unlockButtonLabel => 'Unlock';
+
+  @override
+  String get forgotPinButton => 'Forgot PIN?';
+
+  @override
+  String get privacyCenterTitle => 'Privacy Center';
+
+  @override
+  String get privacyHonestyTitle => 'How App Lock Works';
+
+  @override
+  String get privacyHonestyBody =>
+      'This PIN is a convenience lock against casual access (like a roommate borrowing your phone). It does NOT encrypt device data. BloomWell records are stored safely on the BloomWell server under your account and are visible only to you.';
+
+  @override
+  String get appLockSectionHeading => 'App Lock & PIN';
+
+  @override
+  String get enableAppLockTitle => 'Enable App Lock';
+
+  @override
+  String get appLockActiveSubtitle => 'PIN configured and active';
+
+  @override
+  String get appLockInactiveSubtitle => 'Require PIN to open BloomWell';
+
+  @override
+  String get changePinTitle => 'Change PIN';
+
+  @override
+  String get biometricsToggleTitle => 'Unlock with Biometrics';
+
+  @override
+  String get biometricsToggleSubtitle =>
+      'Use fingerprint or Face ID as quick fallback';
+
+  @override
+  String get biometricsUnavailable =>
+      'Biometrics not available or not enrolled on this device.';
+
+  @override
+  String get webBiometricsNote => 'Biometrics unavailable on web';
+
+  @override
+  String get autoLockTimeoutLabel => 'Auto-lock timeout';
+
+  @override
+  String get screenPrivacyHeading => 'Screen Privacy';
+
+  @override
+  String get blockScreenshotsTitle => 'Hide previews & block screenshots';
+
+  @override
+  String get blockScreenshotsSubtitle =>
+      'Covers app in recents and blocks screenshots on Android';
+
+  @override
+  String get webScreenshotNote =>
+      'Screenshot protection is exclusive to the mobile app';
+
+  @override
+  String get quickHideHeading => 'Quick-Hide';
+
+  @override
+  String get quickHideExplanation =>
+      'Tap the eye-off icon in the top header anytime to instantly conceal the screen. If a PIN is active, the app locks; otherwise, a peaceful cover appears until tapped.';
+
+  @override
+  String get testQuickHideButton => 'Test Quick-Hide Now';
+
+  @override
+  String get comingSoonHeading => 'Coming Soon';
+
+  @override
+  String get neutralRemindersTitle => 'Discreet Neutral Reminders';
+
+  @override
+  String get neutralRemindersSubtitle =>
+      'Local reminders with gentle, private wording';
+
+  @override
+  String get exportDataTitle => 'Export My Data';
+
+  @override
+  String get exportDataSubtitle => 'Download a private copy of your records';
+
+  @override
+  String get deleteAccountTitle => 'Delete My Account';
+
+  @override
+  String get deleteAccountSubtitle =>
+      'Permanently delete your account and all data';
+
+  @override
+  String get disableLockDialogTitle => 'Turn Off App Lock';
+
+  @override
+  String get disableLockDialogBody =>
+      'Please enter your current PIN to turn off app lock.';
+
+  @override
+  String get currentPinLabel => 'Current PIN';
+
+  @override
+  String get pinCancel => 'Cancel';
+
+  @override
+  String get turnOffConfirm => 'Turn Off';
+
+  @override
+  String get pinIncorrect => 'Incorrect PIN';
+
+  @override
+  String get lockDisabledFeedback => 'App lock has been disabled.';
+
+  @override
+  String get autoLockTimeoutTitle => 'Auto-Lock Timeout';
+
+  @override
+  String get timeoutImmediately => 'Immediately';
+
+  @override
+  String get timeout30Seconds => '30 seconds (Default)';
+
+  @override
+  String get timeout1Minute => '1 minute';
+
+  @override
+  String get timeout5Minutes => '5 minutes';
+
+  @override
+  String get quickHideSemanticsLabel => 'Quick hide screen';
 }
