@@ -629,7 +629,8 @@ endpoints touch only community and report tables.
 
 **Secrets:** never in the repository or client build; stored in a secret
 manager or protected environment configuration; separate values per
-environment.
+environment. Pre-commit secret scanning hook is installed with:
+`ln -sf ../../scripts/check-secrets.sh .git/hooks/pre-commit && chmod +x scripts/check-secrets.sh .git/hooks/pre-commit`
 
 ## 13. Deployment architecture
 
