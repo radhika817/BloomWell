@@ -14,18 +14,46 @@ import '../features/study_planner/presentation/study_planner_placeholder_screen.
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
 import '../features/welcome/presentation/welcome_screen.dart';
+import '../features/app_lock/presentation/lock_screen.dart';
+import '../features/app_lock/presentation/pin_setup_screen.dart';
+import '../features/privacy_center/presentation/privacy_center_screen.dart';
 import '../l10n/app_localizations.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 
+/// Listenable that notifies GoRouter when the App Lock or authentication state transitions.
+class RouterRefreshNotifier extends ChangeNotifier {
+  bool _isLocked = false;
+  bool get isLocked => _isLocked;
+
+  void updateLock(bool locked) {
+    if (_isLocked != locked) {
+      _isLocked = locked;
+      notifyListeners();
+    }
+  }
+}
+
+final RouterRefreshNotifier routerRefreshNotifier = RouterRefreshNotifier();
+
 /// GoRouter configuration providing stateful bottom navigation with floating
-/// BloomNavBar, deep feature routes, and debug welcome preview.
+/// BloomNavBar, deep feature routes, app lock protection, and debug welcome preview.
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
+  refreshListenable: routerRefreshNotifier,
   redirect: (BuildContext context, GoRouterState state) {
-    // Auth & app-lock guard placeholder: return '/login' or '/lock' when active.
+    final loc = state.matchedLocation;
+    if (routerRefreshNotifier.isLocked) {
+      if (loc != '/lock' && loc != '/lock/setup') {
+        return '/lock';
+      }
+    } else {
+      if (loc == '/lock') {
+        return '/';
+      }
+    }
     return null;
   },
   routes: <RouteBase>[
@@ -186,6 +214,24 @@ final GoRouter appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) =>
           const RegisterScreen(),
+    ),
+    GoRoute(
+      path: '/lock',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const LockScreen(),
+    ),
+    GoRoute(
+      path: '/lock/setup',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const PinSetupScreen(),
+    ),
+    GoRoute(
+      path: '/profile/privacy',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const PrivacyCenterScreen(),
     ),
   ],
 );

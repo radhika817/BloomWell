@@ -75,7 +75,14 @@ class ProfilePlaceholderScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16.0),
+            BloomButton(
+              label: l10n?.privacyCenterTitle ?? 'Privacy Center',
+              variant: BloomButtonVariant.subtle,
+              icon: Icons.shield_outlined,
+              isExpanded: true,
+              onPressed: () => context.push('/profile/privacy'),
+            ),
+            const SizedBox(height: 12.0),
             BloomButton(
               label: l10n?.authLogout ?? 'Log Out',
               variant: BloomButtonVariant.secondary,

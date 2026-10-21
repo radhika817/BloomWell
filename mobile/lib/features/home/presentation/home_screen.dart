@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
@@ -13,6 +14,7 @@ import '../../../core/widgets/play_badge.dart';
 import '../../../core/widgets/section_heading.dart';
 import '../../../core/widgets/soft_card.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../app_lock/application/app_lock_notifier.dart';
 import 'widgets/breathing_card.dart';
 import 'widgets/encouragement_card.dart';
 import 'widgets/greeting_header.dart';
@@ -44,72 +46,18 @@ class _WellnessActivity {
 /// The restyled BloomWell Home Screen featuring the "soft glass" aesthetic:
 /// frosted cards, pastel emoji bubbles, interactive filtering, featured activity tiles,
 /// CycleCare educational preview, and calming self-care routines.
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   _ActivityFilter _selectedFilter = _ActivityFilter.all;
 
   void _showDiscreetInfo(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28.0)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 24.0,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Text('🛡️', style: TextStyle(fontSize: 24)),
-                  const SizedBox(width: AppSpacing.sm),
-                  Text(
-                    l10n?.discreetSheetTitle ?? 'Discreet Mode (Planned)',
-                    style: AppTypography.titleMedium.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                l10n?.discreetSheetBody ??
-                    'BloomWell is designed with privacy as a foundation. In a future update, you will be able to lock the app with PIN or biometrics, obscure switcher previews, and configure neutral notifications. Currently, this mode is planned and not yet active.',
-                style: AppTypography.bodyMedium.copyWith(height: 1.5),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    l10n?.discreetSheetButton ?? 'Got it 🌸',
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.deepPurple,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+    context.push('/profile/privacy');
   }
 
   void _showNotificationsSheet(BuildContext context) {
@@ -282,6 +230,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     GreetingHeader(
                       onDiscreetToggle: () => _showDiscreetInfo(context),
                       onNotificationTap: () => _showNotificationsSheet(context),
+                      onQuickHide: () => ref
+                          .read(appLockNotifierProvider.notifier)
+                          .quickHide(),
                     ),
                     const SizedBox(height: AppSpacing.xl),
 

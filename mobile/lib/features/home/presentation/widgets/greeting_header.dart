@@ -10,11 +10,13 @@ import '../../../../l10n/app_localizations.dart';
 class GreetingHeader extends StatelessWidget {
   final VoidCallback onDiscreetToggle;
   final VoidCallback onNotificationTap;
+  final VoidCallback? onQuickHide;
 
   const GreetingHeader({
     super.key,
     required this.onDiscreetToggle,
     required this.onNotificationTap,
+    this.onQuickHide,
   });
 
   @override
@@ -102,6 +104,34 @@ class GreetingHeader extends StatelessWidget {
                 ],
               ),
             ),
+            if (onQuickHide != null) ...[
+              const SizedBox(width: 8.0),
+              Semantics(
+                button: true,
+                label: l10n?.quickHideSemanticsLabel ?? 'Quick hide screen',
+                child: Container(
+                  width: 44.0,
+                  height: 44.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.8),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.borderLight,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.visibility_off_outlined,
+                      color: AppColors.primaryText,
+                      size: 20.0,
+                    ),
+                    tooltip: l10n?.quickHideHeading ?? 'Quick-Hide',
+                    onPressed: onQuickHide,
+                  ),
+                ),
+              ),
+            ],
             const SizedBox(width: 8.0),
 
             // Discreet Mode pill button

@@ -8,6 +8,7 @@ import '../../../core/widgets/bloom_mascot.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/gradient_button.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../app_lock/presentation/widgets/discreet_onboarding_sheet.dart';
 import '../application/auth_notifier.dart';
 
 /// Screen allowing new students to create an account.
@@ -67,7 +68,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         );
 
     if (success && mounted) {
-      context.go('/');
+      await DiscreetOnboardingSheet.show(context);
+      if (mounted) {
+        context.go('/');
+      }
     }
   }
 
