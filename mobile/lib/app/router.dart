@@ -4,7 +4,7 @@ import '../core/widgets/bloom_nav_bar.dart';
 import '../features/bloom_buddy/presentation/bloom_buddy_placeholder_screen.dart';
 import '../features/breathe/presentation/breathing_screen.dart';
 import '../features/comfort/presentation/comfort_placeholder_screen.dart';
-import '../features/cycle_care/presentation/cycle_care_placeholder_screen.dart';
+import '../features/cycle_care/presentation/cycle_care_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/journal/presentation/journal_placeholder_screen.dart';
 import '../features/mood/presentation/mood_screen.dart';
@@ -133,9 +133,7 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/cycle-care',
               builder: (BuildContext context, GoRouterState state) =>
-                  CycleCarePlaceholderScreen(
-                onReturnHome: () => context.go('/'),
-              ),
+                  const CycleCareScreen(),
             ),
           ],
         ),
