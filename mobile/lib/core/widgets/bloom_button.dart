@@ -61,19 +61,24 @@ class BloomButton extends StatelessWidget {
           Icon(icon, size: 18, color: foregroundColor),
           const SizedBox(width: AppSpacing.sm),
         ],
-        Text(
-          label,
-          style: AppTypography.labelLarge.copyWith(
-            color: foregroundColor,
-            fontWeight: FontWeight.w600,
+        Flexible(
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: AppTypography.labelLarge.copyWith(
+              color: foregroundColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ],
     );
 
-    return SizedBox(
-      height: height,
-      width: isExpanded ? double.infinity : null,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: height,
+        minWidth: isExpanded ? double.infinity : 0.0,
+      ),
       child: Material(
         color: backgroundColor,
         borderRadius: AppSpacing.roundedPill,
@@ -81,7 +86,8 @@ class BloomButton extends StatelessWidget {
           onTap: onPressed,
           borderRadius: AppSpacing.roundedPill,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             decoration: BoxDecoration(
               borderRadius: AppSpacing.roundedPill,
               border: border != null ? Border.fromBorderSide(border) : null,
