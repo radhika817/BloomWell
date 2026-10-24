@@ -82,6 +82,12 @@ class ApiClient {
           code: code,
           requestId: requestId,
         );
+      case 403:
+        return CycleTrackingDisabledException(
+          message: message ?? 'Cycle tracking is disabled for this account.',
+          code: code ?? 'cycle_tracking_disabled',
+          requestId: requestId,
+        );
       case 409:
         return EmailAlreadyRegisteredException(
           message:

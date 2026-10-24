@@ -92,3 +92,13 @@ class ServerException extends ApiException {
     super.statusCode = 500,
   });
 }
+
+/// Thrown when an endpoint returns 403 because cycle tracking is disabled.
+class CycleTrackingDisabledException extends ApiException {
+  const CycleTrackingDisabledException({
+    super.message = 'Cycle tracking is disabled for this account.',
+    super.code = 'cycle_tracking_disabled',
+    super.requestId,
+    super.statusCode = 403,
+  });
+}
