@@ -614,6 +614,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildCycleCarePreview(BuildContext context, AppLocalizations? l10n) {
     return GlassCard(
+      key: const Key('home_cycle_care_preview_card'),
       onTap: () => context.go('/cycle-care'),
       padding: const EdgeInsets.all(18.0),
       child: Column(
@@ -622,29 +623,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: const BoxDecoration(
-                      color: AppColors.blushPink,
-                      shape: BoxShape.circle,
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: AppColors.blushPink,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text('🌷', style: TextStyle(fontSize: 18)),
                     ),
-                    alignment: Alignment.center,
-                    child: const Text('🌷', style: TextStyle(fontSize: 18)),
-                  ),
-                  const SizedBox(width: 10.0),
-                  Text(
-                    l10n?.cyclePreviewTitle ?? 'Cycle & Body Rhythm',
-                    style: AppTypography.titleSmall.copyWith(
-                      fontWeight: FontWeight.w800,
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      child: Text(
+                        l10n?.homeCycleCardTitle ?? 'Check in with your body',
+                        style: AppTypography.titleSmall.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               DecorativeBadge(
-                label: l10n?.cyclePreviewBadge ?? 'Educational',
+                label: l10n?.cycleCareBadge ?? 'Optional',
                 backgroundColor: AppColors.lavender,
                 textColor: AppColors.deepPurple,
               ),
@@ -652,23 +657,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           const SizedBox(height: 12.0),
           Text(
-            l10n?.cyclePreviewTip ??
-                'Today\'s gentle tip: Stay hydrated and rest when your body asks.',
+            l10n?.homeCycleCardSubtitle ??
+                'Notice your energy and rhythm today',
             style: AppTypography.bodyMedium.copyWith(
               color: AppColors.primaryText,
               fontWeight: FontWeight.w500,
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 10.0),
-          Text(
-            l10n?.cyclePreviewDisclaimer ??
-                'Cycle insights are personal suggestions and never medical diagnoses.',
-            style: AppTypography.bodySmall.copyWith(
-              color: AppColors.mutedText,
-              fontSize: 11.0,
-              fontStyle: FontStyle.italic,
-            ),
+          const SizedBox(height: 12.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                l10n?.homeCycleCardAction ?? 'Open CycleCare',
+                style: AppTypography.bodySmall.copyWith(
+                  color: AppColors.primaryPurple,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(width: 4),
+              const Icon(
+                Icons.arrow_forward_rounded,
+                size: 16,
+                color: AppColors.primaryPurple,
+              ),
+            ],
           ),
         ],
       ),
