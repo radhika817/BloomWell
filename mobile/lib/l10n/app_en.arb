@@ -285,5 +285,137 @@
   "timeout30Seconds": "30 seconds (Default)",
   "timeout1Minute": "1 minute",
   "timeout5Minutes": "5 minutes",
-  "quickHideSemanticsLabel": "Quick hide screen"
+  "quickHideSemanticsLabel": "Quick hide screen",
+  "cycleOptInTitle": "CycleCare · Optional Body Rhythm",
+  "cycleOptInSubtitle": "A private, voluntary space to notice your natural cycles.",
+  "cycleOptInNoticeHeader": "Your privacy & how this works",
+  "cycleOptInNoticeStorage": "What is stored: Dates and symptoms you choose to enter, kept on the BloomWell server under your account and visible only to you.",
+  "cycleOptInNoticeEstimates": "Estimates are suggestions: Any future estimate is an approximation based strictly on your own logs. They can be wrong and vary naturally.",
+  "cycleOptInNoticeNonMedical": "Not medical advice: BloomWell is a self-care wellness companion and never provides medical diagnoses or clinical guidance.",
+  "cycleOptInNoticeControl": "Always your choice: Cycle tracking is completely optional. You can turn it off or permanently delete your cycle records at any time.",
+  "cycleOptInEnableButton": "Turn on cycle tracking",
+  "cycleOptInNotNowButton": "Not now",
+  "cycleCalendarHeader": "Cycle Calendar",
+  "cycleCalendarPrevMonth": "Previous month",
+  "cycleCalendarNextMonth": "Next month",
+  "cycleLegendLogged": "Logged period",
+  "cycleLegendEstimate": "Estimated window",
+  "cycleLegendSymptoms": "Symptoms logged",
+  "cycleDaySheetTitle": "Day Details",
+  "cycleDayNoLogs": "No period or symptoms logged for this day.",
+  "cycleDayPeriodLogged": "Period logged",
+  "cycleDayEstimateWindow": "Estimated window",
+  "cycleActionLogPeriod": "Log period",
+  "cycleActionLogSymptom": "Log symptom",
+  "cycleActionEditPeriod": "Edit period",
+  "cycleActionDeletePeriod": "Delete period",
+  "cycleDeletePeriodConfirm": "Delete this period log? This action cannot be undone.",
+  "cycleQuickStartedToday": "Period started today",
+  "cycleQuickEndedToday": "Period ended today",
+  "cycleQuickPeriodEnded": "Period ended",
+  "cycleSwitchToListView": "Switch to accessible list view",
+  "cycleSwitchToGridView": "Switch to calendar grid view",
+  "cycleLogPeriodTitle": "Log Period",
+  "cycleEditPeriodTitle": "Edit Period",
+  "cycleStartDateLabel": "Start date",
+  "cycleEndDateLabel": "End date (optional)",
+  "cycleSaveButton": "Save",
+  "cycleSavingButton": "Saving...",
+  "cycleCancelButton": "Cancel",
+  "cyclePeriodSaved": "Period logged successfully 🌸",
+  "cyclePeriodDeleted": "Period record deleted.",
+  "cycleErrorFutureDate": "Start date cannot be in the future.",
+  "cycleErrorInvalidRange": "End date must be on or after the start date.",
+  "cycleErrorOverlap": "This period overlaps with an already recorded period.",
+  "cycleLogSymptomTitle": "Log Symptoms",
+  "cycleEditSymptomTitle": "Edit Symptom",
+  "cycleSymptomDateLabel": "Date",
+  "cycleSymptomTypeLabel": "What are you noticing?",
+  "cycleSymptomCramps": "Cramps",
+  "cycleSymptomBloating": "Bloating",
+  "cycleSymptomFatigue": "Fatigue",
+  "cycleSymptomHeadache": "Headache",
+  "cycleSymptomBackPain": "Back pain",
+  "cycleSymptomBreastTenderness": "Breast tenderness",
+  "cycleSymptomNausea": "Nausea",
+  "cycleSymptomMoodChanges": "Mood changes",
+  "cycleSymptomAcne": "Acne",
+  "cycleSymptomCravings": "Cravings",
+  "cycleSymptomSleepTrouble": "Sleep trouble",
+  "cycleSymptomOther": "Other",
+  "cycleCustomLabelLabel": "Custom symptom name",
+  "cycleCustomLabelPlaceholder": "e.g. Lower pelvic ache",
+  "cycleSeverityLabel": "Severity: {label}",
+  "@cycleSeverityLabel": {
+    "placeholders": {
+      "label": { "type": "String" }
+    }
+  },
+  "cycleSeverity1": "Barely noticeable",
+  "cycleSeverity2": "Mild",
+  "cycleSeverity3": "Moderate",
+  "cycleSeverity4": "Strong",
+  "cycleSeverity5": "Very strong",
+  "cycleSeverityDisclaimer": "If symptoms feel severe or worrying, talking to a doctor or nurse can help.",
+  "cycleNotesLabel": "Notes (optional)",
+  "cycleNotesPlaceholder": "How does this feel? Any gentle observations...",
+  "cycleNotesCounter": "{count} / 500",
+  "@cycleNotesCounter": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "cycleSymptomSaved": "Symptom logged successfully 🌸",
+  "cycleSymptomDeleted": "Symptom record deleted.",
+  "cycleDeleteSymptomConfirm": "Delete this symptom log? This action cannot be undone.",
+  "cycleEstimateTitle": "Cycle Observation",
+  "cycleEstimateBadge": "Estimate",
+  "cycleEstimateDisclaimer": "This is an estimate and can be wrong. It is not medical advice.",
+  "cycleEstimateNotEnoughData": "Log a few more periods to see an estimate ({count} more needed).",
+  "@cycleEstimateNotEnoughData": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "cycleEstimateTooVariable": "Your logged cycles vary too much for a useful estimate.",
+  "cycleEstimateRange": "Next period expected around {rangeStart} to {rangeEnd}.",
+  "@cycleEstimateRange": {
+    "placeholders": {
+      "rangeStart": { "type": "String" },
+      "rangeEnd": { "type": "String" }
+    }
+  },
+  "cycleEstimateDetails": "Typical length: {days} days · Based on your last {count} logged cycles.",
+  "@cycleEstimateDetails": {
+    "placeholders": {
+      "days": { "type": "int" },
+      "count": { "type": "int" }
+    }
+  },
+  "cycleHistoryTitle": "Recorded Cycles",
+  "cycleHistoryEmpty": "No cycles recorded yet. Your logged periods will appear here.",
+  "cycleHistoryCycleLength": "{days} days",
+  "@cycleHistoryCycleLength": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "cycleHistoryOngoing": "Ongoing",
+  "cycleHistoryDelete": "Delete",
+  "cycleHistoryEdit": "Edit",
+  "cycleSettingsTitle": "CycleCare Settings",
+  "cycleTurnOffTracking": "Turn off cycle tracking",
+  "cycleTurnOffDialogTitle": "Turn Off Cycle Tracking?",
+  "cycleTurnOffDialogBody": "You can choose to keep your existing cycle records or delete them permanently from the server.",
+  "cycleKeepDataOption": "Turn off and keep my data",
+  "cycleDeleteDataOption": "Turn off and delete my cycle data",
+  "cycleDeleteConfirmTitle": "Confirm Permanent Deletion",
+  "cycleDeleteConfirmBody": "This will permanently delete all your logged periods and cycle symptoms from the server. This action cannot be undone.",
+  "cycleConfirmDeleteButton": "Delete All Cycle Data",
+  "cycleTrackingDisabledFeedback": "Cycle tracking has been turned off.",
+  "cycleTrackingDeletedFeedback": "Cycle tracking turned off and all data deleted.",
+  "homeCycleCardTitle": "Check in with your body",
+  "homeCycleCardSubtitle": "Notice your energy and rhythm today",
+  "homeCycleCardAction": "Open CycleCare",
+  "cycleDisabledNotice": "Cycle tracking is currently off. Turn it on anytime to start logging."
 }

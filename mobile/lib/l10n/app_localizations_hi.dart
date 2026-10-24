@@ -855,4 +855,335 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get quickHideSemanticsLabel => 'Quick hide screen';
+
+  @override
+  String get cycleOptInTitle => 'CycleCare · Optional Body Rhythm';
+
+  @override
+  String get cycleOptInSubtitle =>
+      'A private, voluntary space to notice your natural cycles.';
+
+  @override
+  String get cycleOptInNoticeHeader => 'Your privacy & how this works';
+
+  @override
+  String get cycleOptInNoticeStorage =>
+      'What is stored: Dates and symptoms you choose to enter, kept on the BloomWell server under your account and visible only to you.';
+
+  @override
+  String get cycleOptInNoticeEstimates =>
+      'Estimates are suggestions: Any future estimate is an approximation based strictly on your own logs. They can be wrong and vary naturally.';
+
+  @override
+  String get cycleOptInNoticeNonMedical =>
+      'Not medical advice: BloomWell is a self-care wellness companion and never provides medical diagnoses or clinical guidance.';
+
+  @override
+  String get cycleOptInNoticeControl =>
+      'Always your choice: Cycle tracking is completely optional. You can turn it off or permanently delete your cycle records at any time.';
+
+  @override
+  String get cycleOptInEnableButton => 'Turn on cycle tracking';
+
+  @override
+  String get cycleOptInNotNowButton => 'Not now';
+
+  @override
+  String get cycleCalendarHeader => 'Cycle Calendar';
+
+  @override
+  String get cycleCalendarPrevMonth => 'Previous month';
+
+  @override
+  String get cycleCalendarNextMonth => 'Next month';
+
+  @override
+  String get cycleLegendLogged => 'Logged period';
+
+  @override
+  String get cycleLegendEstimate => 'Estimated window';
+
+  @override
+  String get cycleLegendSymptoms => 'Symptoms logged';
+
+  @override
+  String get cycleDaySheetTitle => 'Day Details';
+
+  @override
+  String get cycleDayNoLogs => 'No period or symptoms logged for this day.';
+
+  @override
+  String get cycleDayPeriodLogged => 'Period logged';
+
+  @override
+  String get cycleDayEstimateWindow => 'Estimated window';
+
+  @override
+  String get cycleActionLogPeriod => 'Log period';
+
+  @override
+  String get cycleActionLogSymptom => 'Log symptom';
+
+  @override
+  String get cycleActionEditPeriod => 'Edit period';
+
+  @override
+  String get cycleActionDeletePeriod => 'Delete period';
+
+  @override
+  String get cycleDeletePeriodConfirm =>
+      'Delete this period log? This action cannot be undone.';
+
+  @override
+  String get cycleQuickStartedToday => 'Period started today';
+
+  @override
+  String get cycleQuickEndedToday => 'Period ended today';
+
+  @override
+  String get cycleQuickPeriodEnded => 'Period ended';
+
+  @override
+  String get cycleSwitchToListView => 'Switch to accessible list view';
+
+  @override
+  String get cycleSwitchToGridView => 'Switch to calendar grid view';
+
+  @override
+  String get cycleLogPeriodTitle => 'Log Period';
+
+  @override
+  String get cycleEditPeriodTitle => 'Edit Period';
+
+  @override
+  String get cycleStartDateLabel => 'Start date';
+
+  @override
+  String get cycleEndDateLabel => 'End date (optional)';
+
+  @override
+  String get cycleSaveButton => 'Save';
+
+  @override
+  String get cycleSavingButton => 'Saving...';
+
+  @override
+  String get cycleCancelButton => 'Cancel';
+
+  @override
+  String get cyclePeriodSaved => 'Period logged successfully 🌸';
+
+  @override
+  String get cyclePeriodDeleted => 'Period record deleted.';
+
+  @override
+  String get cycleErrorFutureDate => 'Start date cannot be in the future.';
+
+  @override
+  String get cycleErrorInvalidRange =>
+      'End date must be on or after the start date.';
+
+  @override
+  String get cycleErrorOverlap =>
+      'This period overlaps with an already recorded period.';
+
+  @override
+  String get cycleLogSymptomTitle => 'Log Symptoms';
+
+  @override
+  String get cycleEditSymptomTitle => 'Edit Symptom';
+
+  @override
+  String get cycleSymptomDateLabel => 'Date';
+
+  @override
+  String get cycleSymptomTypeLabel => 'What are you noticing?';
+
+  @override
+  String get cycleSymptomCramps => 'Cramps';
+
+  @override
+  String get cycleSymptomBloating => 'Bloating';
+
+  @override
+  String get cycleSymptomFatigue => 'Fatigue';
+
+  @override
+  String get cycleSymptomHeadache => 'Headache';
+
+  @override
+  String get cycleSymptomBackPain => 'Back pain';
+
+  @override
+  String get cycleSymptomBreastTenderness => 'Breast tenderness';
+
+  @override
+  String get cycleSymptomNausea => 'Nausea';
+
+  @override
+  String get cycleSymptomMoodChanges => 'Mood changes';
+
+  @override
+  String get cycleSymptomAcne => 'Acne';
+
+  @override
+  String get cycleSymptomCravings => 'Cravings';
+
+  @override
+  String get cycleSymptomSleepTrouble => 'Sleep trouble';
+
+  @override
+  String get cycleSymptomOther => 'Other';
+
+  @override
+  String get cycleCustomLabelLabel => 'Custom symptom name';
+
+  @override
+  String get cycleCustomLabelPlaceholder => 'e.g. Lower pelvic ache';
+
+  @override
+  String cycleSeverityLabel(String label) {
+    return 'Severity: $label';
+  }
+
+  @override
+  String get cycleSeverity1 => 'Barely noticeable';
+
+  @override
+  String get cycleSeverity2 => 'Mild';
+
+  @override
+  String get cycleSeverity3 => 'Moderate';
+
+  @override
+  String get cycleSeverity4 => 'Strong';
+
+  @override
+  String get cycleSeverity5 => 'Very strong';
+
+  @override
+  String get cycleSeverityDisclaimer =>
+      'If symptoms feel severe or worrying, talking to a doctor or nurse can help.';
+
+  @override
+  String get cycleNotesLabel => 'Notes (optional)';
+
+  @override
+  String get cycleNotesPlaceholder =>
+      'How does this feel? Any gentle observations...';
+
+  @override
+  String cycleNotesCounter(int count) {
+    return '$count / 500';
+  }
+
+  @override
+  String get cycleSymptomSaved => 'Symptom logged successfully 🌸';
+
+  @override
+  String get cycleSymptomDeleted => 'Symptom record deleted.';
+
+  @override
+  String get cycleDeleteSymptomConfirm =>
+      'Delete this symptom log? This action cannot be undone.';
+
+  @override
+  String get cycleEstimateTitle => 'Cycle Observation';
+
+  @override
+  String get cycleEstimateBadge => 'Estimate';
+
+  @override
+  String get cycleEstimateDisclaimer =>
+      'This is an estimate and can be wrong. It is not medical advice.';
+
+  @override
+  String cycleEstimateNotEnoughData(int count) {
+    return 'Log a few more periods to see an estimate ($count more needed).';
+  }
+
+  @override
+  String get cycleEstimateTooVariable =>
+      'Your logged cycles vary too much for a useful estimate.';
+
+  @override
+  String cycleEstimateRange(String rangeStart, String rangeEnd) {
+    return 'Next period expected around $rangeStart to $rangeEnd.';
+  }
+
+  @override
+  String cycleEstimateDetails(int days, int count) {
+    return 'Typical length: $days days · Based on your last $count logged cycles.';
+  }
+
+  @override
+  String get cycleHistoryTitle => 'Recorded Cycles';
+
+  @override
+  String get cycleHistoryEmpty =>
+      'No cycles recorded yet. Your logged periods will appear here.';
+
+  @override
+  String cycleHistoryCycleLength(int days) {
+    return '$days days';
+  }
+
+  @override
+  String get cycleHistoryOngoing => 'Ongoing';
+
+  @override
+  String get cycleHistoryDelete => 'Delete';
+
+  @override
+  String get cycleHistoryEdit => 'Edit';
+
+  @override
+  String get cycleSettingsTitle => 'CycleCare Settings';
+
+  @override
+  String get cycleTurnOffTracking => 'Turn off cycle tracking';
+
+  @override
+  String get cycleTurnOffDialogTitle => 'Turn Off Cycle Tracking?';
+
+  @override
+  String get cycleTurnOffDialogBody =>
+      'You can choose to keep your existing cycle records or delete them permanently from the server.';
+
+  @override
+  String get cycleKeepDataOption => 'Turn off and keep my data';
+
+  @override
+  String get cycleDeleteDataOption => 'Turn off and delete my cycle data';
+
+  @override
+  String get cycleDeleteConfirmTitle => 'Confirm Permanent Deletion';
+
+  @override
+  String get cycleDeleteConfirmBody =>
+      'This will permanently delete all your logged periods and cycle symptoms from the server. This action cannot be undone.';
+
+  @override
+  String get cycleConfirmDeleteButton => 'Delete All Cycle Data';
+
+  @override
+  String get cycleTrackingDisabledFeedback =>
+      'Cycle tracking has been turned off.';
+
+  @override
+  String get cycleTrackingDeletedFeedback =>
+      'Cycle tracking turned off and all data deleted.';
+
+  @override
+  String get homeCycleCardTitle => 'Check in with your body';
+
+  @override
+  String get homeCycleCardSubtitle => 'Notice your energy and rhythm today';
+
+  @override
+  String get homeCycleCardAction => 'Open CycleCare';
+
+  @override
+  String get cycleDisabledNotice =>
+      'Cycle tracking is currently off. Turn it on anytime to start logging.';
 }

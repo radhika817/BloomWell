@@ -1653,6 +1653,606 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quick hide screen'**
   String get quickHideSemanticsLabel;
+
+  /// No description provided for @cycleOptInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CycleCare · Optional Body Rhythm'**
+  String get cycleOptInTitle;
+
+  /// No description provided for @cycleOptInSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A private, voluntary space to notice your natural cycles.'**
+  String get cycleOptInSubtitle;
+
+  /// No description provided for @cycleOptInNoticeHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Your privacy & how this works'**
+  String get cycleOptInNoticeHeader;
+
+  /// No description provided for @cycleOptInNoticeStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'What is stored: Dates and symptoms you choose to enter, kept on the BloomWell server under your account and visible only to you.'**
+  String get cycleOptInNoticeStorage;
+
+  /// No description provided for @cycleOptInNoticeEstimates.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimates are suggestions: Any future estimate is an approximation based strictly on your own logs. They can be wrong and vary naturally.'**
+  String get cycleOptInNoticeEstimates;
+
+  /// No description provided for @cycleOptInNoticeNonMedical.
+  ///
+  /// In en, this message translates to:
+  /// **'Not medical advice: BloomWell is a self-care wellness companion and never provides medical diagnoses or clinical guidance.'**
+  String get cycleOptInNoticeNonMedical;
+
+  /// No description provided for @cycleOptInNoticeControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Always your choice: Cycle tracking is completely optional. You can turn it off or permanently delete your cycle records at any time.'**
+  String get cycleOptInNoticeControl;
+
+  /// No description provided for @cycleOptInEnableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on cycle tracking'**
+  String get cycleOptInEnableButton;
+
+  /// No description provided for @cycleOptInNotNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get cycleOptInNotNowButton;
+
+  /// No description provided for @cycleCalendarHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle Calendar'**
+  String get cycleCalendarHeader;
+
+  /// No description provided for @cycleCalendarPrevMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get cycleCalendarPrevMonth;
+
+  /// No description provided for @cycleCalendarNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get cycleCalendarNextMonth;
+
+  /// No description provided for @cycleLegendLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged period'**
+  String get cycleLegendLogged;
+
+  /// No description provided for @cycleLegendEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated window'**
+  String get cycleLegendEstimate;
+
+  /// No description provided for @cycleLegendSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptoms logged'**
+  String get cycleLegendSymptoms;
+
+  /// No description provided for @cycleDaySheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Day Details'**
+  String get cycleDaySheetTitle;
+
+  /// No description provided for @cycleDayNoLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'No period or symptoms logged for this day.'**
+  String get cycleDayNoLogs;
+
+  /// No description provided for @cycleDayPeriodLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Period logged'**
+  String get cycleDayPeriodLogged;
+
+  /// No description provided for @cycleDayEstimateWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated window'**
+  String get cycleDayEstimateWindow;
+
+  /// No description provided for @cycleActionLogPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Log period'**
+  String get cycleActionLogPeriod;
+
+  /// No description provided for @cycleActionLogSymptom.
+  ///
+  /// In en, this message translates to:
+  /// **'Log symptom'**
+  String get cycleActionLogSymptom;
+
+  /// No description provided for @cycleActionEditPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit period'**
+  String get cycleActionEditPeriod;
+
+  /// No description provided for @cycleActionDeletePeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete period'**
+  String get cycleActionDeletePeriod;
+
+  /// No description provided for @cycleDeletePeriodConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this period log? This action cannot be undone.'**
+  String get cycleDeletePeriodConfirm;
+
+  /// No description provided for @cycleQuickStartedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Period started today'**
+  String get cycleQuickStartedToday;
+
+  /// No description provided for @cycleQuickEndedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Period ended today'**
+  String get cycleQuickEndedToday;
+
+  /// No description provided for @cycleQuickPeriodEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Period ended'**
+  String get cycleQuickPeriodEnded;
+
+  /// No description provided for @cycleSwitchToListView.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to accessible list view'**
+  String get cycleSwitchToListView;
+
+  /// No description provided for @cycleSwitchToGridView.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to calendar grid view'**
+  String get cycleSwitchToGridView;
+
+  /// No description provided for @cycleLogPeriodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Period'**
+  String get cycleLogPeriodTitle;
+
+  /// No description provided for @cycleEditPeriodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Period'**
+  String get cycleEditPeriodTitle;
+
+  /// No description provided for @cycleStartDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get cycleStartDateLabel;
+
+  /// No description provided for @cycleEndDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'End date (optional)'**
+  String get cycleEndDateLabel;
+
+  /// No description provided for @cycleSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get cycleSaveButton;
+
+  /// No description provided for @cycleSavingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get cycleSavingButton;
+
+  /// No description provided for @cycleCancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cycleCancelButton;
+
+  /// No description provided for @cyclePeriodSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Period logged successfully 🌸'**
+  String get cyclePeriodSaved;
+
+  /// No description provided for @cyclePeriodDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Period record deleted.'**
+  String get cyclePeriodDeleted;
+
+  /// No description provided for @cycleErrorFutureDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date cannot be in the future.'**
+  String get cycleErrorFutureDate;
+
+  /// No description provided for @cycleErrorInvalidRange.
+  ///
+  /// In en, this message translates to:
+  /// **'End date must be on or after the start date.'**
+  String get cycleErrorInvalidRange;
+
+  /// No description provided for @cycleErrorOverlap.
+  ///
+  /// In en, this message translates to:
+  /// **'This period overlaps with an already recorded period.'**
+  String get cycleErrorOverlap;
+
+  /// No description provided for @cycleLogSymptomTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Symptoms'**
+  String get cycleLogSymptomTitle;
+
+  /// No description provided for @cycleEditSymptomTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Symptom'**
+  String get cycleEditSymptomTitle;
+
+  /// No description provided for @cycleSymptomDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get cycleSymptomDateLabel;
+
+  /// No description provided for @cycleSymptomTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you noticing?'**
+  String get cycleSymptomTypeLabel;
+
+  /// No description provided for @cycleSymptomCramps.
+  ///
+  /// In en, this message translates to:
+  /// **'Cramps'**
+  String get cycleSymptomCramps;
+
+  /// No description provided for @cycleSymptomBloating.
+  ///
+  /// In en, this message translates to:
+  /// **'Bloating'**
+  String get cycleSymptomBloating;
+
+  /// No description provided for @cycleSymptomFatigue.
+  ///
+  /// In en, this message translates to:
+  /// **'Fatigue'**
+  String get cycleSymptomFatigue;
+
+  /// No description provided for @cycleSymptomHeadache.
+  ///
+  /// In en, this message translates to:
+  /// **'Headache'**
+  String get cycleSymptomHeadache;
+
+  /// No description provided for @cycleSymptomBackPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Back pain'**
+  String get cycleSymptomBackPain;
+
+  /// No description provided for @cycleSymptomBreastTenderness.
+  ///
+  /// In en, this message translates to:
+  /// **'Breast tenderness'**
+  String get cycleSymptomBreastTenderness;
+
+  /// No description provided for @cycleSymptomNausea.
+  ///
+  /// In en, this message translates to:
+  /// **'Nausea'**
+  String get cycleSymptomNausea;
+
+  /// No description provided for @cycleSymptomMoodChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood changes'**
+  String get cycleSymptomMoodChanges;
+
+  /// No description provided for @cycleSymptomAcne.
+  ///
+  /// In en, this message translates to:
+  /// **'Acne'**
+  String get cycleSymptomAcne;
+
+  /// No description provided for @cycleSymptomCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings'**
+  String get cycleSymptomCravings;
+
+  /// No description provided for @cycleSymptomSleepTrouble.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep trouble'**
+  String get cycleSymptomSleepTrouble;
+
+  /// No description provided for @cycleSymptomOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get cycleSymptomOther;
+
+  /// No description provided for @cycleCustomLabelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom symptom name'**
+  String get cycleCustomLabelLabel;
+
+  /// No description provided for @cycleCustomLabelPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Lower pelvic ache'**
+  String get cycleCustomLabelPlaceholder;
+
+  /// No description provided for @cycleSeverityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity: {label}'**
+  String cycleSeverityLabel(String label);
+
+  /// No description provided for @cycleSeverity1.
+  ///
+  /// In en, this message translates to:
+  /// **'Barely noticeable'**
+  String get cycleSeverity1;
+
+  /// No description provided for @cycleSeverity2.
+  ///
+  /// In en, this message translates to:
+  /// **'Mild'**
+  String get cycleSeverity2;
+
+  /// No description provided for @cycleSeverity3.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get cycleSeverity3;
+
+  /// No description provided for @cycleSeverity4.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get cycleSeverity4;
+
+  /// No description provided for @cycleSeverity5.
+  ///
+  /// In en, this message translates to:
+  /// **'Very strong'**
+  String get cycleSeverity5;
+
+  /// No description provided for @cycleSeverityDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'If symptoms feel severe or worrying, talking to a doctor or nurse can help.'**
+  String get cycleSeverityDisclaimer;
+
+  /// No description provided for @cycleNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (optional)'**
+  String get cycleNotesLabel;
+
+  /// No description provided for @cycleNotesPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'How does this feel? Any gentle observations...'**
+  String get cycleNotesPlaceholder;
+
+  /// No description provided for @cycleNotesCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / 500'**
+  String cycleNotesCounter(int count);
+
+  /// No description provided for @cycleSymptomSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptom logged successfully 🌸'**
+  String get cycleSymptomSaved;
+
+  /// No description provided for @cycleSymptomDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptom record deleted.'**
+  String get cycleSymptomDeleted;
+
+  /// No description provided for @cycleDeleteSymptomConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this symptom log? This action cannot be undone.'**
+  String get cycleDeleteSymptomConfirm;
+
+  /// No description provided for @cycleEstimateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle Observation'**
+  String get cycleEstimateTitle;
+
+  /// No description provided for @cycleEstimateBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate'**
+  String get cycleEstimateBadge;
+
+  /// No description provided for @cycleEstimateDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This is an estimate and can be wrong. It is not medical advice.'**
+  String get cycleEstimateDisclaimer;
+
+  /// No description provided for @cycleEstimateNotEnoughData.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a few more periods to see an estimate ({count} more needed).'**
+  String cycleEstimateNotEnoughData(int count);
+
+  /// No description provided for @cycleEstimateTooVariable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your logged cycles vary too much for a useful estimate.'**
+  String get cycleEstimateTooVariable;
+
+  /// No description provided for @cycleEstimateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Next period expected around {rangeStart} to {rangeEnd}.'**
+  String cycleEstimateRange(String rangeStart, String rangeEnd);
+
+  /// No description provided for @cycleEstimateDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical length: {days} days · Based on your last {count} logged cycles.'**
+  String cycleEstimateDetails(int days, int count);
+
+  /// No description provided for @cycleHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded Cycles'**
+  String get cycleHistoryTitle;
+
+  /// No description provided for @cycleHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cycles recorded yet. Your logged periods will appear here.'**
+  String get cycleHistoryEmpty;
+
+  /// No description provided for @cycleHistoryCycleLength.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days'**
+  String cycleHistoryCycleLength(int days);
+
+  /// No description provided for @cycleHistoryOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get cycleHistoryOngoing;
+
+  /// No description provided for @cycleHistoryDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get cycleHistoryDelete;
+
+  /// No description provided for @cycleHistoryEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get cycleHistoryEdit;
+
+  /// No description provided for @cycleSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CycleCare Settings'**
+  String get cycleSettingsTitle;
+
+  /// No description provided for @cycleTurnOffTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off cycle tracking'**
+  String get cycleTurnOffTracking;
+
+  /// No description provided for @cycleTurnOffDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Off Cycle Tracking?'**
+  String get cycleTurnOffDialogTitle;
+
+  /// No description provided for @cycleTurnOffDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can choose to keep your existing cycle records or delete them permanently from the server.'**
+  String get cycleTurnOffDialogBody;
+
+  /// No description provided for @cycleKeepDataOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off and keep my data'**
+  String get cycleKeepDataOption;
+
+  /// No description provided for @cycleDeleteDataOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off and delete my cycle data'**
+  String get cycleDeleteDataOption;
+
+  /// No description provided for @cycleDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Permanent Deletion'**
+  String get cycleDeleteConfirmTitle;
+
+  /// No description provided for @cycleDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete all your logged periods and cycle symptoms from the server. This action cannot be undone.'**
+  String get cycleDeleteConfirmBody;
+
+  /// No description provided for @cycleConfirmDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete All Cycle Data'**
+  String get cycleConfirmDeleteButton;
+
+  /// No description provided for @cycleTrackingDisabledFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle tracking has been turned off.'**
+  String get cycleTrackingDisabledFeedback;
+
+  /// No description provided for @cycleTrackingDeletedFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle tracking turned off and all data deleted.'**
+  String get cycleTrackingDeletedFeedback;
+
+  /// No description provided for @homeCycleCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in with your body'**
+  String get homeCycleCardTitle;
+
+  /// No description provided for @homeCycleCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice your energy and rhythm today'**
+  String get homeCycleCardSubtitle;
+
+  /// No description provided for @homeCycleCardAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open CycleCare'**
+  String get homeCycleCardAction;
+
+  /// No description provided for @cycleDisabledNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle tracking is currently off. Turn it on anytime to start logging.'**
+  String get cycleDisabledNotice;
 }
 
 class _AppLocalizationsDelegate
