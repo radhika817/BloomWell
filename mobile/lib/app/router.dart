@@ -3,13 +3,18 @@ import 'package:go_router/go_router.dart';
 import '../core/widgets/bloom_nav_bar.dart';
 import '../features/bloom_buddy/presentation/bloom_buddy_placeholder_screen.dart';
 import '../features/breathe/presentation/breathing_screen.dart';
-import '../features/comfort/presentation/comfort_placeholder_screen.dart';
+import '../features/comfort/presentation/comfort_screen.dart';
 import '../features/cycle_care/presentation/cycle_care_screen.dart';
+import '../features/exams/presentation/exams_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/journal/presentation/journal_placeholder_screen.dart';
 import '../features/mood/presentation/mood_screen.dart';
 import '../features/profile/presentation/profile_placeholder_screen.dart';
 import '../features/resources/presentation/help_placeholder_screen.dart';
+import '../features/routines/presentation/routines_screen.dart';
+import '../features/self_care/presentation/screens/activity_detail_screen.dart';
+import '../features/self_care/presentation/screens/activity_history_screen.dart';
+import '../features/self_care/presentation/screens/self_care_studio_screen.dart';
 import '../features/study_planner/presentation/study_planner_placeholder_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
@@ -181,7 +186,37 @@ final GoRouter appRouter = GoRouter(
       path: '/comfort',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) =>
-          ComfortPlaceholderScreen(onReturnHome: () => context.pop()),
+          const ComfortScreen(),
+    ),
+    GoRoute(
+      path: '/self-care',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const SelfCareStudioScreen(),
+    ),
+    GoRoute(
+      path: '/self-care/activity/:id',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          ActivityDetailScreen(activityId: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: '/self-care/history',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const ActivityHistoryScreen(),
+    ),
+    GoRoute(
+      path: '/self-care/routines',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const RoutinesScreen(),
+    ),
+    GoRoute(
+      path: '/exams',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const ExamsScreen(),
     ),
     GoRoute(
       path: '/study-planner',

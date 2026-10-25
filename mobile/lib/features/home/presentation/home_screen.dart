@@ -269,6 +269,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     _buildReminderCard(l10n),
                     const SizedBox(height: AppSpacing.xl),
 
+                    // Self-Care Studio & Routines Banner
+                    _buildSelfCareStudioBanner(context, l10n),
+                    const SizedBox(height: AppSpacing.xl),
+
                     // CycleCare Educational Preview Card (Strictly non-diagnostic)
                     _buildCycleCarePreview(context, l10n),
                     const SizedBox(height: AppSpacing.xl),
@@ -762,6 +766,80 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSelfCareStudioBanner(
+    BuildContext context,
+    AppLocalizations? l10n,
+  ) {
+    return GlassCard(
+      key: const Key('home_self_care_studio_banner'),
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: AppColors.mint,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: const Text('🌿', style: TextStyle(fontSize: 20)),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n?.selfCareStudioTitle ?? 'Self-Care Studio',
+                      style: AppTypography.titleSmall.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    Text(
+                      l10n?.selfCareStudioSubtitle ??
+                          'Gentle exercises, soothing audios, and comforting rituals.',
+                      style: AppTypography.bodySmall.copyWith(
+                        color: AppColors.secondaryText,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Expanded(
+                child: BloomButton(
+                  label: l10n?.selfCareOpenStudioButton ?? 'Open Studio',
+                  icon: Icons.spa_outlined,
+                  variant: BloomButtonVariant.primary,
+                  height: 40,
+                  onPressed: () => context.push('/self-care'),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: BloomButton(
+                  label: l10n?.selfCareRoutinesButton ?? 'Routines',
+                  icon: Icons.checklist_rounded,
+                  variant: BloomButtonVariant.subtle,
+                  height: 40,
+                  onPressed: () => context.push('/self-care/routines'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

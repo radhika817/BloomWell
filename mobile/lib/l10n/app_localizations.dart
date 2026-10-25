@@ -2380,6 +2380,12 @@ abstract class AppLocalizations {
   /// **'Routines'**
   String get selfCareRoutinesButton;
 
+  /// No description provided for @selfCareOpenStudioButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Studio'**
+  String get selfCareOpenStudioButton;
+
   /// No description provided for @selfCareAddFavoriteA11y.
   ///
   /// In en, this message translates to:

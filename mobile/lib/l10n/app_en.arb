@@ -439,6 +439,7 @@
   "selfCareRetry": "Try again",
   "selfCareHistoryButton": "My activity history",
   "selfCareRoutinesButton": "Routines",
+  "selfCareOpenStudioButton": "Open Studio",
   "selfCareAddFavoriteA11y": "Add to favorites",
   "selfCareRemoveFavoriteA11y": "Remove from favorites",
   "selfCareDurationMinutes": "{count} min",

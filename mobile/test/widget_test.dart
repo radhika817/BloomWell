@@ -110,13 +110,12 @@ void main() {
     await tester.tap(find.text('Try Comfort Mode'));
     await tester.pumpAndSettle();
 
-    // Verify Comfort Mode placeholder opened
-    expect(find.text('Comfort Mode'), findsWidgets);
-    expect(find.text('Coming in a later update'), findsOneWidget);
+    // Verify Comfort Mode screen opened
+    expect(find.text('A gentle moment'), findsOneWidget);
+    expect(find.text('What do you need?'), findsOneWidget);
 
     // Return to Home
-    await tester.ensureVisible(find.text('Back to Home'));
-    await tester.tap(find.text('Back to Home'));
+    await tester.tap(find.byIcon(Icons.arrow_back_ios_new_rounded));
     await tester.pumpAndSettle();
 
     expect(find.text('Hey, lovely! 🌷'), findsOneWidget);

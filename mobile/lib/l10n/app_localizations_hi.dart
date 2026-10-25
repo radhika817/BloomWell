@@ -1253,6 +1253,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get selfCareRoutinesButton => 'Routines';
 
   @override
+  String get selfCareOpenStudioButton => 'Open Studio';
+
+  @override
   String get selfCareAddFavoriteA11y => 'Add to favorites';
 
   @override
