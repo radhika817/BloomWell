@@ -1186,4 +1186,336 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cycleDisabledNotice =>
       'Cycle tracking is currently off. Turn it on anytime to start logging.';
+
+  @override
+  String get selfCareStudioTitle => 'Self-Care Studio';
+
+  @override
+  String get selfCareStudioSubtitle =>
+      'Curated gentle practices for body, mind, and study breaks.';
+
+  @override
+  String get selfCareCategoryAll => 'All';
+
+  @override
+  String get selfCareCategoryBreathing => 'Breathing';
+
+  @override
+  String get selfCareCategoryGrounding => 'Grounding';
+
+  @override
+  String get selfCareCategoryRelaxation => 'Relaxation';
+
+  @override
+  String get selfCareCategoryMovement => 'Movement';
+
+  @override
+  String get selfCareCategoryJournaling => 'Journaling';
+
+  @override
+  String get selfCareCategoryStudyBreak => 'Study Break';
+
+  @override
+  String get selfCareCategoryComfort => 'Comfort';
+
+  @override
+  String get selfCareCategoryConfidence => 'Confidence';
+
+  @override
+  String get selfCareDurationAny => 'Any duration';
+
+  @override
+  String get selfCareDuration2 => 'Up to 2 min';
+
+  @override
+  String get selfCareDuration5 => 'Up to 5 min';
+
+  @override
+  String get selfCareDuration10 => 'Up to 10 min';
+
+  @override
+  String get selfCareEmptyTitle => 'No activities match this filter';
+
+  @override
+  String get selfCareEmptySubtitle =>
+      'Try choosing a different category or longer duration.';
+
+  @override
+  String get selfCareErrorTitle => 'Unable to load studio activities';
+
+  @override
+  String get selfCareRetry => 'Try again';
+
+  @override
+  String get selfCareHistoryButton => 'My activity history';
+
+  @override
+  String get selfCareRoutinesButton => 'Routines';
+
+  @override
+  String get selfCareAddFavoriteA11y => 'Add to favorites';
+
+  @override
+  String get selfCareRemoveFavoriteA11y => 'Remove from favorites';
+
+  @override
+  String selfCareDurationMinutes(int count) {
+    return '$count min';
+  }
+
+  @override
+  String get activityDetailTitle => 'Activity Details';
+
+  @override
+  String get activityStartButton => 'Start gentle guide';
+
+  @override
+  String get activitySourceLabel => 'Source';
+
+  @override
+  String get activityStepsTitle => 'Guided Steps';
+
+  @override
+  String get activityComfortDoctorNote =>
+      'If symptoms feel severe, unusual or last a long time, talking to a doctor or nurse can help.';
+
+  @override
+  String activityStepCounter(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get activityStepNext => 'Next';
+
+  @override
+  String get activityStepBack => 'Back';
+
+  @override
+  String get activityStepDone => 'Done';
+
+  @override
+  String get activityRatingTitle => 'Did this help?';
+
+  @override
+  String get activityRatingSubtitle =>
+      'Optional feedback to help suggest gentler activities for you.';
+
+  @override
+  String get activityRatingSkip => 'Skip';
+
+  @override
+  String get activitySavedConfirmed => 'Activity completed and logged gently.';
+
+  @override
+  String get activityHistoryTitle => 'My Activity History';
+
+  @override
+  String get activityHistorySubtitle =>
+      'A quiet record of your gentle moments.';
+
+  @override
+  String get activityHistoryEmpty =>
+      'No completed activities yet. Take your time.';
+
+  @override
+  String get comfortModeTitle => 'A gentle moment';
+
+  @override
+  String get comfortModeSubtitle =>
+      'No pressure. Pick what feels okay right now.';
+
+  @override
+  String get comfortNeedQuestion => 'What do you need?';
+
+  @override
+  String get comfortNeedQuickBreak => 'A quick break';
+
+  @override
+  String get comfortNeedCalmDown => 'Calm down';
+
+  @override
+  String get comfortNeedBodyComfort => 'Body comfort';
+
+  @override
+  String get comfortNeedFocus => 'Focus';
+
+  @override
+  String get comfortReasonFavorite => 'One of your favorites';
+
+  @override
+  String get comfortReasonNewForYou => 'Something new to try';
+
+  @override
+  String get comfortReasonQuick => 'Gentle and quick';
+
+  @override
+  String get comfortReasonOther => 'Suggested for you';
+
+  @override
+  String get comfortShowSomethingElse => 'Show me something else';
+
+  @override
+  String get comfortPlanTitle => 'My comfort plan';
+
+  @override
+  String get comfortPlanSubtitle =>
+      'Your saved soothing practices for difficult days.';
+
+  @override
+  String get comfortPlanEmpty =>
+      'No practices in your plan yet. Save a few favorites here for easy access.';
+
+  @override
+  String get comfortAddToPlan => 'Add to comfort plan';
+
+  @override
+  String get comfortRemoveFromPlan => 'Remove from plan';
+
+  @override
+  String get comfortFindSupport => 'Find support';
+
+  @override
+  String get comfortNonMedicalNotice =>
+      'BloomWell is not a medical or emergency service. If you are going through a difficult time, reaching out to a trusted person or health professional can help.';
+
+  @override
+  String get routinesTitle => 'Routines';
+
+  @override
+  String get routinesSubtitle =>
+      'Gentle rituals to nourish your rhythm without pressure.';
+
+  @override
+  String get routinesEmptyTitle => 'No routines created yet';
+
+  @override
+  String get routinesEmptySubtitle =>
+      'Create a soothing daily or weekly routine that feels good to you.';
+
+  @override
+  String get routinesNewButton => 'New routine';
+
+  @override
+  String get routinesCreateTitle => 'Create Routine';
+
+  @override
+  String get routinesEditTitle => 'Edit Routine';
+
+  @override
+  String get routinesTitleField => 'Routine Title';
+
+  @override
+  String get routinesStartDateField => 'Start Date (optional)';
+
+  @override
+  String get routinesEndDateField => 'End Date (optional)';
+
+  @override
+  String get routinesSaveButton => 'Save Routine';
+
+  @override
+  String get routinesDeleteButton => 'Delete';
+
+  @override
+  String get routinesDeleteConfirm =>
+      'Are you sure you want to delete this routine?';
+
+  @override
+  String get routinesAddItem => 'Add activity';
+
+  @override
+  String get routinesLimitExceeded =>
+      'You have reached the maximum limit of 20 routines.';
+
+  @override
+  String get routinesItemLimitExceeded =>
+      'You have reached the maximum limit of 50 activities for this routine.';
+
+  @override
+  String routinesProgressText(int completed, int total) {
+    return '$completed of $total done';
+  }
+
+  @override
+  String get examsTitle => 'Exams & Deadlines';
+
+  @override
+  String get examsSubtitle =>
+      'Keep track of academic events so study suggestions can feel gentler.';
+
+  @override
+  String get examsPlannerNotice =>
+      'Adding exams and deadlines lets BloomWell suggest gentler study plans later. This is optional.';
+
+  @override
+  String get examsPlannerComingSoon => 'Study planner coming soon';
+
+  @override
+  String get examsTabUpcoming => 'Upcoming';
+
+  @override
+  String get examsTabPast => 'Past';
+
+  @override
+  String get examsNewButton => 'Add deadline or exam';
+
+  @override
+  String get examsCreateTitle => 'Add Academic Event';
+
+  @override
+  String get examsEditTitle => 'Edit Academic Event';
+
+  @override
+  String get examsTitleLabel => 'Title (max 80 chars)';
+
+  @override
+  String get examsDateLabel => 'Event Date';
+
+  @override
+  String get examsTypeLabel => 'Event Type';
+
+  @override
+  String get examsTypeExam => 'Exam';
+
+  @override
+  String get examsTypeAssignment => 'Assignment';
+
+  @override
+  String get examsTypePresentation => 'Presentation';
+
+  @override
+  String get examsTypeOther => 'Other';
+
+  @override
+  String get examsSaveButton => 'Save Event';
+
+  @override
+  String get examsDeleteButton => 'Delete';
+
+  @override
+  String get examsDeleteConfirm =>
+      'Are you sure you want to delete this event?';
+
+  @override
+  String get examsEmptyUpcoming =>
+      'No upcoming exams or deadlines entered. Enjoy your free rhythm.';
+
+  @override
+  String get examsEmptyPast => 'No past exams recorded.';
+
+  @override
+  String examsInDays(int days) {
+    return 'in $days days';
+  }
+
+  @override
+  String get examsInOneDay => 'tomorrow';
+
+  @override
+  String get examsToday => 'today';
+
+  @override
+  String examsDaysAgo(int days) {
+    return '$days days ago';
+  }
 }

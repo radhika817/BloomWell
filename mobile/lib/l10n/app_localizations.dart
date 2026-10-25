@@ -2253,6 +2253,612 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cycle tracking is currently off. Turn it on anytime to start logging.'**
   String get cycleDisabledNotice;
+
+  /// No description provided for @selfCareStudioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-Care Studio'**
+  String get selfCareStudioTitle;
+
+  /// No description provided for @selfCareStudioSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Curated gentle practices for body, mind, and study breaks.'**
+  String get selfCareStudioSubtitle;
+
+  /// No description provided for @selfCareCategoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get selfCareCategoryAll;
+
+  /// No description provided for @selfCareCategoryBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing'**
+  String get selfCareCategoryBreathing;
+
+  /// No description provided for @selfCareCategoryGrounding.
+  ///
+  /// In en, this message translates to:
+  /// **'Grounding'**
+  String get selfCareCategoryGrounding;
+
+  /// No description provided for @selfCareCategoryRelaxation.
+  ///
+  /// In en, this message translates to:
+  /// **'Relaxation'**
+  String get selfCareCategoryRelaxation;
+
+  /// No description provided for @selfCareCategoryMovement.
+  ///
+  /// In en, this message translates to:
+  /// **'Movement'**
+  String get selfCareCategoryMovement;
+
+  /// No description provided for @selfCareCategoryJournaling.
+  ///
+  /// In en, this message translates to:
+  /// **'Journaling'**
+  String get selfCareCategoryJournaling;
+
+  /// No description provided for @selfCareCategoryStudyBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Study Break'**
+  String get selfCareCategoryStudyBreak;
+
+  /// No description provided for @selfCareCategoryComfort.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfort'**
+  String get selfCareCategoryComfort;
+
+  /// No description provided for @selfCareCategoryConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get selfCareCategoryConfidence;
+
+  /// No description provided for @selfCareDurationAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any duration'**
+  String get selfCareDurationAny;
+
+  /// No description provided for @selfCareDuration2.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 2 min'**
+  String get selfCareDuration2;
+
+  /// No description provided for @selfCareDuration5.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 5 min'**
+  String get selfCareDuration5;
+
+  /// No description provided for @selfCareDuration10.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 10 min'**
+  String get selfCareDuration10;
+
+  /// No description provided for @selfCareEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No activities match this filter'**
+  String get selfCareEmptyTitle;
+
+  /// No description provided for @selfCareEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try choosing a different category or longer duration.'**
+  String get selfCareEmptySubtitle;
+
+  /// No description provided for @selfCareErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load studio activities'**
+  String get selfCareErrorTitle;
+
+  /// No description provided for @selfCareRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get selfCareRetry;
+
+  /// No description provided for @selfCareHistoryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'My activity history'**
+  String get selfCareHistoryButton;
+
+  /// No description provided for @selfCareRoutinesButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines'**
+  String get selfCareRoutinesButton;
+
+  /// No description provided for @selfCareAddFavoriteA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get selfCareAddFavoriteA11y;
+
+  /// No description provided for @selfCareRemoveFavoriteA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get selfCareRemoveFavoriteA11y;
+
+  /// No description provided for @selfCareDurationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String selfCareDurationMinutes(int count);
+
+  /// No description provided for @activityDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Details'**
+  String get activityDetailTitle;
+
+  /// No description provided for @activityStartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start gentle guide'**
+  String get activityStartButton;
+
+  /// No description provided for @activitySourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get activitySourceLabel;
+
+  /// No description provided for @activityStepsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guided Steps'**
+  String get activityStepsTitle;
+
+  /// No description provided for @activityComfortDoctorNote.
+  ///
+  /// In en, this message translates to:
+  /// **'If symptoms feel severe, unusual or last a long time, talking to a doctor or nurse can help.'**
+  String get activityComfortDoctorNote;
+
+  /// No description provided for @activityStepCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String activityStepCounter(int current, int total);
+
+  /// No description provided for @activityStepNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get activityStepNext;
+
+  /// No description provided for @activityStepBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get activityStepBack;
+
+  /// No description provided for @activityStepDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get activityStepDone;
+
+  /// No description provided for @activityRatingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Did this help?'**
+  String get activityRatingTitle;
+
+  /// No description provided for @activityRatingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional feedback to help suggest gentler activities for you.'**
+  String get activityRatingSubtitle;
+
+  /// No description provided for @activityRatingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get activityRatingSkip;
+
+  /// No description provided for @activitySavedConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity completed and logged gently.'**
+  String get activitySavedConfirmed;
+
+  /// No description provided for @activityHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Activity History'**
+  String get activityHistoryTitle;
+
+  /// No description provided for @activityHistorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A quiet record of your gentle moments.'**
+  String get activityHistorySubtitle;
+
+  /// No description provided for @activityHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No completed activities yet. Take your time.'**
+  String get activityHistoryEmpty;
+
+  /// No description provided for @comfortModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A gentle moment'**
+  String get comfortModeTitle;
+
+  /// No description provided for @comfortModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No pressure. Pick what feels okay right now.'**
+  String get comfortModeSubtitle;
+
+  /// No description provided for @comfortNeedQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you need?'**
+  String get comfortNeedQuestion;
+
+  /// No description provided for @comfortNeedQuickBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'A quick break'**
+  String get comfortNeedQuickBreak;
+
+  /// No description provided for @comfortNeedCalmDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm down'**
+  String get comfortNeedCalmDown;
+
+  /// No description provided for @comfortNeedBodyComfort.
+  ///
+  /// In en, this message translates to:
+  /// **'Body comfort'**
+  String get comfortNeedBodyComfort;
+
+  /// No description provided for @comfortNeedFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get comfortNeedFocus;
+
+  /// No description provided for @comfortReasonFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'One of your favorites'**
+  String get comfortReasonFavorite;
+
+  /// No description provided for @comfortReasonNewForYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Something new to try'**
+  String get comfortReasonNewForYou;
+
+  /// No description provided for @comfortReasonQuick.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle and quick'**
+  String get comfortReasonQuick;
+
+  /// No description provided for @comfortReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for you'**
+  String get comfortReasonOther;
+
+  /// No description provided for @comfortShowSomethingElse.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me something else'**
+  String get comfortShowSomethingElse;
+
+  /// No description provided for @comfortPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My comfort plan'**
+  String get comfortPlanTitle;
+
+  /// No description provided for @comfortPlanSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved soothing practices for difficult days.'**
+  String get comfortPlanSubtitle;
+
+  /// No description provided for @comfortPlanEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No practices in your plan yet. Save a few favorites here for easy access.'**
+  String get comfortPlanEmpty;
+
+  /// No description provided for @comfortAddToPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to comfort plan'**
+  String get comfortAddToPlan;
+
+  /// No description provided for @comfortRemoveFromPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from plan'**
+  String get comfortRemoveFromPlan;
+
+  /// No description provided for @comfortFindSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Find support'**
+  String get comfortFindSupport;
+
+  /// No description provided for @comfortNonMedicalNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'BloomWell is not a medical or emergency service. If you are going through a difficult time, reaching out to a trusted person or health professional can help.'**
+  String get comfortNonMedicalNotice;
+
+  /// No description provided for @routinesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines'**
+  String get routinesTitle;
+
+  /// No description provided for @routinesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle rituals to nourish your rhythm without pressure.'**
+  String get routinesSubtitle;
+
+  /// No description provided for @routinesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No routines created yet'**
+  String get routinesEmptyTitle;
+
+  /// No description provided for @routinesEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a soothing daily or weekly routine that feels good to you.'**
+  String get routinesEmptySubtitle;
+
+  /// No description provided for @routinesNewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'New routine'**
+  String get routinesNewButton;
+
+  /// No description provided for @routinesCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Routine'**
+  String get routinesCreateTitle;
+
+  /// No description provided for @routinesEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Routine'**
+  String get routinesEditTitle;
+
+  /// No description provided for @routinesTitleField.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine Title'**
+  String get routinesTitleField;
+
+  /// No description provided for @routinesStartDateField.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Date (optional)'**
+  String get routinesStartDateField;
+
+  /// No description provided for @routinesEndDateField.
+  ///
+  /// In en, this message translates to:
+  /// **'End Date (optional)'**
+  String get routinesEndDateField;
+
+  /// No description provided for @routinesSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Routine'**
+  String get routinesSaveButton;
+
+  /// No description provided for @routinesDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get routinesDeleteButton;
+
+  /// No description provided for @routinesDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this routine?'**
+  String get routinesDeleteConfirm;
+
+  /// No description provided for @routinesAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add activity'**
+  String get routinesAddItem;
+
+  /// No description provided for @routinesLimitExceeded.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached the maximum limit of 20 routines.'**
+  String get routinesLimitExceeded;
+
+  /// No description provided for @routinesItemLimitExceeded.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached the maximum limit of 50 activities for this routine.'**
+  String get routinesItemLimitExceeded;
+
+  /// No description provided for @routinesProgressText.
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} of {total} done'**
+  String routinesProgressText(int completed, int total);
+
+  /// No description provided for @examsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exams & Deadlines'**
+  String get examsTitle;
+
+  /// No description provided for @examsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep track of academic events so study suggestions can feel gentler.'**
+  String get examsSubtitle;
+
+  /// No description provided for @examsPlannerNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding exams and deadlines lets BloomWell suggest gentler study plans later. This is optional.'**
+  String get examsPlannerNotice;
+
+  /// No description provided for @examsPlannerComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Study planner coming soon'**
+  String get examsPlannerComingSoon;
+
+  /// No description provided for @examsTabUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get examsTabUpcoming;
+
+  /// No description provided for @examsTabPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get examsTabPast;
+
+  /// No description provided for @examsNewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add deadline or exam'**
+  String get examsNewButton;
+
+  /// No description provided for @examsCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Academic Event'**
+  String get examsCreateTitle;
+
+  /// No description provided for @examsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Academic Event'**
+  String get examsEditTitle;
+
+  /// No description provided for @examsTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title (max 80 chars)'**
+  String get examsTitleLabel;
+
+  /// No description provided for @examsDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Date'**
+  String get examsDateLabel;
+
+  /// No description provided for @examsTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Type'**
+  String get examsTypeLabel;
+
+  /// No description provided for @examsTypeExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam'**
+  String get examsTypeExam;
+
+  /// No description provided for @examsTypeAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignment'**
+  String get examsTypeAssignment;
+
+  /// No description provided for @examsTypePresentation.
+  ///
+  /// In en, this message translates to:
+  /// **'Presentation'**
+  String get examsTypePresentation;
+
+  /// No description provided for @examsTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get examsTypeOther;
+
+  /// No description provided for @examsSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Event'**
+  String get examsSaveButton;
+
+  /// No description provided for @examsDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get examsDeleteButton;
+
+  /// No description provided for @examsDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this event?'**
+  String get examsDeleteConfirm;
+
+  /// No description provided for @examsEmptyUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming exams or deadlines entered. Enjoy your free rhythm.'**
+  String get examsEmptyUpcoming;
+
+  /// No description provided for @examsEmptyPast.
+  ///
+  /// In en, this message translates to:
+  /// **'No past exams recorded.'**
+  String get examsEmptyPast;
+
+  /// No description provided for @examsInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'in {days} days'**
+  String examsInDays(int days);
+
+  /// No description provided for @examsInOneDay.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get examsInOneDay;
+
+  /// No description provided for @examsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get examsToday;
+
+  /// No description provided for @examsDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String examsDaysAgo(int days);
 }
 
 class _AppLocalizationsDelegate
