@@ -546,5 +546,174 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  }
+  },
+  "studyPlannerTitle": "Study Planner",
+  "studyPlannerSubtitle": "Gentle, balanced study rhythms based on your check-ins and milestones.",
+  "studyPlannerIntroText": "Suggestions based only on what you tell us. You can change any of it.",
+  "studyPlannerNoCycleNote": "The planner works fully without period data using your check-ins alone.",
+  "studyPlannerMakeMyWeek": "Make my week",
+  "studyPlannerNextWeek": "Plan next week",
+  "studyPlannerCurrentWeek": "This week",
+  "studyPlannerWeekPicker": "Choose week",
+  "studyPlannerDefaultBanner": "This week's plan is a simple starting point. Personalized suggestions appear after about 14 days of check-ins (you have {days}).",
+  "@studyPlannerDefaultBanner": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "studyPlannerPersonalizedBanner": "Based on {days} days of your check-ins.",
+  "@studyPlannerPersonalizedBanner": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "studyPlannerLoadLight": "Light",
+  "studyPlannerLoadNormal": "Normal",
+  "studyPlannerLoadFocus": "Focus",
+  "studyPlannerStatusSuggested": "Suggested",
+  "studyPlannerStatusAccepted": "Accepted",
+  "studyPlannerStatusEdited": "Edited",
+  "studyPlannerStatusSkipped": "Skipped",
+  "studyPlannerDaySemantic": "{weekday} {date}, {load} day, event: {event}, status: {status}",
+  "@studyPlannerDaySemantic": {
+    "placeholders": {
+      "weekday": { "type": "String" },
+      "date": { "type": "String" },
+      "load": { "type": "String" },
+      "event": { "type": "String" },
+      "status": { "type": "String" }
+    }
+  },
+  "studyPlannerDaySemanticNoEvent": "{weekday} {date}, {load} day, status: {status}",
+  "@studyPlannerDaySemanticNoEvent": {
+    "placeholders": {
+      "weekday": { "type": "String" },
+      "date": { "type": "String" },
+      "load": { "type": "String" },
+      "status": { "type": "String" }
+    }
+  },
+  "studyPlannerSheetTitle": "Why this suggestion?",
+  "studyPlannerSuggestedLoadLabel": "Suggested load: {load}",
+  "@studyPlannerSuggestedLoadLabel": {
+    "placeholders": {
+      "load": { "type": "String" }
+    }
+  },
+  "studyPlannerAcceptButton": "Accept",
+  "studyPlannerChangeButton": "Change",
+  "studyPlannerSkipButton": "Skip",
+  "studyPlannerChangeDialogTitle": "Change Study Load",
+  "studyPlannerChangeDialogPrompt": "Choose any pace that fits your day:",
+  "studyPlannerDayUpdated": "Day updated",
+  "studyPlannerDayAccepted": "Day accepted",
+  "studyPlannerDaySkipped": "Day skipped",
+  "studyPlannerBreakActivity": "Break activity",
+  "studyPlannerMenuReplace": "Replace this week's plan",
+  "studyPlannerMenuDelete": "Delete this plan",
+  "studyPlannerMenuSettings": "Planner settings",
+  "studyPlannerReplaceDialogTitle": "Replace Plan",
+  "studyPlannerReplaceDialogBody": "Would you like to replace this week's plan with a new one? Any changes you made will be refreshed.",
+  "studyPlannerReplaceConfirm": "Replace plan",
+  "studyPlannerDeleteDialogTitle": "Delete Plan",
+  "studyPlannerDeleteDialogBody": "Are you sure you want to delete this week's plan? You can create a new one anytime.",
+  "studyPlannerDeleteConfirm": "Delete plan",
+  "studyPlannerPlanExistsMessage": "A plan already exists for this week. Would you like to replace it?",
+  "studyPlannerCycleTrackingRequired": "Cycle tracking is needed to use cycle records in study planning. You can turn on CycleCare anytime.",
+  "studyPlannerOpenCycleCare": "Open CycleCare",
+  "studyPlannerUsesPeriodLogs": "Uses your period logs",
+  "studyPlannerSettingsTitle": "Study Planner Settings",
+  "studyPlannerConsentSwitchTitle": "Use my period logs to shape my plan",
+  "studyPlannerConsentSwitchSubtitle": "Optional pacing suggestions based on your recorded period days and energy check-ins.",
+  "studyPlannerCycleTrackingDisabledNotice": "Cycle tracking is currently off. Turn on CycleCare to enable this option.",
+  "studyPlannerConsentDialogTitle": "Use Period Logs for Study Planning?",
+  "studyPlannerConsentDialogBody": "We can use your recorded period days and your own energy check-ins to suggest gentler study pacing. Estimates and predicted dates are never used. Your data never leaves BloomWell and no AI has access to it. This is completely optional and can be turned off at any time. Turning this off will delete any plans that used your period logs.",
+  "studyPlannerConsentDialogConfirm": "I understand & allow",
+  "studyPlannerConsentDialogCancel": "Not now",
+  "studyPlannerRevokeDialogTitle": "Turn Off Period Log Access?",
+  "studyPlannerRevokeDialogBody": "Turning this off will delete all study plans that used your period logs. Are you sure you want to turn it off?",
+  "studyPlannerRevokeConfirm": "Turn off & delete plans",
+  "studyPlannerRevokeResult": "Period log access turned off. {count, plural, =1{1 plan deleted.} other{{count} plans deleted.}}",
+  "@studyPlannerRevokeResult": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studyPlannerReasonNotEnoughHistory": "We need a little more of your own check-in history to personalize this.",
+  "studyPlannerReasonDefaultPlan": "This is a simple starting plan.",
+  "studyPlannerReasonWeekdayEnergyHigher": "You've often logged higher energy on this day of the week.",
+  "studyPlannerReasonWeekdayEnergyLower": "You've often logged lower energy on this day of the week.",
+  "studyPlannerReasonCyclePeriodLowEnergy": "You allowed us to use your period logs, and you've logged lower energy on period days.",
+  "studyPlannerReasonEventPrep": "A little steady prep before your {event}.",
+  "@studyPlannerReasonEventPrep": {
+    "placeholders": {
+      "event": { "type": "String" }
+    }
+  },
+  "studyPlannerReasonEventDay": "It's your {event} day.",
+  "@studyPlannerReasonEventDay": {
+    "placeholders": {
+      "event": { "type": "String" }
+    }
+  },
+  "studyPlannerReasonKeepOptionPreserved": "We kept a regular option here so you aren't over-resting before your {event}.",
+  "@studyPlannerReasonKeepOptionPreserved": {
+    "placeholders": {
+      "event": { "type": "String" }
+    }
+  },
+  "studyPlannerReasonNeutralFallback": "A suggestion based on your plan.",
+  "insightsTitle": "Personal Observations",
+  "insightsSubtitle": "Gentle patterns based on what you share with BloomWell.",
+  "insightsDisclaimer": "This is an observation, not a cause.",
+  "insightsWeeklyHeading": "This Week's Observations",
+  "insightsExamHeading": "Before Academic Events",
+  "insightsMetricMood": "Mood",
+  "insightsMetricStress": "Stress",
+  "insightsMetricEnergy": "Energy",
+  "insightsMetricSleep": "Sleep",
+  "insightsMoodHigher": "This week, your mood check-ins were a bit higher than your usual.",
+  "insightsMoodLower": "This week, your mood check-ins were a bit lower than your usual.",
+  "insightsMoodSimilar": "This week, your mood check-ins were similar to your usual.",
+  "insightsStressHigher": "This week, your stress check-ins were a bit higher than your usual.",
+  "insightsStressLower": "This week, your stress check-ins were a bit lower than your usual.",
+  "insightsStressSimilar": "This week, your stress check-ins were similar to your usual.",
+  "insightsEnergyHigher": "This week, your energy check-ins were a bit higher than your usual.",
+  "insightsEnergyLower": "This week, your energy check-ins were a bit lower than your usual.",
+  "insightsEnergySimilar": "This week, your energy check-ins were similar to your usual.",
+  "insightsSleepHigher": "This week, your sleep check-ins were a bit higher than your usual.",
+  "insightsSleepLower": "This week, your sleep check-ins were a bit lower than your usual.",
+  "insightsSleepSimilar": "This week, your sleep check-ins were similar to your usual.",
+  "insightsWeeklySampleSizes": "Based on {weekDays} check-in {weekDays, plural, =1{day} other{days}} this week and {baselineDays} baseline {baselineDays, plural, =1{day} other{days}}.",
+  "@insightsWeeklySampleSizes": {
+    "placeholders": {
+      "weekDays": { "type": "int" },
+      "baselineDays": { "type": "int" }
+    }
+  },
+  "insightsWeeklyNotEnoughData": "We need check-ins on at least {neededWeek} more {neededWeek, plural, =1{day} other{days}} this week and {neededBaseline} more baseline {neededBaseline, plural, =1{day} other{days}} to share weekly observations.",
+  "@insightsWeeklyNotEnoughData": {
+    "placeholders": {
+      "neededWeek": { "type": "int" },
+      "neededBaseline": { "type": "int" }
+    }
+  },
+  "insightsExamStressHigher": "Before your exams, your stress check-ins were a bit higher than your usual.",
+  "insightsExamStressLower": "Before your exams, your stress check-ins were a bit lower than your usual.",
+  "insightsExamStressSimilar": "Before your exams, your stress check-ins were similar to your usual.",
+  "insightsExamEnergyHigher": "Before your exams, your energy check-ins were a bit higher than your usual.",
+  "insightsExamEnergyLower": "Before your exams, your energy check-ins were a bit lower than your usual.",
+  "insightsExamEnergySimilar": "Before your exams, your energy check-ins were similar to your usual.",
+  "insightsExamSampleSizes": "Based on {eventsCount} qualifying {eventsCount, plural, =1{event} other{events}} with {preDays} pre-event {preDays, plural, =1{day} other{days}} and {baselineDays} baseline {baselineDays, plural, =1{day} other{days}}.",
+  "@insightsExamSampleSizes": {
+    "placeholders": {
+      "eventsCount": { "type": "int" },
+      "preDays": { "type": "int" },
+      "baselineDays": { "type": "int" }
+    }
+  },
+  "insightsExamNotEnoughData": "We need at least 2 events with 3 check-in days each in their preparation window to share exam observations.",
+  "myMoodObservationsButton": "View Observations",
+  "privacyCenterStudyPlannerSettings": "Study Planner Settings",
+  "privacyCenterStudyPlannerSettingsSubtitle": "Manage period log access for study suggestions"
 }

@@ -2865,6 +2865,597 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days} days ago'**
   String examsDaysAgo(int days);
+
+  /// No description provided for @studyPlannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Study Planner'**
+  String get studyPlannerTitle;
+
+  /// No description provided for @studyPlannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle, balanced study rhythms based on your check-ins and milestones.'**
+  String get studyPlannerSubtitle;
+
+  /// No description provided for @studyPlannerIntroText.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestions based only on what you tell us. You can change any of it.'**
+  String get studyPlannerIntroText;
+
+  /// No description provided for @studyPlannerNoCycleNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The planner works fully without period data using your check-ins alone.'**
+  String get studyPlannerNoCycleNote;
+
+  /// No description provided for @studyPlannerMakeMyWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Make my week'**
+  String get studyPlannerMakeMyWeek;
+
+  /// No description provided for @studyPlannerNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan next week'**
+  String get studyPlannerNextWeek;
+
+  /// No description provided for @studyPlannerCurrentWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get studyPlannerCurrentWeek;
+
+  /// No description provided for @studyPlannerWeekPicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose week'**
+  String get studyPlannerWeekPicker;
+
+  /// No description provided for @studyPlannerDefaultBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This week\'s plan is a simple starting point. Personalized suggestions appear after about 14 days of check-ins (you have {days}).'**
+  String studyPlannerDefaultBanner(int days);
+
+  /// No description provided for @studyPlannerPersonalizedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {days} days of your check-ins.'**
+  String studyPlannerPersonalizedBanner(int days);
+
+  /// No description provided for @studyPlannerLoadLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get studyPlannerLoadLight;
+
+  /// No description provided for @studyPlannerLoadNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get studyPlannerLoadNormal;
+
+  /// No description provided for @studyPlannerLoadFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get studyPlannerLoadFocus;
+
+  /// No description provided for @studyPlannerStatusSuggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested'**
+  String get studyPlannerStatusSuggested;
+
+  /// No description provided for @studyPlannerStatusAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get studyPlannerStatusAccepted;
+
+  /// No description provided for @studyPlannerStatusEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get studyPlannerStatusEdited;
+
+  /// No description provided for @studyPlannerStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get studyPlannerStatusSkipped;
+
+  /// No description provided for @studyPlannerDaySemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'{weekday} {date}, {load} day, event: {event}, status: {status}'**
+  String studyPlannerDaySemantic(
+      String weekday, String date, String load, String event, String status);
+
+  /// No description provided for @studyPlannerDaySemanticNoEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'{weekday} {date}, {load} day, status: {status}'**
+  String studyPlannerDaySemanticNoEvent(
+      String weekday, String date, String load, String status);
+
+  /// No description provided for @studyPlannerSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why this suggestion?'**
+  String get studyPlannerSheetTitle;
+
+  /// No description provided for @studyPlannerSuggestedLoadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested load: {load}'**
+  String studyPlannerSuggestedLoadLabel(String load);
+
+  /// No description provided for @studyPlannerAcceptButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get studyPlannerAcceptButton;
+
+  /// No description provided for @studyPlannerChangeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get studyPlannerChangeButton;
+
+  /// No description provided for @studyPlannerSkipButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get studyPlannerSkipButton;
+
+  /// No description provided for @studyPlannerChangeDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Study Load'**
+  String get studyPlannerChangeDialogTitle;
+
+  /// No description provided for @studyPlannerChangeDialogPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose any pace that fits your day:'**
+  String get studyPlannerChangeDialogPrompt;
+
+  /// No description provided for @studyPlannerDayUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Day updated'**
+  String get studyPlannerDayUpdated;
+
+  /// No description provided for @studyPlannerDayAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Day accepted'**
+  String get studyPlannerDayAccepted;
+
+  /// No description provided for @studyPlannerDaySkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Day skipped'**
+  String get studyPlannerDaySkipped;
+
+  /// No description provided for @studyPlannerBreakActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Break activity'**
+  String get studyPlannerBreakActivity;
+
+  /// No description provided for @studyPlannerMenuReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace this week\'s plan'**
+  String get studyPlannerMenuReplace;
+
+  /// No description provided for @studyPlannerMenuDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this plan'**
+  String get studyPlannerMenuDelete;
+
+  /// No description provided for @studyPlannerMenuSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Planner settings'**
+  String get studyPlannerMenuSettings;
+
+  /// No description provided for @studyPlannerReplaceDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace Plan'**
+  String get studyPlannerReplaceDialogTitle;
+
+  /// No description provided for @studyPlannerReplaceDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to replace this week\'s plan with a new one? Any changes you made will be refreshed.'**
+  String get studyPlannerReplaceDialogBody;
+
+  /// No description provided for @studyPlannerReplaceConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace plan'**
+  String get studyPlannerReplaceConfirm;
+
+  /// No description provided for @studyPlannerDeleteDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Plan'**
+  String get studyPlannerDeleteDialogTitle;
+
+  /// No description provided for @studyPlannerDeleteDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this week\'s plan? You can create a new one anytime.'**
+  String get studyPlannerDeleteDialogBody;
+
+  /// No description provided for @studyPlannerDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete plan'**
+  String get studyPlannerDeleteConfirm;
+
+  /// No description provided for @studyPlannerPlanExistsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A plan already exists for this week. Would you like to replace it?'**
+  String get studyPlannerPlanExistsMessage;
+
+  /// No description provided for @studyPlannerCycleTrackingRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle tracking is needed to use cycle records in study planning. You can turn on CycleCare anytime.'**
+  String get studyPlannerCycleTrackingRequired;
+
+  /// No description provided for @studyPlannerOpenCycleCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Open CycleCare'**
+  String get studyPlannerOpenCycleCare;
+
+  /// No description provided for @studyPlannerUsesPeriodLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses your period logs'**
+  String get studyPlannerUsesPeriodLogs;
+
+  /// No description provided for @studyPlannerSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Study Planner Settings'**
+  String get studyPlannerSettingsTitle;
+
+  /// No description provided for @studyPlannerConsentSwitchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my period logs to shape my plan'**
+  String get studyPlannerConsentSwitchTitle;
+
+  /// No description provided for @studyPlannerConsentSwitchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional pacing suggestions based on your recorded period days and energy check-ins.'**
+  String get studyPlannerConsentSwitchSubtitle;
+
+  /// No description provided for @studyPlannerCycleTrackingDisabledNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle tracking is currently off. Turn on CycleCare to enable this option.'**
+  String get studyPlannerCycleTrackingDisabledNotice;
+
+  /// No description provided for @studyPlannerConsentDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Period Logs for Study Planning?'**
+  String get studyPlannerConsentDialogTitle;
+
+  /// No description provided for @studyPlannerConsentDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We can use your recorded period days and your own energy check-ins to suggest gentler study pacing. Estimates and predicted dates are never used. Your data never leaves BloomWell and no AI has access to it. This is completely optional and can be turned off at any time. Turning this off will delete any plans that used your period logs.'**
+  String get studyPlannerConsentDialogBody;
+
+  /// No description provided for @studyPlannerConsentDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand & allow'**
+  String get studyPlannerConsentDialogConfirm;
+
+  /// No description provided for @studyPlannerConsentDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get studyPlannerConsentDialogCancel;
+
+  /// No description provided for @studyPlannerRevokeDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Off Period Log Access?'**
+  String get studyPlannerRevokeDialogTitle;
+
+  /// No description provided for @studyPlannerRevokeDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning this off will delete all study plans that used your period logs. Are you sure you want to turn it off?'**
+  String get studyPlannerRevokeDialogBody;
+
+  /// No description provided for @studyPlannerRevokeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off & delete plans'**
+  String get studyPlannerRevokeConfirm;
+
+  /// No description provided for @studyPlannerRevokeResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Period log access turned off. {count, plural, =1{1 plan deleted.} other{{count} plans deleted.}}'**
+  String studyPlannerRevokeResult(int count);
+
+  /// No description provided for @studyPlannerReasonNotEnoughHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'We need a little more of your own check-in history to personalize this.'**
+  String get studyPlannerReasonNotEnoughHistory;
+
+  /// No description provided for @studyPlannerReasonDefaultPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a simple starting plan.'**
+  String get studyPlannerReasonDefaultPlan;
+
+  /// No description provided for @studyPlannerReasonWeekdayEnergyHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve often logged higher energy on this day of the week.'**
+  String get studyPlannerReasonWeekdayEnergyHigher;
+
+  /// No description provided for @studyPlannerReasonWeekdayEnergyLower.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve often logged lower energy on this day of the week.'**
+  String get studyPlannerReasonWeekdayEnergyLower;
+
+  /// No description provided for @studyPlannerReasonCyclePeriodLowEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'You allowed us to use your period logs, and you\'ve logged lower energy on period days.'**
+  String get studyPlannerReasonCyclePeriodLowEnergy;
+
+  /// No description provided for @studyPlannerReasonEventPrep.
+  ///
+  /// In en, this message translates to:
+  /// **'A little steady prep before your {event}.'**
+  String studyPlannerReasonEventPrep(String event);
+
+  /// No description provided for @studyPlannerReasonEventDay.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s your {event} day.'**
+  String studyPlannerReasonEventDay(String event);
+
+  /// No description provided for @studyPlannerReasonKeepOptionPreserved.
+  ///
+  /// In en, this message translates to:
+  /// **'We kept a regular option here so you aren\'t over-resting before your {event}.'**
+  String studyPlannerReasonKeepOptionPreserved(String event);
+
+  /// No description provided for @studyPlannerReasonNeutralFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'A suggestion based on your plan.'**
+  String get studyPlannerReasonNeutralFallback;
+
+  /// No description provided for @insightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Observations'**
+  String get insightsTitle;
+
+  /// No description provided for @insightsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle patterns based on what you share with BloomWell.'**
+  String get insightsSubtitle;
+
+  /// No description provided for @insightsDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This is an observation, not a cause.'**
+  String get insightsDisclaimer;
+
+  /// No description provided for @insightsWeeklyHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'This Week\'s Observations'**
+  String get insightsWeeklyHeading;
+
+  /// No description provided for @insightsExamHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Before Academic Events'**
+  String get insightsExamHeading;
+
+  /// No description provided for @insightsMetricMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get insightsMetricMood;
+
+  /// No description provided for @insightsMetricStress.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress'**
+  String get insightsMetricStress;
+
+  /// No description provided for @insightsMetricEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get insightsMetricEnergy;
+
+  /// No description provided for @insightsMetricSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get insightsMetricSleep;
+
+  /// No description provided for @insightsMoodHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your mood check-ins were a bit higher than your usual.'**
+  String get insightsMoodHigher;
+
+  /// No description provided for @insightsMoodLower.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your mood check-ins were a bit lower than your usual.'**
+  String get insightsMoodLower;
+
+  /// No description provided for @insightsMoodSimilar.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your mood check-ins were similar to your usual.'**
+  String get insightsMoodSimilar;
+
+  /// No description provided for @insightsStressHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your stress check-ins were a bit higher than your usual.'**
+  String get insightsStressHigher;
+
+  /// No description provided for @insightsStressLower.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your stress check-ins were a bit lower than your usual.'**
+  String get insightsStressLower;
+
+  /// No description provided for @insightsStressSimilar.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your stress check-ins were similar to your usual.'**
+  String get insightsStressSimilar;
+
+  /// No description provided for @insightsEnergyHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your energy check-ins were a bit higher than your usual.'**
+  String get insightsEnergyHigher;
+
+  /// No description provided for @insightsEnergyLower.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your energy check-ins were a bit lower than your usual.'**
+  String get insightsEnergyLower;
+
+  /// No description provided for @insightsEnergySimilar.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your energy check-ins were similar to your usual.'**
+  String get insightsEnergySimilar;
+
+  /// No description provided for @insightsSleepHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your sleep check-ins were a bit higher than your usual.'**
+  String get insightsSleepHigher;
+
+  /// No description provided for @insightsSleepLower.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your sleep check-ins were a bit lower than your usual.'**
+  String get insightsSleepLower;
+
+  /// No description provided for @insightsSleepSimilar.
+  ///
+  /// In en, this message translates to:
+  /// **'This week, your sleep check-ins were similar to your usual.'**
+  String get insightsSleepSimilar;
+
+  /// No description provided for @insightsWeeklySampleSizes.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {weekDays} check-in {weekDays, plural, =1{day} other{days}} this week and {baselineDays} baseline {baselineDays, plural, =1{day} other{days}}.'**
+  String insightsWeeklySampleSizes(int weekDays, int baselineDays);
+
+  /// No description provided for @insightsWeeklyNotEnoughData.
+  ///
+  /// In en, this message translates to:
+  /// **'We need check-ins on at least {neededWeek} more {neededWeek, plural, =1{day} other{days}} this week and {neededBaseline} more baseline {neededBaseline, plural, =1{day} other{days}} to share weekly observations.'**
+  String insightsWeeklyNotEnoughData(int neededWeek, int neededBaseline);
+
+  /// No description provided for @insightsExamStressHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your exams, your stress check-ins were a bit higher than your usual.'**
+  String get insightsExamStressHigher;
+
+  /// No description provided for @insightsExamStressLower.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your exams, your stress check-ins were a bit lower than your usual.'**
+  String get insightsExamStressLower;
+
+  /// No description provided for @insightsExamStressSimilar.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your exams, your stress check-ins were similar to your usual.'**
+  String get insightsExamStressSimilar;
+
+  /// No description provided for @insightsExamEnergyHigher.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your exams, your energy check-ins were a bit higher than your usual.'**
+  String get insightsExamEnergyHigher;
+
+  /// No description provided for @insightsExamEnergyLower.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your exams, your energy check-ins were a bit lower than your usual.'**
+  String get insightsExamEnergyLower;
+
+  /// No description provided for @insightsExamEnergySimilar.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your exams, your energy check-ins were similar to your usual.'**
+  String get insightsExamEnergySimilar;
+
+  /// No description provided for @insightsExamSampleSizes.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {eventsCount} qualifying {eventsCount, plural, =1{event} other{events}} with {preDays} pre-event {preDays, plural, =1{day} other{days}} and {baselineDays} baseline {baselineDays, plural, =1{day} other{days}}.'**
+  String insightsExamSampleSizes(
+      int eventsCount, int preDays, int baselineDays);
+
+  /// No description provided for @insightsExamNotEnoughData.
+  ///
+  /// In en, this message translates to:
+  /// **'We need at least 2 events with 3 check-in days each in their preparation window to share exam observations.'**
+  String get insightsExamNotEnoughData;
+
+  /// No description provided for @myMoodObservationsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'View Observations'**
+  String get myMoodObservationsButton;
+
+  /// No description provided for @privacyCenterStudyPlannerSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Study Planner Settings'**
+  String get privacyCenterStudyPlannerSettings;
+
+  /// No description provided for @privacyCenterStudyPlannerSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage period log access for study suggestions'**
+  String get privacyCenterStudyPlannerSettingsSubtitle;
 }
 
 class _AppLocalizationsDelegate

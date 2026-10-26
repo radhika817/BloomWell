@@ -1521,4 +1521,413 @@ class AppLocalizationsEn extends AppLocalizations {
   String examsDaysAgo(int days) {
     return '$days days ago';
   }
+
+  @override
+  String get studyPlannerTitle => 'Study Planner';
+
+  @override
+  String get studyPlannerSubtitle =>
+      'Gentle, balanced study rhythms based on your check-ins and milestones.';
+
+  @override
+  String get studyPlannerIntroText =>
+      'Suggestions based only on what you tell us. You can change any of it.';
+
+  @override
+  String get studyPlannerNoCycleNote =>
+      'The planner works fully without period data using your check-ins alone.';
+
+  @override
+  String get studyPlannerMakeMyWeek => 'Make my week';
+
+  @override
+  String get studyPlannerNextWeek => 'Plan next week';
+
+  @override
+  String get studyPlannerCurrentWeek => 'This week';
+
+  @override
+  String get studyPlannerWeekPicker => 'Choose week';
+
+  @override
+  String studyPlannerDefaultBanner(int days) {
+    return 'This week\'s plan is a simple starting point. Personalized suggestions appear after about 14 days of check-ins (you have $days).';
+  }
+
+  @override
+  String studyPlannerPersonalizedBanner(int days) {
+    return 'Based on $days days of your check-ins.';
+  }
+
+  @override
+  String get studyPlannerLoadLight => 'Light';
+
+  @override
+  String get studyPlannerLoadNormal => 'Normal';
+
+  @override
+  String get studyPlannerLoadFocus => 'Focus';
+
+  @override
+  String get studyPlannerStatusSuggested => 'Suggested';
+
+  @override
+  String get studyPlannerStatusAccepted => 'Accepted';
+
+  @override
+  String get studyPlannerStatusEdited => 'Edited';
+
+  @override
+  String get studyPlannerStatusSkipped => 'Skipped';
+
+  @override
+  String studyPlannerDaySemantic(
+      String weekday, String date, String load, String event, String status) {
+    return '$weekday $date, $load day, event: $event, status: $status';
+  }
+
+  @override
+  String studyPlannerDaySemanticNoEvent(
+      String weekday, String date, String load, String status) {
+    return '$weekday $date, $load day, status: $status';
+  }
+
+  @override
+  String get studyPlannerSheetTitle => 'Why this suggestion?';
+
+  @override
+  String studyPlannerSuggestedLoadLabel(String load) {
+    return 'Suggested load: $load';
+  }
+
+  @override
+  String get studyPlannerAcceptButton => 'Accept';
+
+  @override
+  String get studyPlannerChangeButton => 'Change';
+
+  @override
+  String get studyPlannerSkipButton => 'Skip';
+
+  @override
+  String get studyPlannerChangeDialogTitle => 'Change Study Load';
+
+  @override
+  String get studyPlannerChangeDialogPrompt =>
+      'Choose any pace that fits your day:';
+
+  @override
+  String get studyPlannerDayUpdated => 'Day updated';
+
+  @override
+  String get studyPlannerDayAccepted => 'Day accepted';
+
+  @override
+  String get studyPlannerDaySkipped => 'Day skipped';
+
+  @override
+  String get studyPlannerBreakActivity => 'Break activity';
+
+  @override
+  String get studyPlannerMenuReplace => 'Replace this week\'s plan';
+
+  @override
+  String get studyPlannerMenuDelete => 'Delete this plan';
+
+  @override
+  String get studyPlannerMenuSettings => 'Planner settings';
+
+  @override
+  String get studyPlannerReplaceDialogTitle => 'Replace Plan';
+
+  @override
+  String get studyPlannerReplaceDialogBody =>
+      'Would you like to replace this week\'s plan with a new one? Any changes you made will be refreshed.';
+
+  @override
+  String get studyPlannerReplaceConfirm => 'Replace plan';
+
+  @override
+  String get studyPlannerDeleteDialogTitle => 'Delete Plan';
+
+  @override
+  String get studyPlannerDeleteDialogBody =>
+      'Are you sure you want to delete this week\'s plan? You can create a new one anytime.';
+
+  @override
+  String get studyPlannerDeleteConfirm => 'Delete plan';
+
+  @override
+  String get studyPlannerPlanExistsMessage =>
+      'A plan already exists for this week. Would you like to replace it?';
+
+  @override
+  String get studyPlannerCycleTrackingRequired =>
+      'Cycle tracking is needed to use cycle records in study planning. You can turn on CycleCare anytime.';
+
+  @override
+  String get studyPlannerOpenCycleCare => 'Open CycleCare';
+
+  @override
+  String get studyPlannerUsesPeriodLogs => 'Uses your period logs';
+
+  @override
+  String get studyPlannerSettingsTitle => 'Study Planner Settings';
+
+  @override
+  String get studyPlannerConsentSwitchTitle =>
+      'Use my period logs to shape my plan';
+
+  @override
+  String get studyPlannerConsentSwitchSubtitle =>
+      'Optional pacing suggestions based on your recorded period days and energy check-ins.';
+
+  @override
+  String get studyPlannerCycleTrackingDisabledNotice =>
+      'Cycle tracking is currently off. Turn on CycleCare to enable this option.';
+
+  @override
+  String get studyPlannerConsentDialogTitle =>
+      'Use Period Logs for Study Planning?';
+
+  @override
+  String get studyPlannerConsentDialogBody =>
+      'We can use your recorded period days and your own energy check-ins to suggest gentler study pacing. Estimates and predicted dates are never used. Your data never leaves BloomWell and no AI has access to it. This is completely optional and can be turned off at any time. Turning this off will delete any plans that used your period logs.';
+
+  @override
+  String get studyPlannerConsentDialogConfirm => 'I understand & allow';
+
+  @override
+  String get studyPlannerConsentDialogCancel => 'Not now';
+
+  @override
+  String get studyPlannerRevokeDialogTitle => 'Turn Off Period Log Access?';
+
+  @override
+  String get studyPlannerRevokeDialogBody =>
+      'Turning this off will delete all study plans that used your period logs. Are you sure you want to turn it off?';
+
+  @override
+  String get studyPlannerRevokeConfirm => 'Turn off & delete plans';
+
+  @override
+  String studyPlannerRevokeResult(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plans deleted.',
+      one: '1 plan deleted.',
+    );
+    return 'Period log access turned off. $_temp0';
+  }
+
+  @override
+  String get studyPlannerReasonNotEnoughHistory =>
+      'We need a little more of your own check-in history to personalize this.';
+
+  @override
+  String get studyPlannerReasonDefaultPlan => 'This is a simple starting plan.';
+
+  @override
+  String get studyPlannerReasonWeekdayEnergyHigher =>
+      'You\'ve often logged higher energy on this day of the week.';
+
+  @override
+  String get studyPlannerReasonWeekdayEnergyLower =>
+      'You\'ve often logged lower energy on this day of the week.';
+
+  @override
+  String get studyPlannerReasonCyclePeriodLowEnergy =>
+      'You allowed us to use your period logs, and you\'ve logged lower energy on period days.';
+
+  @override
+  String studyPlannerReasonEventPrep(String event) {
+    return 'A little steady prep before your $event.';
+  }
+
+  @override
+  String studyPlannerReasonEventDay(String event) {
+    return 'It\'s your $event day.';
+  }
+
+  @override
+  String studyPlannerReasonKeepOptionPreserved(String event) {
+    return 'We kept a regular option here so you aren\'t over-resting before your $event.';
+  }
+
+  @override
+  String get studyPlannerReasonNeutralFallback =>
+      'A suggestion based on your plan.';
+
+  @override
+  String get insightsTitle => 'Personal Observations';
+
+  @override
+  String get insightsSubtitle =>
+      'Gentle patterns based on what you share with BloomWell.';
+
+  @override
+  String get insightsDisclaimer => 'This is an observation, not a cause.';
+
+  @override
+  String get insightsWeeklyHeading => 'This Week\'s Observations';
+
+  @override
+  String get insightsExamHeading => 'Before Academic Events';
+
+  @override
+  String get insightsMetricMood => 'Mood';
+
+  @override
+  String get insightsMetricStress => 'Stress';
+
+  @override
+  String get insightsMetricEnergy => 'Energy';
+
+  @override
+  String get insightsMetricSleep => 'Sleep';
+
+  @override
+  String get insightsMoodHigher =>
+      'This week, your mood check-ins were a bit higher than your usual.';
+
+  @override
+  String get insightsMoodLower =>
+      'This week, your mood check-ins were a bit lower than your usual.';
+
+  @override
+  String get insightsMoodSimilar =>
+      'This week, your mood check-ins were similar to your usual.';
+
+  @override
+  String get insightsStressHigher =>
+      'This week, your stress check-ins were a bit higher than your usual.';
+
+  @override
+  String get insightsStressLower =>
+      'This week, your stress check-ins were a bit lower than your usual.';
+
+  @override
+  String get insightsStressSimilar =>
+      'This week, your stress check-ins were similar to your usual.';
+
+  @override
+  String get insightsEnergyHigher =>
+      'This week, your energy check-ins were a bit higher than your usual.';
+
+  @override
+  String get insightsEnergyLower =>
+      'This week, your energy check-ins were a bit lower than your usual.';
+
+  @override
+  String get insightsEnergySimilar =>
+      'This week, your energy check-ins were similar to your usual.';
+
+  @override
+  String get insightsSleepHigher =>
+      'This week, your sleep check-ins were a bit higher than your usual.';
+
+  @override
+  String get insightsSleepLower =>
+      'This week, your sleep check-ins were a bit lower than your usual.';
+
+  @override
+  String get insightsSleepSimilar =>
+      'This week, your sleep check-ins were similar to your usual.';
+
+  @override
+  String insightsWeeklySampleSizes(int weekDays, int baselineDays) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weekDays,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      baselineDays,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    return 'Based on $weekDays check-in $_temp0 this week and $baselineDays baseline $_temp1.';
+  }
+
+  @override
+  String insightsWeeklyNotEnoughData(int neededWeek, int neededBaseline) {
+    String _temp0 = intl.Intl.pluralLogic(
+      neededWeek,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      neededBaseline,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    return 'We need check-ins on at least $neededWeek more $_temp0 this week and $neededBaseline more baseline $_temp1 to share weekly observations.';
+  }
+
+  @override
+  String get insightsExamStressHigher =>
+      'Before your exams, your stress check-ins were a bit higher than your usual.';
+
+  @override
+  String get insightsExamStressLower =>
+      'Before your exams, your stress check-ins were a bit lower than your usual.';
+
+  @override
+  String get insightsExamStressSimilar =>
+      'Before your exams, your stress check-ins were similar to your usual.';
+
+  @override
+  String get insightsExamEnergyHigher =>
+      'Before your exams, your energy check-ins were a bit higher than your usual.';
+
+  @override
+  String get insightsExamEnergyLower =>
+      'Before your exams, your energy check-ins were a bit lower than your usual.';
+
+  @override
+  String get insightsExamEnergySimilar =>
+      'Before your exams, your energy check-ins were similar to your usual.';
+
+  @override
+  String insightsExamSampleSizes(
+      int eventsCount, int preDays, int baselineDays) {
+    String _temp0 = intl.Intl.pluralLogic(
+      eventsCount,
+      locale: localeName,
+      other: 'events',
+      one: 'event',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      preDays,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    String _temp2 = intl.Intl.pluralLogic(
+      baselineDays,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    return 'Based on $eventsCount qualifying $_temp0 with $preDays pre-event $_temp1 and $baselineDays baseline $_temp2.';
+  }
+
+  @override
+  String get insightsExamNotEnoughData =>
+      'We need at least 2 events with 3 check-in days each in their preparation window to share exam observations.';
+
+  @override
+  String get myMoodObservationsButton => 'View Observations';
+
+  @override
+  String get privacyCenterStudyPlannerSettings => 'Study Planner Settings';
+
+  @override
+  String get privacyCenterStudyPlannerSettingsSubtitle =>
+      'Manage period log access for study suggestions';
 }
