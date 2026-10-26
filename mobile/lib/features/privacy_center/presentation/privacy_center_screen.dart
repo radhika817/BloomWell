@@ -481,6 +481,52 @@ class _PrivacyCenterScreenState extends ConsumerState<PrivacyCenterScreen> {
                         ],
                       ),
                     ),
+                    // Section: Study Planner Settings
+                    Text(
+                      l10n?.privacyCenterStudyPlannerSettings ??
+                          'Study Planner Privacy',
+                      style: AppTypography.titleSmall.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.deepPurple,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    GlassCard(
+                      padding: const EdgeInsets.all(16),
+                      onTap: () => context.push('/study-planner/settings'),
+                      child: Row(
+                        children: [
+                          const Text('📚', style: TextStyle(fontSize: 22)),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n?.privacyCenterStudyPlannerSettings ??
+                                      'Study Planner Settings',
+                                  style: AppTypography.bodyMedium
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  l10n?.privacyCenterStudyPlannerSettingsSubtitle ??
+                                      'Manage period log access for study suggestions',
+                                  style: AppTypography.bodySmall.copyWith(
+                                    color: AppColors.secondaryText,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 16,
+                            color: AppColors.mutedText,
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 24),
 
                     // Section 4: Coming Soon Section
