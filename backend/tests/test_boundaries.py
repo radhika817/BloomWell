@@ -16,14 +16,21 @@ def test_moderation_and_community_import_boundaries():
     forbidden_symbols = {
         "CheckinRepository",
         "JournalRepository",
+        "StudyPlanRepository",
         "MoodCheckin",
         "JournalEntry",
+        "StudyPlan",
+        "StudyPlanItem",
+        "CycleLog",
     }
     forbidden_modules = {
         "app.repositories.checkin_repository",
         "app.repositories.journal_repository",
+        "app.repositories.study_plan_repository",
         "app.models.checkin",
         "app.models.journal",
+        "app.models.study_plan",
+        "app.models.cycle",
     }
 
     # Find all moderation and community related files
@@ -60,9 +67,10 @@ def test_private_repositories_require_user_id_scoping():
     """
     from app.repositories.checkin_repository import CheckinRepository
     from app.repositories.journal_repository import JournalRepository
+    from app.repositories.study_plan_repository import StudyPlanRepository
     import inspect
 
-    for repo_cls in [CheckinRepository, JournalRepository]:
+    for repo_cls in [CheckinRepository, JournalRepository, StudyPlanRepository]:
         methods = [
             m for m in inspect.getmembers(repo_cls, predicate=inspect.isfunction)
             if not m[0].startswith("_")

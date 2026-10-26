@@ -11,12 +11,21 @@ SENSITIVE_KEYWORDS: Set[str] = {
     "notes",
     "email",
     "authorization",
+    "reason_codes",
+    "period_start",
+    "period_end",
+    "mood_score",
+    "stress_score",
+    "energy_score",
+    "sleep_quality_score",
+    "cycle",
+    "symptom",
 }
 
 # Regex to catch sensitive key-value pairs or tokens in raw text strings
 BEARER_PATTERN = re.compile(r"(Bearer\s+)[A-Za-z0-9\-_.~+/]+=*", re.IGNORECASE)
 KEY_VALUE_PATTERN = re.compile(
-    r"(?i)\b(password|token|journal|body|notes|email|authorization)\b\s*[:=]\s*['\"]?([^'\",\s]+)['\"]?"
+    r"(?i)\b(password|token|journal|body|notes|email|authorization|reason_codes|period_start|period_end|mood_score|stress_score|energy_score|sleep_quality_score|cycle|symptom)\b\s*[:=]\s*['\"]?([^'\",\s]+)['\"]?"
 )
 
 
