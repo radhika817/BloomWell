@@ -10,6 +10,9 @@ if TYPE_CHECKING:
     from app.models.token import RefreshToken
     from app.models.checkin import MoodCheckin
     from app.models.journal import JournalEntry
+    from app.models.academic_event import AcademicEvent
+    from app.models.cycle import CycleLog
+    from app.models.activity import UserActivityLog
 
 
 class User(Base, TimestampMixin):
@@ -65,6 +68,21 @@ class User(Base, TimestampMixin):
     )
     journal_entries: Mapped[List["JournalEntry"]] = relationship(
         "JournalEntry",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    academic_events: Mapped[List["AcademicEvent"]] = relationship(
+        "AcademicEvent",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    cycle_logs: Mapped[List["CycleLog"]] = relationship(
+        "CycleLog",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    activity_logs: Mapped[List["UserActivityLog"]] = relationship(
+        "UserActivityLog",
         back_populates="user",
         cascade="all, delete-orphan",
     )

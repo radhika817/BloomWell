@@ -44,6 +44,15 @@ class UserPreference(Base, TimestampMixin):
         default=False,
         nullable=False,
     )
+    cycle_tracking_enabled: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False,
+    )
+    cycle_tracking_consent_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
     journal_ai_consent_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True),
         nullable=True,
