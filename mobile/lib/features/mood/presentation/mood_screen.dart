@@ -114,6 +114,27 @@ class MoodScreen extends StatelessWidget {
                             isExpanded: true,
                             onPressed: () => context.go('/'),
                           ),
+                          const SizedBox(height: 12.0),
+                          OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 46.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              side: const BorderSide(
+                                  color: AppColors.borderSubtle),
+                            ),
+                            icon: const Icon(Icons.insights_rounded,
+                                size: 18, color: AppColors.deepPurple),
+                            label: Text(
+                              l10n?.insightsTitle ?? 'Personal Observations',
+                              style: AppTypography.labelLarge.copyWith(
+                                color: AppColors.deepPurple,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            onPressed: () => context.push('/insights'),
+                          ),
                         ],
                       ),
                     ),

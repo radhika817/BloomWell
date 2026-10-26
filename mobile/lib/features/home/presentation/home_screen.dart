@@ -728,28 +728,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          l10n?.planStudyWeekTitle ?? 'Plan my study week 📚',
-                          style: AppTypography.titleSmall.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      DecorativeBadge(
-                        label: l10n?.comingSoonBadge ?? 'Coming soon',
-                        backgroundColor: Colors.white,
-                        textColor: AppColors.deepPurple,
-                        borderColor: AppColors.borderSubtle,
-                      ),
-                    ],
+                  Text(
+                    l10n?.planStudyWeekTitle ?? 'Plan my study week 📚',
+                    style: AppTypography.titleSmall.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    l10n?.planStudyWeekSubtitle ??
-                        'Cycle-aware, exam-aware suggestions to pace your study and rest.',
+                    'Gentle suggestions to pace your study and rest.',
                     style: AppTypography.bodySmall.copyWith(
                       color: AppColors.secondaryText,
                       height: 1.35,

@@ -6,7 +6,6 @@ import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/bloom_background.dart';
 import '../../../../core/widgets/bloom_button.dart';
-import '../../../../core/widgets/decorative_badge.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../../../core/widgets/pill_chip.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -131,6 +130,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                         horizontal: AppSpacing.md,
                         vertical: AppSpacing.sm,
                       ),
+                      onTap: () => context.push('/study-planner'),
                       child: Row(
                         children: [
                           const Icon(
@@ -150,12 +150,10 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                             ),
                           ),
                           const SizedBox(width: AppSpacing.xs),
-                          DecorativeBadge(
-                            label:
-                                l10n?.examsPlannerComingSoon ?? 'Coming soon',
-                            backgroundColor:
-                                AppColors.lavender.withValues(alpha: 0.6),
-                            textColor: AppColors.deepPurple,
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 16,
+                            color: AppColors.mutedText,
                           ),
                         ],
                       ),

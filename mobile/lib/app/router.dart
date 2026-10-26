@@ -17,6 +17,7 @@ import '../features/self_care/presentation/screens/activity_history_screen.dart'
 import '../features/self_care/presentation/screens/self_care_studio_screen.dart';
 import '../features/study_planner/presentation/study_planner_screen.dart';
 import '../features/study_planner/presentation/planner_settings_screen.dart';
+import '../features/insights/presentation/insights_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
 import '../features/welcome/presentation/welcome_screen.dart';
@@ -230,6 +231,12 @@ final GoRouter appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) =>
           const PlannerSettingsScreen(),
+    ),
+    GoRoute(
+      path: '/insights',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const InsightsScreen(),
     ),
     GoRoute(
       path: '/help',
