@@ -393,3 +393,249 @@ Permanently deletes the journal entry.
 - **Success Response:** `204 No Content`.
 - **Error Response (404 Not Found):** If non-existent or owned by another user.
 
+---
+
+### 10. Cycle Tracking & Study Planner Consent
+
+#### `GET /v1/me/planner-cycle-consent`
+Retrieves whether the caller has consented to using cycle records in the Study Planner.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):**
+  ```json
+  {
+    "enabled": false,
+    "consent_recorded_at": null,
+    "deleted_cycle_plans_count": 0
+  }
+  ```
+
+#### `PUT /v1/me/planner-cycle-consent`
+Enables or disables cycle inputs for study planning.
+- **Enabling Prerequisite:** Cycle tracking must be enabled first (`/v1/me/cycle-tracking`). If cycle tracking is off, returns HTTP 409 with code `cycle_tracking_required`.
+- **Revocation Rule:** Disabling consent transactionally deletes all study plans where `uses_cycle_data` is true in the same transaction, returning deleted counts only.
+- **Request Body:**
+  ```json
+  {
+    "enabled": true
+  }
+  ```
+- **Success Response (200 OK):**
+  ```json
+  {
+    "enabled": true,
+    "consent_recorded_at": "2026-10-26T10:00:00Z",
+    "deleted_cycle_plans_count": 0
+  }
+  ```
+- **Conflict Error (409 Conflict):**
+  ```json
+  {
+    "code": "cycle_tracking_required",
+    "message": "Cycle tracking must be enabled before planner cycle consent can be granted.",
+    "details": null,
+    "request_id": "..."
+  }
+  ```
+
+#### `GET /v1/me/cycle-tracking`
+Retrieves cycle tracking consent and status.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):**
+  ```json
+  {
+    "cycle_tracking_enabled": true,
+    "consent_recorded_at": "2026-10-26T09:30:00Z",
+    "deleted_cycle_plans_count": 0,
+    "deleted_cycle_records_count": 0
+  }
+  ```
+
+#### `PUT /v1/me/cycle-tracking`
+Enables or disables cycle tracking, with optional data deletion.
+- **Disabling Rule:** Turning tracking off or requesting `delete_data=true` transactionally deletes all study plans where `uses_cycle_data` is true.
+- **Request Body:**
+  ```json
+  {
+    "cycle_tracking_enabled": false,
+    "delete_data": true
+  }
+  ```
+- **Success Response (200 OK):**
+  ```json
+  {
+    "cycle_tracking_enabled": false,
+    "consent_recorded_at": null,
+    "deleted_cycle_plans_count": 1,
+    "deleted_cycle_records_count": 5
+  }
+  ```
+
+---
+
+### 11. Personal Insights
+
+#### `GET /v1/insights/weekly?week_start=YYYY-MM-DD`
+Compares daily averages for mood, stress, energy, and sleep scores for the target week against the user's prior 4 weeks.
+- **Data Threshold:** Requires check-ins on at least 4 distinct days in the week and at least 7 distinct days in the baseline 4 weeks.
+- **Observation Codes:** `HIGHER_THAN_USUAL`, `LOWER_THAN_USUAL`, `SIMILAR` (threshold +/- 0.5 points).
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Sufficient Data Response (200 OK):**
+  ```json
+  {
+    "status": "sufficient_data",
+    "week_start": "2026-10-19",
+    "metrics": {
+      "mood": {
+        "week_average": 4.0,
+        "baseline_average": 3.2,
+        "diff": 0.8,
+        "code": "HIGHER_THAN_USUAL"
+      },
+      "stress": {
+        "week_average": 2.0,
+        "baseline_average": 3.1,
+        "diff": -1.1,
+        "code": "LOWER_THAN_USUAL"
+      },
+      "energy": {
+        "week_average": 3.2,
+        "baseline_average": 3.0,
+        "diff": 0.2,
+        "code": "SIMILAR"
+      },
+      "sleep": {
+        "week_average": 3.5,
+        "baseline_average": 3.5,
+        "diff": 0.0,
+        "code": "SIMILAR"
+      }
+    },
+    "sample_sizes": {
+      "week_distinct_days": 5,
+      "baseline_distinct_days": 14
+    }
+  }
+  ```
+- **Insufficient Data Response (200 OK):**
+  ```json
+  {
+    "status": "not_enough_data",
+    "week_start": "2026-10-19",
+    "days_needed": {
+      "week": 1,
+      "baseline": 0
+    }
+  }
+  ```
+
+#### `GET /v1/insights/exam-context`
+Compares average stress and energy in the 7 days before academic events in the last 60 days against the user's baseline outside those windows.
+- **Data Threshold:** Requires at least 2 events each with at least 3 check-in days in its pre-event window.
+- **Observation Codes:** `STRESS_HIGHER_BEFORE_EVENTS`, `STRESS_LOWER_BEFORE_EVENTS`, `STRESS_SIMILAR_BEFORE_EVENTS`, `ENERGY_HIGHER_BEFORE_EVENTS`, `ENERGY_LOWER_BEFORE_EVENTS`, `ENERGY_SIMILAR_BEFORE_EVENTS`.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Sufficient Data Response (200 OK):**
+  ```json
+  {
+    "status": "sufficient_data",
+    "qualifying_events_count": 2,
+    "stress": {
+      "pre_event_average": 4.5,
+      "baseline_average": 2.8,
+      "diff": 1.7,
+      "code": "STRESS_HIGHER_BEFORE_EVENTS"
+    },
+    "energy": {
+      "pre_event_average": 2.2,
+      "baseline_average": 3.8,
+      "diff": -1.6,
+      "code": "ENERGY_LOWER_BEFORE_EVENTS"
+    },
+    "sample_sizes": {
+      "pre_event_distinct_days": 6,
+      "baseline_distinct_days": 12,
+      "qualifying_events": 2
+    }
+  }
+  ```
+
+---
+
+### 12. Study Planner
+
+#### `POST /v1/study-plans/generate`
+Generates a deterministic 7-day study plan schedule.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Request Body:**
+  ```json
+  {
+    "week_start": "2026-11-02",
+    "replace": false
+  }
+  ```
+- **Duplicate Conflict (409 Conflict):** Returns code `plan_exists` if a plan already exists for that week and `replace` is false.
+- **Success Response (201 Created):**
+  ```json
+  {
+    "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "week_start": "2026-11-02",
+    "days": 7,
+    "mode": "personalized",
+    "uses_cycle_data": false,
+    "personalization": {
+      "status": "personalized",
+      "checkin_days_used": 15,
+      "checkin_days_needed": 14
+    },
+    "items": [
+      {
+        "id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        "study_plan_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "plan_date": "2026-11-02",
+        "suggested_load": "focus",
+        "reason_codes": ["WEEKDAY_ENERGY_HIGHER"],
+        "academic_event_id": null,
+        "activity_id": "550e8400-e29b-41d4-a716-446655440000",
+        "status": "suggested",
+        "updated_at": "2026-10-26T10:00:00Z"
+      }
+    ],
+    "created_at": "2026-10-26T10:00:00Z"
+  }
+  ```
+
+#### `GET /v1/study-plans/current`
+Returns the study plan covering today's date for the caller.
+- **Headers:** `Authorization: Bearer <access_token>`
+- **Success Response (200 OK):** `StudyPlanResponse`.
+- **Error Response (404 Not Found):** If no plan covers today.
+
+#### `GET /v1/study-plans?week_start=YYYY-MM-DD`
+Retrieves the study plan for a specific week start date.
+- **Success Response (200 OK):** `StudyPlanResponse`.
+- **Error Response (404 Not Found):** If not found.
+
+#### `GET /v1/study-plans/{id}`
+Retrieves a specific study plan by ID strictly owned by the caller.
+- **Cross-Account Security (404 Not Found):** Returns 404 (never 403) if owned by another user.
+
+#### `DELETE /v1/study-plans/{id}`
+Permanently deletes a study plan owned by the caller.
+- **Success Response:** `204 No Content`.
+- **Cross-Account Security (404 Not Found):** Returns 404 (never 403) if owned by another user.
+
+#### `PATCH /v1/study-plans/items/{id}`
+Updates an item's user decision status (`accepted`, `edited`, `skipped`).
+- **Load Modification Rule:** `suggested_load` (`light`, `normal`, `focus`) is permitted strictly when `status == "edited"`.
+- **No Penalty on Skipping:** Skipping any item is supported with zero penalties.
+- **Request Body:**
+  ```json
+  {
+    "status": "edited",
+    "suggested_load": "focus"
+  }
+  ```
+- **Success Response (200 OK):** `StudyPlanItemResponse`.
+- **Validation Error (422 Unprocessable Entity):** If `suggested_load` is provided when `status != "edited"` or unknown fields are sent.
+- **Cross-Account Security (404 Not Found):** Returns 404 if owned by another user.
+
+
