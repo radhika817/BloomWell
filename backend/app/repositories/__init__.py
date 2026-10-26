@@ -10,6 +10,7 @@ Architectural Rules (docs/architecture.md Section 5):
 from app.repositories.checkin_repository import CheckinRepository
 from app.repositories.journal_repository import JournalRepository
 from app.repositories.refresh_token_repository import RefreshTokenRepository
+from app.repositories.study_plan_repository import StudyPlanRepository
 from app.repositories.user_repository import UserRepository
 
 __all__ = [
@@ -17,4 +18,6 @@ __all__ = [
     "RefreshTokenRepository",
     "CheckinRepository",
     "JournalRepository",
+    "StudyPlanRepository",
 ]
+
