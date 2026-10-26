@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from app.models.academic_event import AcademicEvent
     from app.models.cycle import CycleLog
     from app.models.activity import UserActivityLog
+    from app.models.study_plan import StudyPlan
 
 
 class User(Base, TimestampMixin):
@@ -83,6 +84,11 @@ class User(Base, TimestampMixin):
     )
     activity_logs: Mapped[List["UserActivityLog"]] = relationship(
         "UserActivityLog",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    study_plans: Mapped[List["StudyPlan"]] = relationship(
+        "StudyPlan",
         back_populates="user",
         cascade="all, delete-orphan",
     )
