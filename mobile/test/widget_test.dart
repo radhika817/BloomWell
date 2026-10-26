@@ -121,7 +121,7 @@ void main() {
     expect(find.text('Hey, lovely! 🌷'), findsOneWidget);
   });
 
-  testWidgets('GoRouter navigation to Study Planner placeholder',
+  testWidgets('GoRouter navigation to Study Planner',
       (WidgetTester tester) async {
     await tester.pumpWidget(createTestWidget());
     await tester.pumpAndSettle();
@@ -131,13 +131,11 @@ void main() {
     await tester.tap(find.text('Plan my study week 📚'));
     await tester.pumpAndSettle();
 
-    // Verify Study Planner placeholder appears
+    // Verify Study Planner appears
     expect(find.text('Study Planner'), findsWidgets);
-    expect(find.text('Coming in a later update'), findsOneWidget);
 
     // Return to Home
-    await tester.ensureVisible(find.text('Back to Home'));
-    await tester.tap(find.text('Back to Home'));
+    await tester.tap(find.byIcon(Icons.arrow_back_ios_new_rounded));
     await tester.pumpAndSettle();
 
     expect(find.text('Hey, lovely! 🌷'), findsOneWidget);

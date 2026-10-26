@@ -139,7 +139,8 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(find.text('Study planner coming soon'), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_forward_ios_rounded), findsWidgets);
+      expect(find.text('Study planner coming soon'), findsNothing);
 
       // Verify Upcoming event is displayed with neutral pacing
       expect(find.text('Cell Biology Midterm'), findsOneWidget);
