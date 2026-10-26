@@ -102,3 +102,34 @@ class CycleTrackingDisabledException extends ApiException {
     super.statusCode = 403,
   });
 }
+
+/// Thrown when a study plan already exists for the week and replace is false (HTTP 409).
+class PlanExistsException extends ApiException {
+  const PlanExistsException({
+    super.message = 'A study plan already exists for this week.',
+    super.code = 'plan_exists',
+    super.requestId,
+    super.statusCode = 409,
+  });
+}
+
+/// Thrown when planner cycle consent requires cycle tracking to be enabled (HTTP 409).
+class CycleTrackingRequiredException extends ApiException {
+  const CycleTrackingRequiredException({
+    super.message =
+        'Cycle tracking must be enabled before planner cycle consent can be granted.',
+    super.code = 'cycle_tracking_required',
+    super.requestId,
+    super.statusCode = 409,
+  });
+}
+
+/// Thrown when a requested resource is not found (HTTP 404).
+class NotFoundException extends ApiException {
+  const NotFoundException({
+    super.message = 'The requested resource was not found.',
+    super.code = 'NOT_FOUND',
+    super.requestId,
+    super.statusCode = 404,
+  });
+}

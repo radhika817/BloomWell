@@ -60,8 +60,14 @@ class ApiClient {
     dynamic details;
 
     if (data is Map<String, dynamic>) {
-      code = data['code'] as String?;
-      message = data['message'] as String?;
+      if (data.containsKey('error') && data['error'] is Map<String, dynamic>) {
+        final err = data['error'] as Map<String, dynamic>;
+        code = err['code'] as String?;
+        message = err['message'] as String?;
+      } else {
+        code = data['code'] as String?;
+        message = data['message'] as String?;
+      }
       requestId = data['request_id'] as String?;
       details = data['details'];
     }
@@ -88,7 +94,28 @@ class ApiClient {
           code: code ?? 'cycle_tracking_disabled',
           requestId: requestId,
         );
+      case 404:
+        return NotFoundException(
+          message: message ?? 'The requested resource was not found.',
+          code: code ?? 'NOT_FOUND',
+          requestId: requestId,
+        );
       case 409:
+        if (code == 'plan_exists') {
+          return PlanExistsException(
+            message: message ?? 'A study plan already exists for this week.',
+            code: code,
+            requestId: requestId,
+          );
+        }
+        if (code == 'cycle_tracking_required') {
+          return CycleTrackingRequiredException(
+            message: message ??
+                'Cycle tracking must be enabled before planner cycle consent can be granted.',
+            code: code,
+            requestId: requestId,
+          );
+        }
         return EmailAlreadyRegisteredException(
           message:
               message ?? 'An account with this email address already exists.',
