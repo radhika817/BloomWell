@@ -1,6 +1,6 @@
 import uuid
 from typing import Any, Dict, Optional
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.orm import Session, joinedload
 
 from app.models.preference import UserPreference
@@ -71,6 +71,11 @@ class UserRepository:
         self.db.refresh(user)
         return user
 
+    def get_preferences(self, user_id: uuid.UUID) -> Optional[UserPreference]:
+        """Fetch user preferences explicitly scoped by user_id."""
+        stmt = select(UserPreference).where(UserPreference.user_id == user_id)
+        return self.db.scalars(stmt).first()
+
     def update_preferences(
         self,
         user_id: uuid.UUID,
@@ -93,3 +98,108 @@ class UserRepository:
         self.db.commit()
         self.db.refresh(pref)
         return pref
+
+    def set_planner_cycle_consent(
+        self,
+        user_id: uuid.UUID,
+        enabled: bool,
+    ) -> tuple[UserPreference, int]:
+        """
+        Update planner cycle consent.
+        If disabling, deletes all cycle-derived study plans in the same transaction.
+        Returns (preferences, deleted_plans_count).
+        """
+        from datetime import datetime, timezone
+        from app.models.study_plan import StudyPlan
+
+        stmt = select(UserPreference).where(UserPreference.user_id == user_id)
+        pref = self.db.scalars(stmt).first()
+        if not pref:
+            pref = UserPreference(user_id=user_id)
+            self.db.add(pref)
+
+        deleted_plans_count = 0
+        if enabled:
+            pref.planner_cycle_consent_at = datetime.now(timezone.utc)
+        else:
+            pref.planner_cycle_consent_at = None
+            # Transactionally delete cycle-derived study plans
+            plans = list(
+                self.db.scalars(
+                    select(StudyPlan).where(
+                        StudyPlan.user_id == user_id,
+                        StudyPlan.uses_cycle_data.is_(True),
+                    )
+                ).all()
+            )
+            deleted_plans_count = len(plans)
+            for p in plans:
+                self.db.delete(p)
+
+        self.db.commit()
+        self.db.refresh(pref)
+        return pref, deleted_plans_count
+
+    def set_cycle_tracking(
+        self,
+        user_id: uuid.UUID,
+        enabled: bool,
+        delete_data: bool = False,
+    ) -> tuple[UserPreference, int, int]:
+        """
+        Update cycle tracking status and optionally delete cycle logs and cycle-derived study plans.
+        Disabling tracking or deleting cycle data transactionally deletes all of the user's
+        study plans where uses_cycle_data is true.
+        Returns (preferences, deleted_plans_count, deleted_cycles_count).
+        """
+        from datetime import datetime, timezone
+        from app.models.cycle import CycleLog
+        from app.models.study_plan import StudyPlan
+
+        stmt = select(UserPreference).where(UserPreference.user_id == user_id)
+        pref = self.db.scalars(stmt).first()
+        if not pref:
+            pref = UserPreference(user_id=user_id)
+            self.db.add(pref)
+
+        deleted_plans_count = 0
+        deleted_cycles_count = 0
+
+        if enabled:
+            pref.cycle_tracking_enabled = True
+            pref.cycle_tracking_consent_at = datetime.now(timezone.utc)
+        else:
+            pref.cycle_tracking_enabled = False
+            pref.cycle_tracking_consent_at = None
+            # Disabling cycle tracking also clears planner cycle consent
+            pref.planner_cycle_consent_at = None
+
+        if not enabled or delete_data:
+            # Transactionally delete all cycle-derived study plans
+            plans = list(
+                self.db.scalars(
+                    select(StudyPlan).where(
+                        StudyPlan.user_id == user_id,
+                        StudyPlan.uses_cycle_data.is_(True),
+                    )
+                ).all()
+            )
+            deleted_plans_count = len(plans)
+            for p in plans:
+                self.db.delete(p)
+
+        if delete_data:
+            # Transactionally delete recorded cycle logs
+            cycles = list(
+                self.db.scalars(
+                    select(CycleLog).where(CycleLog.user_id == user_id)
+                ).all()
+            )
+            deleted_cycles_count = len(cycles)
+            for c in cycles:
+                self.db.delete(c)
+
+        self.db.commit()
+        self.db.refresh(pref)
+        return pref, deleted_plans_count, deleted_cycles_count
+

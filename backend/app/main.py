@@ -99,12 +99,21 @@ def create_application() -> FastAPI:
         headers = {"X-Request-ID": request_id} if request_id else {}
         if getattr(exc, "headers", None):
             headers.update(exc.headers)
+
+        code = f"HTTP_{exc.status_code}"
+        message = str(exc.detail)
+        details = None
+        if isinstance(exc.detail, dict):
+            code = exc.detail.get("code", code)
+            message = exc.detail.get("message", message)
+            details = exc.detail.get("details", details)
+
         return JSONResponse(
             status_code=exc.status_code,
             content={
-                "code": f"HTTP_{exc.status_code}",
-                "message": str(exc.detail),
-                "details": None,
+                "code": code,
+                "message": message,
+                "details": details,
                 "request_id": request_id,
             },
             headers=headers if headers else None,
