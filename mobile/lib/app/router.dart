@@ -15,7 +15,7 @@ import '../features/routines/presentation/routines_screen.dart';
 import '../features/self_care/presentation/screens/activity_detail_screen.dart';
 import '../features/self_care/presentation/screens/activity_history_screen.dart';
 import '../features/self_care/presentation/screens/self_care_studio_screen.dart';
-import '../features/study_planner/presentation/study_planner_placeholder_screen.dart';
+import '../features/study_planner/presentation/study_planner_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
 import '../features/welcome/presentation/welcome_screen.dart';
@@ -222,7 +222,7 @@ final GoRouter appRouter = GoRouter(
       path: '/study-planner',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) =>
-          StudyPlannerPlaceholderScreen(onReturnHome: () => context.pop()),
+          const StudyPlannerScreen(),
     ),
     GoRoute(
       path: '/help',
