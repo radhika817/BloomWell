@@ -13,6 +13,21 @@ from app.models.study_plan import (
     SuggestedLoad,
     PlanItemStatus,
 )
+from app.models.resource import (
+    Resource,
+    ResourceReport,
+    ResourceCategory,
+    CostType,
+    VerificationStatus,
+    ReportReason,
+    ReportStatus,
+)
+from app.models.education import (
+    EducationResource,
+    EducationCategory,
+    EducationLanguage,
+    ReviewStatus,
+)
 
 __all__ = [
     "User",
@@ -29,5 +44,16 @@ __all__ = [
     "StudyPlanMode",
     "SuggestedLoad",
     "PlanItemStatus",
+    "Resource",
+    "ResourceReport",
+    "ResourceCategory",
+    "CostType",
+    "VerificationStatus",
+    "ReportReason",
+    "ReportStatus",
+    "EducationResource",
+    "EducationCategory",
+    "EducationLanguage",
+    "ReviewStatus",
 ]
 

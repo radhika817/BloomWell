@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Optional
-from sqlalchemy import DateTime, String
+from sqlalchemy import CheckConstraint, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base, GUID, TimestampMixin
 
@@ -14,12 +14,19 @@ if TYPE_CHECKING:
     from app.models.cycle import CycleLog
     from app.models.activity import UserActivityLog
     from app.models.study_plan import StudyPlan
+    from app.models.resource import ResourceReport
 
 
 class User(Base, TimestampMixin):
     """User account model."""
 
     __tablename__ = "users"
+    __table_args__ = (
+        CheckConstraint(
+            "role IN ('student', 'moderator', 'resource_admin')",
+            name="ck_users_role",
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         GUID(),
@@ -91,4 +98,8 @@ class User(Base, TimestampMixin):
         "StudyPlan",
         back_populates="user",
         cascade="all, delete-orphan",
+    )
+    resource_reports: Mapped[List["ResourceReport"]] = relationship(
+        "ResourceReport",
+        back_populates="reporter",
     )
