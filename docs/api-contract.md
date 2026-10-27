@@ -623,6 +623,7 @@ Permanently deletes a study plan owned by the caller.
 - **Success Response:** `204 No Content`.
 - **Cross-Account Security (404 Not Found):** Returns 404 (never 403) if owned by another user.
 
+
 #### `PATCH /v1/study-plans/items/{id}`
 Updates an item's user decision status (`accepted`, `edited`, `skipped`).
 - **Load Modification Rule:** `suggested_load` (`light`, `normal`, `focus`) is permitted strictly when `status == "edited"`.
@@ -637,5 +638,251 @@ Updates an item's user decision status (`accepted`, `edited`, `skipped`).
 - **Success Response (200 OK):** `StudyPlanItemResponse`.
 - **Validation Error (422 Unprocessable Entity):** If `suggested_load` is provided when `status != "edited"` or unknown fields are sent.
 - **Cross-Account Security (404 Not Found):** Returns 404 if owned by another user.
+
+---
+
+### 13. HelpHub: Resources & Access Points
+
+#### `GET /v1/resources`
+Lists verified campus and community resources, helplines, and period-product access points.
+- **Access:** Public.
+- **Query Parameters:**
+  - `category` (optional, string): Filter by category (`counseling`, `helpline`, `welfare_office`, `period_products`, `ngo`, `health_clinic`, `workshop`).
+  - `city` (optional, string): Case-insensitive city search.
+  - `cost` (optional, string): Filter by cost (`free`, `paid`, `unknown`).
+  - `product_type` (optional, string): Filter period products (`pads`, `cups`, `disposal`, etc.).
+  - `verified_only` (optional, boolean, default `true`): Only return verified resources.
+  - `q` (optional, string): Plain-text search on name or description (zero-logged).
+  - `page` (optional, integer, default `1`).
+  - `page_size` (optional, integer, default `20`, max `100`).
+- **Response Format (200 OK):**
+  ```json
+  {
+    "items": [
+      {
+        "id": "770e8400-e29b-41d4-a716-446655440001",
+        "name": "Campus Student Wellness Center (Demo)",
+        "category": "counseling",
+        "description": "Confidential counseling and mental health support for students.",
+        "phone": "+91-0000000001",
+        "email": "demo-counselor@example.org",
+        "website_url": "https://example.org/demo-wellness",
+        "address": "Building A, Ground Floor, Campus (Demo)",
+        "city": "Pune",
+        "hours_text": "Mon-Fri 09:00 - 17:00",
+        "available_24x7": false,
+        "languages": ["en", "hi", "mr"],
+        "cost": "free",
+        "product_details": null,
+        "source_url": "https://example.org/source/demo-wellness",
+        "verification_status": "verified",
+        "last_verified_at": "2026-10-01",
+        "is_published": true,
+        "is_demo": true,
+        "created_at": "2026-10-27T12:00:00Z",
+        "updated_at": "2026-10-27T12:00:00Z"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 20
+  }
+  ```
+
+#### `GET /v1/resources/support`
+Curated shortcut endpoint returning 24x7 verified emergency helplines and free counseling resources.
+- **Access:** Public.
+- **Response Format (200 OK):** `ResourceListResponse`.
+
+#### `GET /v1/resources/{id}`
+Retrieves detailed information for a specific resource by ID.
+- **Access:** Public.
+- **Response Format (200 OK):** `ResourceResponse`.
+- **Error (404 Not Found):** If resource does not exist or is unpublished (and non-demo when `ALLOW_DEMO_RESOURCES=false`).
+
+#### `POST /v1/resources/{id}/report`
+Submits an outdated/broken info report for a resource (e.g. empty dispenser, disconnected helpline).
+- **Access:** Authenticated student (`Authorization: Bearer <token>`).
+- **Request Body:**
+  ```json
+  {
+    "reason": "out_of_order",
+    "note": "Dispenser was empty on Monday morning."
+  }
+  ```
+  *(Reason options: `outdated`, `out_of_order`, `incorrect`, `closed`, `other`).*
+- **Response Format (201 Created):**
+  ```json
+  {
+    "id": "880e8400-e29b-41d4-a716-446655440001",
+    "resource_id": "770e8400-e29b-41d4-a716-446655440001",
+    "reason": "out_of_order",
+    "note": "Dispenser was empty on Monday morning.",
+    "status": "open",
+    "created_at": "2026-10-27T12:30:00Z",
+    "resolved_at": null,
+    "resolved_note": null
+  }
+  ```
+- **Conflict (409 Conflict):** Returns code `report_exists` if the user already has an `open` report for this resource.
+
+#### `GET /v1/me/resource-reports`
+Retrieves reports submitted by the authenticated user.
+- **Access:** Authenticated student (`Authorization: Bearer <token>`).
+- **Response Format (200 OK):**
+  ```json
+  [
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440001",
+      "resource_id": "770e8400-e29b-41d4-a716-446655440001",
+      "reason": "out_of_order",
+      "note": "Dispenser was empty on Monday morning.",
+      "status": "open",
+      "created_at": "2026-10-27T12:30:00Z",
+      "resolved_at": null,
+      "resolved_note": null
+    }
+  ]
+  ```
+
+---
+
+### 14. Reviewed Education Content
+
+#### `GET /v1/education`
+Lists reviewed, published educational articles.
+- **Access:** Public.
+- **Query Parameters:**
+  - `category` (optional, string): Filter by category (`periods_basics`, `hygiene`, `common_symptoms`, `when_to_seek_care`, `emotional_wellbeing`, `supporting_someone`).
+  - `language` (optional, string, default `"en"`): Article language (`en`, `hi`, `mr`). If an article in the requested language is not published, English version is listed as fallback with a `fallback_to_en: true` indicator.
+  - `page` (optional, integer, default `1`).
+  - `page_size` (optional, integer, default `20`).
+- **Response Format (200 OK):**
+  ```json
+  {
+    "items": [
+      {
+        "id": "990e8400-e29b-41d4-a716-446655440001",
+        "slug": "what-is-a-period",
+        "title": "Understanding What a Period Is",
+        "category": "periods_basics",
+        "language": "en",
+        "summary": "A friendly introduction to what happens during a menstrual cycle and why it is a routine part of bodily wellness.",
+        "source_name": "BloomWell team draft",
+        "source_url": "https://example.org/education/menstrual-cycle-basics",
+        "review_status": "draft",
+        "reviewed_at": null,
+        "is_published": true,
+        "created_at": "2026-10-27T12:00:00Z",
+        "updated_at": "2026-10-27T12:00:00Z"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 20
+  }
+  ```
+
+#### `GET /v1/education/{slug}`
+Retrieves a full educational article by slug with automatic language fallback.
+- **Access:** Public.
+- **Query Parameters:**
+  - `language` (optional, string, default `"en"`): Preferred language (`en`, `hi`, `mr`). If not found in requested language, falls back to English.
+- **Response Format (200 OK):** `EducationDetailResponse` (includes full plain text `body`).
+- **Error (404 Not Found):** If article does not exist or is unpublished (and not `ALLOW_DRAFT_CONTENT=true`).
+
+---
+
+### 15. Admin Workflows (`resource_admin` role)
+
+All `/v1/admin/*` endpoints require authentication with a user having `role == "resource_admin"`.
+Non-admin users receive `403 Forbidden` with code `forbidden`.
+
+#### `POST /v1/admin/resources`
+Creates a new campus/community resource or period-product point.
+- **Request Body:** `ResourceCreateRequest`.
+- **Response Format (201 Created):** `ResourceResponse`.
+
+#### `PATCH /v1/admin/resources/{id}`
+Updates details of an existing resource.
+- **Request Body:** `ResourceUpdateRequest`.
+- **Response Format (200 OK):** `ResourceResponse`.
+
+#### `DELETE /v1/admin/resources/{id}`
+Permanently deletes a resource and its associated reports.
+- **Response Format (204 No Content)**.
+
+#### `POST /v1/admin/resources/{id}/verify`
+Verifies a resource after conducting manual official check.
+- **Request Body:**
+  ```json
+  {
+    "source_url": "https://example.org/verified-official-source"
+  }
+  ```
+- **Response Format (200 OK):** `ResourceResponse` with `verification_status: "verified"`, `last_verified_at: "<today>"`, and `verified_by: "<admin_email>"`.
+
+#### `POST /v1/admin/resources/{id}/mark-outdated`
+Flags a resource as outdated (e.g. after reports or broken verification).
+- **Response Format (200 OK):** `ResourceResponse` with `verification_status: "outdated"`.
+
+#### `GET /v1/admin/resources?stale=true`
+Lists resources for audit, including a `stale=true` query filter that lists resources unverified for longer than `RESOURCE_STALE_DAYS` (default 180 days).
+- **Response Format (200 OK):** `ResourceListResponse`.
+
+#### `GET /v1/admin/resource-reports`
+Lists submitted community reports.
+- **Query Parameters:**
+  - `status` (optional, string): `open`, `resolved`, `dismissed`.
+  - `resource_id` (optional, UUID).
+  - `page` (optional, integer, default `1`).
+  - `page_size` (optional, integer, default `20`).
+- **Privacy Enforcement:** Responses return `AdminResourceReportResponse`, which **strictly omits `reporter_id`** to protect user anonymity from administrators.
+- **Response Format (200 OK):**
+  ```json
+  {
+    "items": [
+      {
+        "id": "880e8400-e29b-41d4-a716-446655440001",
+        "resource_id": "770e8400-e29b-41d4-a716-446655440001",
+        "reason": "out_of_order",
+        "note": "Dispenser was empty on Monday morning.",
+        "status": "open",
+        "created_at": "2026-10-27T12:30:00Z",
+        "resolved_at": null,
+        "resolved_note": null
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 20
+  }
+  ```
+
+#### `PATCH /v1/admin/resource-reports/{id}`
+Resolves or dismisses a report.
+- **Request Body:**
+  ```json
+  {
+    "status": "resolved",
+    "resolved_note": "Refilled dispenser and verified functional."
+  }
+  ```
+- **Response Format (200 OK):** `AdminResourceReportResponse`.
+
+#### `POST /v1/admin/education`
+Creates a new educational content article.
+- **Request Body:** `EducationCreateRequest` (must include `title`, `slug`, `category`, `language`, `summary`, `body`, `source_name`, `source_url`, `is_published`).
+- **Response Format (201 Created):** `EducationDetailResponse`.
+
+#### `PATCH /v1/admin/education/{id}`
+Updates an article, marks as reviewed, or publishes.
+- **Request Body:** `EducationUpdateRequest`.
+- **Response Format (200 OK):** `EducationDetailResponse`.
+
+#### `DELETE /v1/admin/education/{id}`
+Permanently deletes an educational article.
+- **Response Format (204 No Content)**.
+
 
 

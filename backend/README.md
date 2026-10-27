@@ -121,6 +121,54 @@ pytest
 |---|---|---|---|
 | `GET` | `/health` | Service & DB connectivity check | Public |
 | `GET` | `/v1/info` | V1 API information baseline | Public |
+| `GET` | `/v1/resources` | List verified resources and product points | Public |
+| `GET` | `/v1/resources/support` | 24x7 emergency helplines & free counseling | Public |
+| `GET` | `/v1/resources/{id}` | Resource details | Public |
+| `POST` | `/v1/resources/{id}/report` | Report broken or outdated resource | Student |
+| `GET` | `/v1/me/resource-reports` | List caller's submitted reports | Student |
+| `GET` | `/v1/education` | List educational articles (with EN fallback) | Public |
+| `GET` | `/v1/education/{slug}` | Educational article details | Public |
+| `POST` | `/v1/admin/resources` | Create resource | Admin |
+| `PATCH` | `/v1/admin/resources/{id}` | Update resource | Admin |
+| `DELETE` | `/v1/admin/resources/{id}` | Delete resource | Admin |
+| `POST` | `/v1/admin/resources/{id}/verify` | Verify resource with official source | Admin |
+| `POST` | `/v1/admin/resources/{id}/mark-outdated`| Flag resource as outdated | Admin |
+| `GET` | `/v1/admin/resources?stale=true` | Audit unverified / stale resources | Admin |
+| `GET` | `/v1/admin/resource-reports` | List community reports (reporter de-identified) | Admin |
+| `PATCH` | `/v1/admin/resource-reports/{id}` | Resolve or dismiss report | Admin |
+| `POST` | `/v1/admin/education` | Create educational article | Admin |
+| `PATCH` | `/v1/admin/education/{id}` | Update review status and body | Admin |
+| `DELETE` | `/v1/admin/education/{id}` | Delete educational article | Admin |
+
+---
+
+## Seed & Administration CLI Scripts
+
+All scripts are executed from the repository root or `backend/` directory using the virtual environment:
+
+### 1. Seed HelpHub Resources
+Populates verified demo campus and community resources from `docs/seed/resources.demo.json`:
+```bash
+python scripts/seed_resources.py
+```
+Options:
+- `--demo`: Seed fictional demo resources (default: reads from `docs/seed/resources.demo.json`).
+- `--clear`: Clear existing seeded demo resources before seeding.
+
+### 2. Seed Educational Content
+Populates reviewed educational articles covering period basics, comfort, and care:
+```bash
+python scripts/seed_education.py
+```
+Options:
+- `--clear`: Clear existing educational resources before seeding.
+
+### 3. Assign User Role (Safety Protected)
+Grants administrative or moderator roles to verified users without logging sensitive credentials:
+```bash
+python scripts/set_role.py user@example.edu resource_admin --yes
+```
+*Note: The `--yes` flag is mandatory to prevent accidental privilege escalation.*
 
 ---
 
@@ -129,3 +177,4 @@ pytest
 The included `rate_limit` dependency (`app.core.security.InMemoryRateLimiter`) operates **in-memory and per-process**. 
 
 When scaling horizontally across multiple processes (e.g. multiple Uvicorn workers or container instances behind an AWS Application Load Balancer), this must be backed by a centralized store (such as Redis) to synchronize rate limits across workers.
+

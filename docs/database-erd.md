@@ -16,14 +16,70 @@ erDiagram
     study_plans ||--o{ study_plan_items : "contains"
     academic_events ||--o{ study_plan_items : "informs"
     activities ||--o{ study_plan_items : "suggests"
+    resources ||--o{ resource_reports : "receives"
+    users ||--o{ resource_reports : "submits"
 
     users {
         uuid id PK
         string email UK
         string password_hash
         string display_name
-        string role
+        string role "CHECK role IN ('student', 'moderator', 'resource_admin')"
         timestamptz deleted_at
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    resources {
+        uuid id PK
+        string name
+        string category "counseling, helpline, welfare_office, period_products, ngo, health_clinic, workshop"
+        string description
+        string phone
+        string email
+        string website_url
+        string address
+        string city
+        string hours_text
+        boolean available_24x7
+        text_array languages
+        string cost "free, paid, unknown"
+        jsonb product_details
+        string source_url
+        string verification_status "unverified, verified, outdated"
+        date last_verified_at
+        string verified_by
+        boolean is_published
+        boolean is_demo
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    resource_reports {
+        uuid id PK
+        uuid resource_id FK
+        uuid reporter_id FK
+        string reason "outdated, out_of_order, incorrect, closed, other"
+        string note
+        string status "open, resolved, dismissed"
+        timestamptz created_at
+        timestamptz resolved_at
+        string resolved_note
+    }
+
+    education_resources {
+        uuid id PK
+        string slug UK
+        string title
+        string category "periods_basics, hygiene, common_symptoms, when_to_seek_care, emotional_wellbeing, supporting_someone"
+        string language UK
+        string summary
+        text body
+        string source_name
+        string source_url
+        string review_status "draft, reviewed"
+        date reviewed_at
+        boolean is_published
         timestamptz created_at
         timestamptz updated_at
     }
@@ -232,3 +288,34 @@ erDiagram
   - Indexes: `ix_study_plan_items_study_plan_id`, `ix_study_plan_items_plan_date`.
   - Check Constraints: `suggested_load IN ('light', 'normal', 'focus')`, `status IN ('suggested', 'accepted', 'edited', 'skipped')`.
   - Field: `reason_codes` stores explainable observation tokens mapped to localized strings on mobile.
+
+### 12. `resources`
+- Verified campus and community resources, helplines, counseling centers, and period-product access points (HelpHub).
+- **Constraints & Indexes**:
+  - Primary Key: `id` (UUID).
+  - Indexes: `ix_resources_category_city` on `(category, city)`, `ix_resources_is_published` on `(is_published)`.
+  - Check Constraint `ck_resources_category`: `category IN ('counseling', 'helpline', 'welfare_office', 'period_products', 'ngo', 'health_clinic', 'workshop')`.
+  - Check Constraint `ck_resources_cost`: `cost IN ('free', 'paid', 'unknown')`.
+  - Check Constraint `ck_resources_verification_status`: `verification_status IN ('unverified', 'verified', 'outdated')`.
+  - Check Constraint `ck_resources_published_verified`: `NOT (is_published = true AND is_demo = false) OR (verification_status = 'verified' AND source_url IS NOT NULL AND last_verified_at IS NOT NULL)`.
+  - Check Constraint `ck_resources_24x7_verified`: `available_24x7 IS NOT TRUE OR (verification_status = 'verified' AND source_url IS NOT NULL)`.
+  - Fields: `product_details` (JSONB) stores items (`pads`, `cups`, `disposal`), access instructions; `languages` (text array).
+
+### 13. `resource_reports`
+- User-submitted reports on broken, empty, outdated, or closed resource access points.
+- **Constraints & Indexes**:
+  - Primary Key: `id` (UUID).
+  - Foreign Key: `resource_id` -> `resources.id` with `ON DELETE CASCADE`.
+  - Foreign Key: `reporter_id` -> `users.id` with `ON DELETE SET NULL` (account deletion blanks the person but retains the community report).
+  - Partial Unique Index: `uq_resource_reports_open` on `(reporter_id, resource_id)` WHERE `status = 'open'`.
+  - Check Constraints: `reason IN ('outdated', 'out_of_order', 'incorrect', 'closed', 'other')`, `status IN ('open', 'resolved', 'dismissed')`.
+  - Privacy: Admin read responses strictly exclude `reporter_id` and reporter identity.
+
+### 14. `education_resources`
+- Reviewed educational content covering menstrual basics, hygiene, comfort, when to seek care, and peer support.
+- **Constraints & Indexes**:
+  - Primary Key: `id` (UUID).
+  - Unique: `(slug, language)` guarantees at most one article per slug per language.
+  - Indexes: `ix_education_category_language` on `(category, language)`, `ix_education_is_published` on `(is_published)`.
+  - Check Constraints: `category IN ('periods_basics', 'hygiene', 'common_symptoms', 'when_to_seek_care', 'emotional_wellbeing', 'supporting_someone')`, `language IN ('en', 'hi', 'mr')`, `review_status IN ('draft', 'reviewed')`.
+  - Integrity: Plain text body only (no HTML); starts as `draft` with `BloomWell team draft` source; must include doctor consult note.
