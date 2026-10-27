@@ -12,6 +12,9 @@ from app.repositories.journal_repository import JournalRepository
 from app.repositories.refresh_token_repository import RefreshTokenRepository
 from app.repositories.study_plan_repository import StudyPlanRepository
 from app.repositories.user_repository import UserRepository
+from app.repositories.resource_repository import ResourceRepository
+from app.repositories.resource_report_repository import ResourceReportRepository
+from app.repositories.education_repository import EducationRepository
 
 __all__ = [
     "UserRepository",
@@ -19,5 +22,8 @@ __all__ = [
     "CheckinRepository",
     "JournalRepository",
     "StudyPlanRepository",
+    "ResourceRepository",
+    "ResourceReportRepository",
+    "EducationRepository",
 ]
 
