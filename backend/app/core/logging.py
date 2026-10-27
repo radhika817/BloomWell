@@ -9,6 +9,11 @@ SENSITIVE_KEYWORDS: Set[str] = {
     "journal",
     "body",
     "notes",
+    "note",
+    "resolved_note",
+    "reporter_id",
+    "reporter",
+    "q",
     "email",
     "authorization",
     "reason_codes",
@@ -25,9 +30,9 @@ SENSITIVE_KEYWORDS: Set[str] = {
 # Regex to catch sensitive key-value pairs or tokens in raw text strings
 BEARER_PATTERN = re.compile(r"(Bearer\s+)[A-Za-z0-9\-_.~+/]+=*", re.IGNORECASE)
 KEY_VALUE_PATTERN = re.compile(
-    r"(?i)\b(password|token|journal|body|notes|email|authorization|reason_codes|period_start|period_end|mood_score|stress_score|energy_score|sleep_quality_score|cycle|symptom)\b\s*[:=]\s*['\"]?([^'\",\s]+)['\"]?"
+    r"(?i)\b(password|token|journal|body|notes|note|resolved_note|reporter_id|reporter|q|email|authorization|reason_codes|period_start|period_end|mood_score|stress_score|energy_score|sleep_quality_score|cycle|symptom)\b\s*[:=]\s*['\"]?([^'\",\s]+)['\"]?"
 )
-
+QUERY_Q_PATTERN = re.compile(r"([?&]q=)[^&\s]+", re.IGNORECASE)
 
 EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
 
@@ -42,6 +47,7 @@ def redact_string(val: str) -> str:
     """Redact known sensitive patterns inside a text string."""
     redacted = BEARER_PATTERN.sub(r"\1[REDACTED]", val)
     redacted = KEY_VALUE_PATTERN.sub(r"\1=[REDACTED]", redacted)
+    redacted = QUERY_Q_PATTERN.sub(r"\1[REDACTED]", redacted)
     redacted = EMAIL_PATTERN.sub("[REDACTED]", redacted)
     return redacted
 

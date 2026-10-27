@@ -125,12 +125,20 @@ def create_application() -> FastAPI:
         request: Request, exc: RequestValidationError
     ) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
+        # Never echo submitted input text in error responses per privacy rules
+        sanitized_errors = []
+        for err in exc.errors():
+            err_dict = dict(err)
+            err_dict.pop("input", None)
+            err_dict.pop("ctx", None)
+            sanitized_errors.append(err_dict)
+
         return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             content={
                 "code": "VALIDATION_ERROR",
                 "message": "Invalid request parameters or payload",
-                "details": jsonable_encoder(exc.errors()),
+                "details": jsonable_encoder(sanitized_errors),
                 "request_id": request_id,
             },
             headers={"X-Request-ID": request_id} if request_id else None,
