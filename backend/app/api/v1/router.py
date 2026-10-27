@@ -8,6 +8,7 @@ from app.api.v1.me import router as me_router
 from app.api.v1.study_plans import router as study_plans_router
 from app.api.v1.resources import router as resources_router
 from app.api.v1.education import router as education_router
+from app.api.v1.admin_resources import router as admin_resources_router
 
 api_v1_router = APIRouter(prefix="/v1")
 
@@ -20,6 +21,7 @@ api_v1_router.include_router(insights_router)
 api_v1_router.include_router(study_plans_router)
 api_v1_router.include_router(resources_router)
 api_v1_router.include_router(education_router)
+api_v1_router.include_router(admin_resources_router)
 
 
 @api_v1_router.get(

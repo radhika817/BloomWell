@@ -106,6 +106,110 @@ class ResourceBase(BaseModel):
         return None
 
 
+class CreateResourceRequest(ResourceBase):
+    """Admin request to create a resource."""
+    pass
+
+
+class UpdateResourceRequest(BaseModel):
+    """Admin request to update a resource."""
+    name: Optional[str] = Field(None, max_length=120)
+    category: Optional[str] = None
+    description: Optional[str] = Field(None, max_length=600)
+    phone: Optional[str] = Field(None, max_length=30)
+    email: Optional[str] = Field(None, max_length=255)
+    website_url: Optional[str] = Field(None, max_length=500)
+    address: Optional[str] = Field(None, max_length=200)
+    city: Optional[str] = Field(None, max_length=100)
+    hours_text: Optional[str] = Field(None, max_length=200)
+    available_24x7: Optional[bool] = None
+    languages: Optional[List[str]] = None
+    cost: Optional[str] = None
+    product_details: Optional[Dict[str, Any]] = None
+    source_url: Optional[str] = Field(None, max_length=500)
+    verification_status: Optional[str] = None
+    last_verified_at: Optional[date] = None
+    verified_by: Optional[str] = Field(None, max_length=80)
+    is_published: Optional[bool] = None
+    is_demo: Optional[bool] = None
+
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("category")
+    @classmethod
+    def validate_category(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            valid = {c.value for c in ResourceCategory}
+            if v not in valid:
+                raise ValueError(f"Category must be one of: {sorted(valid)}")
+        return v
+
+    @field_validator("cost")
+    @classmethod
+    def validate_cost(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            valid = {c.value for c in CostType}
+            if v not in valid:
+                raise ValueError(f"Cost must be one of: {sorted(valid)}")
+        return v
+
+    @field_validator("verification_status")
+    @classmethod
+    def validate_verification_status(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            valid = {s.value for s in VerificationStatus}
+            if v not in valid:
+                raise ValueError(f"Verification status must be one of: {sorted(valid)}")
+        return v
+
+    @field_validator("phone")
+    @classmethod
+    def validate_phone(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and v.strip():
+            cleaned = v.strip()
+            if not PHONE_REGEX.match(cleaned):
+                raise ValueError("Invalid phone number format.")
+            return cleaned
+        return None
+
+    @field_validator("email")
+    @classmethod
+    def validate_email(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and v.strip():
+            cleaned = v.strip()
+            if "@" not in cleaned or "." not in cleaned.split("@")[-1]:
+                raise ValueError("Invalid email address format.")
+            return cleaned
+        return None
+
+    @field_validator("website_url", "source_url")
+    @classmethod
+    def validate_url(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and v.strip():
+            cleaned = v.strip()
+            if not (cleaned.startswith("http://") or cleaned.startswith("https://")):
+                raise ValueError("URL must start with http:// or https://")
+            return cleaned
+        return None
+
+
+class VerifyResourceRequest(BaseModel):
+    """Admin request to verify a resource."""
+    source_url: str = Field(..., max_length=500)
+    last_verified_at: date
+    verified_by: str = Field(..., max_length=80)
+
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("source_url")
+    @classmethod
+    def validate_url(cls, v: str) -> str:
+        cleaned = v.strip()
+        if not (cleaned.startswith("http://") or cleaned.startswith("https://")):
+            raise ValueError("URL must start with http:// or https://")
+        return cleaned
+
+
 class ResourceResponse(BaseModel):
     id: uuid.UUID
     name: str
