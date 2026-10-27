@@ -1,5 +1,5 @@
 from functools import lru_cache
-from typing import List, Union
+from typing import List, Optional, Union
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     CORS_ORIGINS: Union[str, List[str]] = "http://localhost:3000"
     LOG_LEVEL: str = "INFO"
     AI_PROVIDER: str = "disabled"
+    ALLOW_DEMO_RESOURCES: Optional[bool] = None
+    ALLOW_DRAFT_CONTENT: Optional[bool] = None
+    RESOURCE_STALE_DAYS: int = 180
 
     @property
     def cors_origins_list(self) -> List[str]:
@@ -35,7 +38,7 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_production_secret(self) -> "Settings":
-        """Refuse to start in production if APP_SECRET_KEY is still a placeholder."""
+        """Refuse to start in production if APP_SECRET_KEY is still a placeholder, and enforce production content rules."""
         is_production = self.APP_ENV.lower() in ("production", "prod")
         val = self.APP_SECRET_KEY.strip()
         val_lower = val.lower()
@@ -54,6 +57,15 @@ class Settings(BaseSettings):
                 raise ValueError(
                     "APP_SECRET_KEY must be configured with a secure, non-placeholder secret in production (minimum 32 characters)."
                 )
+            # In production, demo resources and draft education content are never returned
+            self.ALLOW_DEMO_RESOURCES = False
+            self.ALLOW_DRAFT_CONTENT = False
+        else:
+            if self.ALLOW_DEMO_RESOURCES is None:
+                self.ALLOW_DEMO_RESOURCES = True
+            if self.ALLOW_DRAFT_CONTENT is None:
+                self.ALLOW_DRAFT_CONTENT = True
+
         return self
 
 

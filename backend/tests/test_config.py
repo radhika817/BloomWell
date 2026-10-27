@@ -46,3 +46,42 @@ def test_cors_origins_parsing():
         "http://localhost:3000",
         "https://app.bloomwell.org",
     ]
+
+
+def test_helphub_and_education_defaults_in_development():
+    """Verify demo resources and draft content default to True in development."""
+    config = Settings(APP_ENV="development")
+    assert config.ALLOW_DEMO_RESOURCES is True
+    assert config.ALLOW_DRAFT_CONTENT is True
+    assert config.RESOURCE_STALE_DAYS == 180
+
+
+def test_helphub_and_education_defaults_in_production():
+    """Verify demo resources and draft content are strictly False in production."""
+    secure_key = "a-very-strong-and-secure-random-secret-key-32-chars!"
+    config = Settings(
+        APP_ENV="production",
+        APP_SECRET_KEY=secure_key,
+    )
+    assert config.ALLOW_DEMO_RESOURCES is False
+    assert config.ALLOW_DRAFT_CONTENT is False
+    assert config.RESOURCE_STALE_DAYS == 180
+
+
+def test_helphub_and_education_production_overrides_to_false():
+    """Verify that even if True is passed for demo/draft, production enforces False."""
+    secure_key = "a-very-strong-and-secure-random-secret-key-32-chars!"
+    config = Settings(
+        APP_ENV="production",
+        APP_SECRET_KEY=secure_key,
+        ALLOW_DEMO_RESOURCES=True,
+        ALLOW_DRAFT_CONTENT=True,
+    )
+    assert config.ALLOW_DEMO_RESOURCES is False
+    assert config.ALLOW_DRAFT_CONTENT is False
+
+
+def test_resource_stale_days_custom_value():
+    """Verify RESOURCE_STALE_DAYS can be customized."""
+    config = Settings(RESOURCE_STALE_DAYS=90)
+    assert config.RESOURCE_STALE_DAYS == 90
