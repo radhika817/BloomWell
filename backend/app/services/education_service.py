@@ -4,7 +4,12 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.repositories.education_repository import EducationRepository
-from app.schemas.education import EducationListResponse, EducationResponse
+from app.schemas.education import (
+    CreateEducationRequest,
+    EducationListResponse,
+    EducationResponse,
+    UpdateEducationRequest,
+)
 
 
 class EducationService:
@@ -43,6 +48,68 @@ class EducationService:
             limit=limit,
             cursor=cursor,
         )
+        return EducationListResponse(
+            items=[EducationResponse.model_validate(it) for it in items],
+            next_cursor=next_cursor,
+        )
+
+    # ------------------ Admin methods ------------------
+
+    def create_education(self, req: "CreateEducationRequest") -> EducationResponse:
+        """Create a new educational article."""
+        import uuid
+        from app.models.education import EducationResource
+
+        article = EducationResource(
+            id=uuid.uuid4(),
+            slug=req.slug,
+            title=req.title,
+            category=req.category,
+            language=req.language,
+            summary=req.summary,
+            body=req.body,
+            source_name=req.source_name,
+            source_url=req.source_url,
+            review_status=req.review_status,
+            reviewed_at=req.reviewed_at,
+            is_published=req.is_published,
+        )
+        created = self.repo.create(article)
+        return EducationResponse.model_validate(created)
+
+    def update_education(
+        self, education_id: "uuid.UUID", req: "UpdateEducationRequest"
+    ) -> EducationResponse:
+        """Update an existing educational article."""
+        article = self.repo.get_by_id(education_id)
+        if not article:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Education article not found.",
+            )
+
+        updates = req.model_dump(exclude_unset=True)
+        for field, value in updates.items():
+            setattr(article, field, value)
+
+        updated = self.repo.update(article)
+        return EducationResponse.model_validate(updated)
+
+    def delete_education(self, education_id: "uuid.UUID") -> None:
+        """Delete an educational article."""
+        article = self.repo.get_by_id(education_id)
+        if not article:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Education article not found.",
+            )
+        self.repo.delete(article)
+
+    def list_admin_education(
+        self, limit: int = 50, cursor: Optional[str] = None
+    ) -> EducationListResponse:
+        """List articles for administrative review."""
+        items, next_cursor = self.repo.list_admin_education(limit=limit, cursor=cursor)
         return EducationListResponse(
             items=[EducationResponse.model_validate(it) for it in items],
             next_cursor=next_cursor,

@@ -66,6 +66,72 @@ class EducationBase(BaseModel):
         return None
 
 
+class CreateEducationRequest(EducationBase):
+    """Admin request to create an education article."""
+    pass
+
+
+class UpdateEducationRequest(BaseModel):
+    """Admin request to update an education article."""
+    slug: Optional[str] = Field(None, max_length=100)
+    title: Optional[str] = Field(None, max_length=120)
+    category: Optional[str] = None
+    language: Optional[str] = Field(None, max_length=10)
+    summary: Optional[str] = Field(None, max_length=240)
+    body: Optional[str] = Field(None, max_length=8000)
+    source_name: Optional[str] = Field(None, max_length=120)
+    source_url: Optional[str] = Field(None, max_length=500)
+    review_status: Optional[str] = None
+    reviewed_at: Optional[date] = None
+    is_published: Optional[bool] = None
+
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("category")
+    @classmethod
+    def validate_category(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            valid = {c.value for c in EducationCategory}
+            if v not in valid:
+                raise ValueError(f"Category must be one of: {sorted(valid)}")
+        return v
+
+    @field_validator("language")
+    @classmethod
+    def validate_language(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            valid = {l.value for l in EducationLanguage}
+            if v not in valid:
+                raise ValueError(f"Language must be one of: {sorted(valid)}")
+        return v
+
+    @field_validator("review_status")
+    @classmethod
+    def validate_review_status(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            valid = {s.value for s in ReviewStatus}
+            if v not in valid:
+                raise ValueError(f"Review status must be one of: {sorted(valid)}")
+        return v
+
+    @field_validator("body")
+    @classmethod
+    def validate_body_plain_text(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and HTML_TAG_REGEX.search(v):
+            raise ValueError("Body must contain plain text paragraphs only, no HTML tags.")
+        return v
+
+    @field_validator("source_url")
+    @classmethod
+    def validate_source_url(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and v.strip():
+            cleaned = v.strip()
+            if not (cleaned.startswith("http://") or cleaned.startswith("https://")):
+                raise ValueError("URL must start with http:// or https://")
+            return cleaned
+        return None
+
+
 class EducationResponse(BaseModel):
     id: uuid.UUID
     slug: str

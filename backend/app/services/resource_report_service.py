@@ -136,3 +136,43 @@ class ResourceReportService:
             items=[self._to_response(item) for item in items],
             next_cursor=next_cursor,
         )
+
+    # ------------------ Admin methods ------------------
+
+    def list_admin_reports(
+        self,
+        status: Optional[str] = None,
+        limit: int = 20,
+        cursor: Optional[str] = None,
+    ) -> ResourceReportListResponse:
+        """List reports for administrative review without reporter identity."""
+        items, next_cursor = self.report_repo.list_admin_reports(
+            status=status,
+            limit=limit,
+            cursor=cursor,
+        )
+        return ResourceReportListResponse(
+            items=[self._to_response(item) for item in items],
+            next_cursor=next_cursor,
+        )
+
+    def update_report_status(
+        self,
+        report_id: uuid.UUID,
+        new_status: str,
+        resolved_note: Optional[str] = None,
+    ) -> ResourceReportResponse:
+        """Update report status and resolution notes."""
+        report = self.report_repo.get_by_id(report_id)
+        if not report:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Report not found.",
+            )
+
+        report.status = new_status
+        report.resolved_note = resolved_note
+        report.resolved_at = datetime.now(timezone.utc)
+
+        updated = self.report_repo.update(report)
+        return self._to_response(updated)

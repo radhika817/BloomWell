@@ -279,3 +279,18 @@ class ResourceReportListResponse(BaseModel):
     next_cursor: Optional[str] = None
 
     model_config = ConfigDict(extra="forbid")
+
+
+class ResolveReportRequest(BaseModel):
+    status: str
+    resolved_note: Optional[str] = Field(None, max_length=300)
+
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("status")
+    @classmethod
+    def validate_status(cls, v: str) -> str:
+        valid = {"resolved", "dismissed"}
+        if v not in valid:
+            raise ValueError(f"Status must be one of: {sorted(valid)}")
+        return v
