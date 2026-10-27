@@ -139,3 +139,39 @@ class ResourceListResponse(BaseModel):
     next_cursor: Optional[str] = None
 
     model_config = ConfigDict(extra="forbid")
+
+
+class CreateReportRequest(BaseModel):
+    reason: str
+    note: Optional[str] = Field(None, max_length=300)
+
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("reason")
+    @classmethod
+    def validate_reason(cls, v: str) -> str:
+        valid = {"outdated", "out_of_order", "incorrect", "closed", "other"}
+        if v not in valid:
+            raise ValueError(f"Reason must be one of: {sorted(valid)}")
+        return v
+
+
+class ResourceReportResponse(BaseModel):
+    id: uuid.UUID
+    resource_id: uuid.UUID
+    reason: str
+    note: Optional[str] = None
+    status: str
+    created_at: datetime
+    resolved_at: Optional[datetime] = None
+    resolved_note: Optional[str] = None
+    resource: Optional[ResourceResponse] = None
+
+    model_config = ConfigDict(extra="forbid", from_attributes=True)
+
+
+class ResourceReportListResponse(BaseModel):
+    items: List[ResourceReportResponse]
+    next_cursor: Optional[str] = None
+
+    model_config = ConfigDict(extra="forbid")

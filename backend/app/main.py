@@ -113,6 +113,7 @@ def create_application() -> FastAPI:
             content={
                 "code": code,
                 "message": message,
+                "detail": message,
                 "details": details,
                 "request_id": request_id,
             },

@@ -180,3 +180,26 @@ def update_cycle_tracking(
         deleted_cycle_records_count=del_cycles,
     )
 
+
+from typing import Optional
+from fastapi import Query
+from app.schemas.resource import ResourceReportListResponse
+from app.services.resource_report_service import ResourceReportService
+
+
+@router.get(
+    "/resource-reports",
+    response_model=ResourceReportListResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get caller's own submitted resource reports",
+    description="Returns reports submitted by the authenticated user strictly scoped to their account.",
+)
+def get_my_resource_reports(
+    limit: int = Query(20, ge=1, le=100, description="Items per page"),
+    cursor: Optional[str] = Query(None, description="Cursor for pagination"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> ResourceReportListResponse:
+    service = ResourceReportService(db)
+    return service.get_my_reports(user_id=current_user.id, limit=limit, cursor=cursor)
+

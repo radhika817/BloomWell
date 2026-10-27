@@ -70,3 +70,24 @@ def get_resource(
 ) -> ResourceResponse:
     service = ResourceService(db)
     return service.get_resource(id)
+
+
+from app.schemas.resource import CreateReportRequest, ResourceReportResponse
+from app.services.resource_report_service import ResourceReportService
+
+
+@router.post(
+    "/{id}/report",
+    response_model=ResourceReportResponse,
+    status_code=201,
+    summary="Report Outdated or Broken Resource",
+    description="Submits an outdated or out-of-order report for a resource. Maximum 10 reports per user per day.",
+)
+def report_resource(
+    id: uuid.UUID,
+    req: CreateReportRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> ResourceReportResponse:
+    service = ResourceReportService(db)
+    return service.create_report(user_id=current_user.id, resource_id=id, req=req)
