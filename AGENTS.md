@@ -18,6 +18,7 @@ These rules govern all AI coding agents working on the BloomWell repository. The
 9. **Architectural Isolation / Import Boundaries:** `ModerationService` and `CommunityService` must never import private-data repositories.
 10. **Environment-Only Secrets:** Secrets only from environment variables; never commit `.env`.
 11. **No Sensitive On-Disk Caching on Mobile:** No localStorage-like or on-disk caching of sensitive data in the mobile app in v1. All sensitive records remain in-memory only.
+11b. **Schema-Introspection Safety Net:** Any database table with a foreign key to `users.id` or a `user_id` column must be explicitly handled by `deletion_registry` in `app/services/deletion_service.py` and covered by `export_registry` in `app/services/export_service.py` (or listed in `EXPORT_EXCLUDED` with written architectural justification). The introspection test enforces this automatically.
 
 ## Clinical Disclaimer, Ethics & Integrity
 12. **No Fabricated Health Data:** Never claim data is saved, and never fabricate health data, dates, stats, or user info in UI, tests, or seed data. Use clearly fictional demo data only.
