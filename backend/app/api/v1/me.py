@@ -252,3 +252,63 @@ def reauthenticate(
         expires_in=300,
     )
 
+
+import json
+from fastapi.responses import Response
+from app.api.deps import require_step_up
+from app.models.account_event import AccountEventType
+from app.repositories.account_event_repository import AccountEventRepository
+from app.services.export_service import ExportLimitExceededException, export_registry
+
+# Rate limiter for export: 3 per user per day (86400 seconds)
+export_user_limiter = rate_limit(
+    max_requests=3,
+    window_seconds=86400,
+    key_func=lambda req: getattr(req.state, "user_id", "anonymous"),
+)
+
+
+@router.get(
+    "/export",
+    status_code=status.HTTP_200_OK,
+    summary="Export all personal data",
+    description="Generates an on-the-fly JSON export of the caller's complete data bundle. Requires step-up token in X-Reauth-Token header.",
+)
+def export_my_data(
+    current_user: User = Depends(require_step_up),
+    db: Session = Depends(get_db),
+) -> Response:
+    # 1. Enforce 3 exports per day per user rate limit
+    export_user_limiter.check_rate_limit(str(current_user.id))
+
+    # 2. Build export document
+    try:
+        export_doc = export_registry.export_all(db, current_user.id)
+    except ExportLimitExceededException as e:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail={
+                "code": "EXPORT_TOO_LARGE",
+                "message": str(e),
+                "total_records": e.count,
+                "max_records": e.max_records,
+            },
+        )
+
+    # 3. Record account_event: export_requested (no payload, no user content)
+    event_repo = AccountEventRepository(db)
+    event_repo.record_event(current_user.id, AccountEventType.EXPORT_REQUESTED)
+
+    # 4. Serialize to JSON and return with required headers
+    content_bytes = json.dumps(export_doc, indent=2).encode("utf-8")
+
+    return Response(
+        content=content_bytes,
+        media_type="application/json",
+        headers={
+            "Content-Disposition": 'attachment; filename="bloomwell-data-export.json"',
+            "Cache-Control": "no-store",
+            "Content-Type": "application/json",
+        },
+    )
+
