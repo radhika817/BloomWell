@@ -28,6 +28,7 @@ from app.models.education import (
     EducationLanguage,
     ReviewStatus,
 )
+from app.models.account_event import AccountEvent, AccountEventType
 
 __all__ = [
     "User",
@@ -55,5 +56,7 @@ __all__ = [
     "EducationCategory",
     "EducationLanguage",
     "ReviewStatus",
+    "AccountEvent",
+    "AccountEventType",
 ]
 

@@ -43,7 +43,7 @@ def upgrade() -> None:
         sa.Column('city', sa.String(length=100), nullable=True),
         sa.Column('hours_text', sa.String(length=200), nullable=True),
         sa.Column('available_24x7', sa.Boolean(), nullable=True),
-        sa.Column('languages', languages_type, nullable=False, server_default='[]'),
+        sa.Column('languages', languages_type, nullable=False, server_default=sa.text("'{}'")),
         sa.Column('cost', sa.String(length=20), server_default='unknown', nullable=False),
         sa.Column('product_details', product_details_type, nullable=True),
         sa.Column('source_url', sa.String(length=500), nullable=True),

@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from app.models.activity import UserActivityLog
     from app.models.study_plan import StudyPlan
     from app.models.resource import ResourceReport
+    from app.models.account_event import AccountEvent
 
 
 class User(Base, TimestampMixin):
@@ -102,4 +103,9 @@ class User(Base, TimestampMixin):
     resource_reports: Mapped[List["ResourceReport"]] = relationship(
         "ResourceReport",
         back_populates="reporter",
+    )
+    account_events: Mapped[List["AccountEvent"]] = relationship(
+        "AccountEvent",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )
