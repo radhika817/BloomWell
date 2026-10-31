@@ -39,3 +39,45 @@ class CycleTrackingStatusResponse(BaseModel):
         default=0,
         description="Count of cycle records deleted if delete_data was requested.",
     )
+
+
+class ToggleConsentRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    enabled: bool = Field(..., description="Enable or revoke consent.")
+
+
+class CycleConsentDetail(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    enabled: bool
+    enabled_at: Optional[datetime] = None
+
+
+class JournalAIConsentDetail(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    enabled: bool
+    consented_at: Optional[datetime] = None
+
+
+class AIRecommendationsConsentDetail(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    enabled: bool
+
+
+class ConsentsOverviewResponse(BaseModel):
+    """Unified consent management overview."""
+    model_config = ConfigDict(extra="forbid")
+
+    cycle_tracking: CycleConsentDetail
+    planner_cycle: CycleConsentDetail
+    ai_recommendations: AIRecommendationsConsentDetail
+    journal_ai: JournalAIConsentDetail
+    ai_available: bool
+    reminders_enabled: bool
+
+
+class AIConsentUpdateResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    enabled: bool
+    consented_at: Optional[datetime] = None
+    ai_available: bool

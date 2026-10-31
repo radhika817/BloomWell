@@ -163,3 +163,71 @@ def test_two_account_isolation_consent_endpoints(client: TestClient):
     assert res_b.json()["enabled"] is False
     res_track_b = client.get("/v1/me/cycle-tracking", headers=headers_b)
     assert res_track_b.json()["cycle_tracking_enabled"] is False
+
+
+def test_consents_overview_and_ai_consent_endpoints(client: TestClient, db_session: Session):
+    user_id, token = register_user(client, "consent.overview@campus.edu", "Overview User")
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # 1. Initial overview
+    res = client.get("/v1/me/consents", headers=headers)
+    assert res.status_code == 200
+    data = res.json()
+    assert data["cycle_tracking"]["enabled"] is False
+    assert data["planner_cycle"]["enabled"] is False
+    assert data["ai_recommendations"]["enabled"] is False
+    assert data["journal_ai"]["enabled"] is False
+    assert data["ai_available"] is False  # AI_PROVIDER is disabled in tests
+    assert data["reminders_enabled"] is True
+
+    # 2. Toggle AI recommendations
+    res_ai_rec = client.put(
+        "/v1/me/consents/ai-recommendations",
+        json={"enabled": True},
+        headers=headers,
+    )
+    assert res_ai_rec.status_code == 200
+    rec_data = res_ai_rec.json()
+    assert rec_data["enabled"] is True
+    assert rec_data["ai_available"] is False
+
+    # 3. Toggle Journal AI
+    res_j_ai = client.put(
+        "/v1/me/consents/journal-ai",
+        json={"enabled": True},
+        headers=headers,
+    )
+    assert res_j_ai.status_code == 200
+    j_data = res_j_ai.json()
+    assert j_data["enabled"] is True
+    assert j_data["consented_at"] is not None
+    assert j_data["ai_available"] is False
+
+    # 4. Re-check overview reflects updates
+    res_overview2 = client.get("/v1/me/consents", headers=headers)
+    assert res_overview2.status_code == 200
+    data2 = res_overview2.json()
+    assert data2["ai_recommendations"]["enabled"] is True
+    assert data2["journal_ai"]["enabled"] is True
+    assert data2["journal_ai"]["consented_at"] is not None
+
+    # 5. Revoking Journal AI is immediate
+    res_revoke = client.put(
+        "/v1/me/consents/journal-ai",
+        json={"enabled": False},
+        headers=headers,
+    )
+    assert res_revoke.status_code == 200
+    assert res_revoke.json()["enabled"] is False
+    assert res_revoke.json()["consented_at"] is None
+
+    # 6. Verify account_events written with consent_changed (no payload)
+    from app.models.account_event import AccountEvent, AccountEventType
+    import uuid
+    events = (
+        db_session.query(AccountEvent)
+        .filter_by(user_id=uuid.UUID(user_id), event_type=AccountEventType.CONSENT_CHANGED)
+        .all()
+    )
+    # 3 PUT requests -> 3 events
+    assert len(events) == 3

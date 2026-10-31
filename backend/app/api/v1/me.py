@@ -332,3 +332,121 @@ def delete_my_account(
     deletion_registry.delete_user_account(db, current_user.id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+
+from app.core.config import settings
+from app.schemas.consent import (
+    AIConsentUpdateResponse,
+    AIRecommendationsConsentDetail,
+    ConsentsOverviewResponse,
+    CycleConsentDetail,
+    JournalAIConsentDetail,
+    ToggleConsentRequest,
+)
+
+
+@router.get(
+    "/consents",
+    response_model=ConsentsOverviewResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get user consent overview",
+    description="Returns an overview of all feature and privacy consents, timestamps, and AI availability status.",
+)
+def get_my_consents(
+    current_user: User = Depends(get_current_user),
+) -> ConsentsOverviewResponse:
+    pref = current_user.preferences
+    ai_available = settings.AI_PROVIDER.lower() not in ("disabled", "off", "none", "")
+
+    return ConsentsOverviewResponse(
+        cycle_tracking=CycleConsentDetail(
+            enabled=pref.cycle_tracking_enabled if pref else False,
+            enabled_at=pref.cycle_tracking_consent_at if pref else None,
+        ),
+        planner_cycle=CycleConsentDetail(
+            enabled=pref.planner_cycle_consent_at is not None if pref else False,
+            enabled_at=pref.planner_cycle_consent_at if pref else None,
+        ),
+        ai_recommendations=AIRecommendationsConsentDetail(
+            enabled=pref.ai_recommendations_enabled if pref else False,
+        ),
+        journal_ai=JournalAIConsentDetail(
+            enabled=pref.journal_ai_consent_at is not None if pref else False,
+            consented_at=pref.journal_ai_consent_at if pref else None,
+        ),
+        ai_available=ai_available,
+        reminders_enabled=pref.reminders_enabled if pref else True,
+    )
+
+
+@router.put(
+    "/consents/ai-recommendations",
+    response_model=AIConsentUpdateResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Update AI recommendations consent",
+    description="Toggle AI recommendations consent. Responses honestly indicate whether AI features are currently available.",
+)
+def update_ai_recommendations_consent(
+    req: ToggleConsentRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> AIConsentUpdateResponse:
+    pref = current_user.preferences
+    if not pref:
+        pref = UserPreference(user_id=current_user.id)
+        db.add(pref)
+
+    pref.ai_recommendations_enabled = req.enabled
+
+    # Write consent_changed event (no payload)
+    event_repo = AccountEventRepository(db)
+    event_repo.record_event(current_user.id, AccountEventType.CONSENT_CHANGED)
+
+    db.commit()
+    db.refresh(pref)
+
+    ai_available = settings.AI_PROVIDER.lower() not in ("disabled", "off", "none", "")
+    return AIConsentUpdateResponse(
+        enabled=pref.ai_recommendations_enabled,
+        consented_at=None,
+        ai_available=ai_available,
+    )
+
+
+@router.put(
+    "/consents/journal-ai",
+    response_model=AIConsentUpdateResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Update Journal AI reflection consent",
+    description="Toggle Journal AI reflection consent. Responses honestly indicate whether AI features are currently available.",
+)
+def update_journal_ai_consent(
+    req: ToggleConsentRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> AIConsentUpdateResponse:
+    from datetime import datetime, timezone
+
+    pref = current_user.preferences
+    if not pref:
+        pref = UserPreference(user_id=current_user.id)
+        db.add(pref)
+
+    if req.enabled:
+        pref.journal_ai_consent_at = datetime.now(timezone.utc)
+    else:
+        pref.journal_ai_consent_at = None
+
+    # Write consent_changed event (no payload)
+    event_repo = AccountEventRepository(db)
+    event_repo.record_event(current_user.id, AccountEventType.CONSENT_CHANGED)
+
+    db.commit()
+    db.refresh(pref)
+
+    ai_available = settings.AI_PROVIDER.lower() not in ("disabled", "off", "none", "")
+    return AIConsentUpdateResponse(
+        enabled=pref.journal_ai_consent_at is not None,
+        consented_at=pref.journal_ai_consent_at,
+        ai_available=ai_available,
+    )
+
