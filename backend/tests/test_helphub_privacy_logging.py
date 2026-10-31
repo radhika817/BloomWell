@@ -199,3 +199,107 @@ def test_admin_token_cannot_access_other_users_private_data(client: TestClient, 
     # 4. Admin accesses study planner -> no access to User A's plan
     admin_plan = client.get("/v1/study-plans/current", headers=headers_admin)
     assert admin_plan.status_code == 404
+
+
+def test_privacy_center_zero_logging_and_no_device_metadata(client: TestClient, db_session: Session):
+    """
+    ZERO-LOGGING REDACTION & SENSITIVE DATA PRIVACY TEST:
+    Assert that sensitive sentinels (passwords, step-up tokens, export texts, notes)
+    never appear in logs, error responses, or the account_events table.
+    Assert account_events and exports contain NO IP address, device name, or location fields.
+    """
+    import io
+    from app.core.security import create_access_token, create_step_up_token, hash_password
+    from app.models.account_event import AccountEvent, AccountEventType
+    from app.models.checkin import MoodCheckin
+    from app.models.journal import JournalEntry
+    from app.services.export_service import export_registry
+
+    log_stream = io.StringIO()
+    handler = logging.StreamHandler(log_stream)
+    handler.setFormatter(RedactingJsonFormatter("%(levelname)s %(message)s"))
+    handler.addFilter(SensitiveDataFilter())
+
+    root_logger = logging.getLogger()
+    api_logger = logging.getLogger("bloomwell.api")
+    root_logger.addHandler(handler)
+    api_logger.addHandler(handler)
+
+    try:
+        user, token = _create_user(db_session, "student")
+        step_up_token = create_step_up_token(user.id)
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "X-Reauth-Token": step_up_token,
+        }
+
+        sentinel_journal = f"SECRET_JOURNAL_{uuid.uuid4().hex}"
+        sentinel_note = f"SECRET_NOTE_{uuid.uuid4().hex}"
+        sentinel_pw = "SuperSecretPassword123!"
+
+        # Seed private data with sentinels
+        j = JournalEntry(
+            user_id=user.id,
+            client_id=uuid.uuid4(),
+            title="Secret Title",
+            body=sentinel_journal,
+        )
+        c = MoodCheckin(
+            user_id=user.id,
+            client_id=uuid.uuid4(),
+            local_date=date.today(),
+            mood_score=5,
+            stress_score=1,
+            energy_score=5,
+            notes=sentinel_note,
+        )
+        db_session.add_all([j, c])
+        db_session.commit()
+
+        # 1. Trigger export
+        res_exp = client.get("/v1/me/export", headers=headers)
+        assert res_exp.status_code == 200
+
+        # 2. Trigger invalid input error on password change to ensure error body doesn't echo submitted password
+        res_err = client.post(
+            "/v1/me/password",
+            json={"current_password": sentinel_pw, "new_password": "short"},
+            headers=headers,
+        )
+        assert res_err.status_code in (401, 422)
+        assert sentinel_pw not in res_err.text
+
+        # 3. Trigger reauth
+        res_reauth = client.post(
+            "/v1/me/reauth",
+            json={"password": "DummyNonExistentPassword!"},
+            headers=headers,
+        )
+        assert "DummyNonExistentPassword" not in res_reauth.text
+
+        # 4. Check log output for sentinels
+        logs_text = log_stream.getvalue()
+        assert sentinel_journal not in logs_text
+        assert sentinel_note not in logs_text
+        assert sentinel_pw not in logs_text
+        assert step_up_token not in logs_text
+
+        # 5. Inspect account_events table: NO IP, device, or payload columns exist
+        from sqlalchemy import inspect
+        mapper = inspect(AccountEvent)
+        column_names = [col.key for col in mapper.columns]
+        assert "ip_address" not in column_names
+        assert "ip" not in column_names
+        assert "device" not in column_names
+        assert "device_info" not in column_names
+        assert "payload" not in column_names
+        assert set(column_names) == {"id", "user_id", "event_type", "created_at"}
+
+        # Check export content has no IP or device fields
+        export_text = res_exp.text
+        assert "ip_address" not in export_text.lower()
+        assert "device_info" not in export_text.lower()
+        assert "user_agent" not in export_text.lower()
+    finally:
+        root_logger.removeHandler(handler)
+        api_logger.removeHandler(handler)

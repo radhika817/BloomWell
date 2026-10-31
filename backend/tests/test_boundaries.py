@@ -24,6 +24,7 @@ def test_moderation_community_and_resource_admin_import_boundaries():
         "CheckinRepository",
         "JournalRepository",
         "StudyPlanRepository",
+        "AccountEventRepository",
         "MoodCheckin",
         "JournalEntry",
         "StudyPlan",
@@ -31,17 +32,24 @@ def test_moderation_community_and_resource_admin_import_boundaries():
         "CycleLog",
         "AcademicEvent",
         "UserActivityLog",
+        "export_registry",
+        "deletion_registry",
+        "ExportRegistry",
+        "DeletionRegistry",
     }
     forbidden_modules = {
         "app.repositories.checkin_repository",
         "app.repositories.journal_repository",
         "app.repositories.study_plan_repository",
+        "app.repositories.account_event_repository",
         "app.models.checkin",
         "app.models.journal",
         "app.models.study_plan",
         "app.models.cycle",
         "app.models.academic_event",
         "app.models.activity",
+        "app.services.export_service",
+        "app.services.deletion_service",
     }
 
     # Find all moderation, community, resource, education, and admin related files
