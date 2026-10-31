@@ -86,3 +86,31 @@ class RefreshTokenRepository:
         )
         self.db.execute(stmt)
         self.db.commit()
+
+    def revoke_all_for_user(self, user_id: uuid.UUID) -> None:
+        """Revoke all active refresh token families for user."""
+        now = datetime.now(timezone.utc)
+        stmt = (
+            update(RefreshToken)
+            .where(RefreshToken.user_id == user_id, RefreshToken.revoked_at.is_(None))
+            .values(revoked_at=now)
+        )
+        self.db.execute(stmt)
+        self.db.commit()
+
+    def count_active_sessions(self, user_id: uuid.UUID) -> int:
+        """
+        Count active (unrevoked and non-expired) refresh token sessions for user.
+        Counts distinct active families / devices.
+        """
+        from sqlalchemy import func
+        now = datetime.now(timezone.utc)
+        stmt = (
+            select(func.count(func.distinct(RefreshToken.family_id)))
+            .where(
+                RefreshToken.user_id == user_id,
+                RefreshToken.revoked_at.is_(None),
+                RefreshToken.expires_at > now,
+            )
+        )
+        return self.db.scalar(stmt) or 0

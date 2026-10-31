@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import Literal, Optional
+from typing import List, Literal, Optional
 from zoneinfo import available_timezones
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -58,3 +58,46 @@ class AccountDeleteRequest(BaseModel):
         ...,
         description="Explicit uppercase string confirmation 'DELETE'",
     )
+
+
+class PasswordChangeRequest(BaseModel):
+    """Payload for POST /me/password."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    current_password: str = Field(..., description="User's existing password")
+    new_password: str = Field(..., min_length=10, description="New password meeting complexity rules")
+
+    @field_validator("new_password")
+    @classmethod
+    def validate_new_password_strength(cls, v: str) -> str:
+        from app.core.security import validate_password_strength
+        validate_password_strength(v)
+        return v
+
+
+class SessionStatusResponse(BaseModel):
+    """Minimal session status without device, IP, or location tracking."""
+
+    model_config = ConfigDict(extra="forbid")
+    active_sessions: int = Field(..., description="Count of active refresh token sessions")
+
+
+class AccountEventResponse(BaseModel):
+    """Minimal event audit item for security log."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: uuid.UUID
+    event_type: str
+    created_at: datetime
+
+
+class AccountEventListResponse(BaseModel):
+    """Cursor-paginated security event log response."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    items: List[AccountEventResponse]
+    next_cursor: Optional[str] = None
+    has_more: bool = False

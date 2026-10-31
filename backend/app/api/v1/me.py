@@ -450,3 +450,149 @@ def update_journal_ai_consent(
         ai_available=ai_available,
     )
 
+
+from app.core.security import (
+    create_access_token,
+    generate_raw_refresh_token,
+    hash_password,
+    hash_refresh_token,
+)
+from app.repositories.refresh_token_repository import RefreshTokenRepository
+from app.schemas.auth import TokenResponse
+from app.schemas.user import (
+    AccountEventListResponse,
+    AccountEventResponse,
+    PasswordChangeRequest,
+    SessionStatusResponse,
+)
+
+# Password change rate limiter: 5 per minute per user/IP
+password_change_limiter = rate_limit(max_requests=5, window_seconds=60)
+
+
+@router.post(
+    "/password",
+    response_model=TokenResponse,
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(password_change_limiter)],
+    summary="Change account password",
+    description="Verifies current password, checks complexity & non-reuse, revokes all sessions, and returns fresh token pair.",
+)
+def change_password(
+    req: PasswordChangeRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> TokenResponse:
+    # 1. Verify current password
+    if not verify_password(req.current_password, current_user.password_hash):
+        verify_dummy_password(req.current_password)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect current password.",
+        )
+
+    # 2. Reject reuse of current password
+    if verify_password(req.new_password, current_user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password cannot be the same as the current password.",
+        )
+
+    # 3. Hash and update password
+    current_user.password_hash = hash_password(req.new_password)
+
+    # 4. Revoke all refresh token families for user
+    token_repo = RefreshTokenRepository(db)
+    token_repo.revoke_all_for_user(current_user.id)
+
+    # 5. Issue fresh token pair for this device/session
+    raw_refresh = generate_raw_refresh_token()
+    token_repo.create(
+        user_id=current_user.id,
+        token_hash=hash_refresh_token(raw_refresh),
+    )
+    new_access = create_access_token(current_user.id, current_user.role)
+
+    # 6. Write password_changed account event
+    event_repo = AccountEventRepository(db)
+    event_repo.record_event(current_user.id, AccountEventType.PASSWORD_CHANGED)
+
+    db.commit()
+
+    return TokenResponse(
+        access_token=new_access,
+        refresh_token=raw_refresh,
+        token_type="bearer",
+        expires_in=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+    )
+
+
+@router.post(
+    "/sessions/revoke-all",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Revoke all active sessions",
+    description="Revokes all refresh tokens across all devices. Note: current access token stays valid until expiration (max 15 minutes).",
+)
+def revoke_all_sessions(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> Response:
+    token_repo = RefreshTokenRepository(db)
+    token_repo.revoke_all_for_user(current_user.id)
+
+    event_repo = AccountEventRepository(db)
+    event_repo.record_event(current_user.id, AccountEventType.SESSIONS_REVOKED)
+
+    db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get(
+    "/sessions",
+    response_model=SessionStatusResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get active session count",
+    description="Returns the count of active sessions. Strictly avoids storing or returning IP addresses, device names, or location info.",
+)
+def get_sessions_status(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> SessionStatusResponse:
+    token_repo = RefreshTokenRepository(db)
+    active_count = token_repo.count_active_sessions(current_user.id)
+    return SessionStatusResponse(active_sessions=active_count)
+
+
+@router.get(
+    "/account-events",
+    response_model=AccountEventListResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get security activity log",
+    description="Returns cursor-paginated security events for the caller's account, newest first.",
+)
+def get_my_account_events(
+    limit: int = Query(20, ge=1, le=100, description="Items per page"),
+    cursor: Optional[str] = Query(None, description="Cursor for pagination (ID)"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> AccountEventListResponse:
+    event_repo = AccountEventRepository(db)
+    events = event_repo.list_events(current_user.id, limit=limit + 1, cursor=cursor)
+
+    has_more = len(events) > limit
+    page_items = events[:limit]
+    next_cursor = str(page_items[-1].id) if has_more and page_items else None
+
+    return AccountEventListResponse(
+        items=[
+            AccountEventResponse(
+                id=e.id,
+                event_type=e.event_type.value if hasattr(e.event_type, "value") else str(e.event_type),
+                created_at=e.created_at,
+            )
+            for e in page_items
+        ],
+        next_cursor=next_cursor,
+        has_more=has_more,
+    )
+
