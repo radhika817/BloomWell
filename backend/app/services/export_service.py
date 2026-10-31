@@ -211,13 +211,11 @@ def _export_study_plans(db: Session, user_id: uuid.UUID) -> List[Dict[str, Any]]
                 "id": str(item.id),
                 "plan_date": item.plan_date.isoformat(),
                 "suggested_load": item.suggested_load,
-                "adjusted_load": item.adjusted_load,
-                "target_study_minutes": item.target_study_minutes,
+                "reason_codes": item.reason_codes or [],
                 "status": item.status,
-                "user_notes": item.user_notes,
-                "completed": item.completed,
-                "exam_event_id": str(item.exam_event_id) if item.exam_event_id else None,
+                "academic_event_id": str(item.academic_event_id) if item.academic_event_id else None,
                 "activity_id": str(item.activity_id) if item.activity_id else None,
+                "updated_at": item.updated_at.isoformat() if item.updated_at else None,
             }
             for item in p.items
         ]

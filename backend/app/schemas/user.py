@@ -47,3 +47,14 @@ class PreferencesUpdateRequest(BaseModel):
                 )
             return tz
         return v
+
+
+class AccountDeleteRequest(BaseModel):
+    """Payload for DELETE /me requiring explicit confirmation."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    confirm: Literal["DELETE"] = Field(
+        ...,
+        description="Explicit uppercase string confirmation 'DELETE'",
+    )

@@ -312,3 +312,23 @@ def export_my_data(
         },
     )
 
+
+from app.schemas.user import AccountDeleteRequest
+from app.services.deletion_service import deletion_registry
+
+
+@router.delete(
+    "",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete account and all personal data",
+    description="Permanently deletes the caller's account and all associated personal data in a single transaction. Requires X-Reauth-Token header and confirmation body.",
+)
+def delete_my_account(
+    req: AccountDeleteRequest,
+    current_user: User = Depends(require_step_up),
+    db: Session = Depends(get_db),
+) -> Response:
+    # Explicit confirmation already validated by Pydantic (confirm == "DELETE")
+    deletion_registry.delete_user_account(db, current_user.id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
