@@ -18,6 +18,7 @@ erDiagram
     activities ||--o{ study_plan_items : "suggests"
     resources ||--o{ resource_reports : "receives"
     users ||--o{ resource_reports : "submits"
+    users ||--o{ account_events : "logs"
 
     users {
         uuid id PK
@@ -202,6 +203,13 @@ erDiagram
         string status
         timestamptz updated_at
     }
+
+    account_events {
+        uuid id PK
+        uuid user_id FK
+        string event_type "export_requested, password_changed, sessions_revoked, cycle_data_deleted, consent_changed"
+        timestamptz created_at
+    }
 ```
 
 ## Table Specifications
@@ -319,3 +327,12 @@ erDiagram
   - Indexes: `ix_education_category_language` on `(category, language)`, `ix_education_is_published` on `(is_published)`.
   - Check Constraints: `category IN ('periods_basics', 'hygiene', 'common_symptoms', 'when_to_seek_care', 'emotional_wellbeing', 'supporting_someone')`, `language IN ('en', 'hi', 'mr')`, `review_status IN ('draft', 'reviewed')`.
   - Integrity: Plain text body only (no HTML); starts as `draft` with `BloomWell team draft` source; must include doctor consult note.
+
+### 15. `account_events`
+- User-visible audit trail of sensitive account and privacy operations.
+- **Constraints & Indexes**:
+  - Primary Key: `id` (UUID).
+  - Foreign Key: `user_id` -> `users.id` with `ON DELETE CASCADE` (audit log permanently disappears when the user account is deleted).
+  - Index: `ix_account_events_user_id_created_at` on `(user_id, created_at)` for efficient cursor pagination (newest first).
+  - Enum: `event_type IN ('export_requested', 'password_changed', 'sessions_revoked', 'cycle_data_deleted', 'consent_changed')`.
+  - Privacy: Contains only event type and created timestamp. Strictly no request payloads, IP addresses, or device info.

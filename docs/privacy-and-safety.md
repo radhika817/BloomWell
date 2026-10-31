@@ -69,3 +69,33 @@ Every educational article must conclude with clear, neutral guidance encouraging
 2. **Clinical Review:** A verified medical educator or clinician inspects the article for clarity, non-prescriptive language, and cultural safety.
 3. **Approval:** The reviewer details are recorded in `docs/content-review-log.md`.
 4. **Publishing:** The admin activates the article via `PATCH /v1/admin/education/{id}` setting `review_status: "reviewed"`, `reviewed_at: "<date>"`, and `is_published: true`.
+
+---
+
+## 4. Privacy Center: Export, Deletion, and Session Controls
+
+### 4.1 Step-Up Re-Authentication
+- Sensitive account operations (data export and account deletion) require a recent step-up token.
+- `POST /v1/me/reauth` verifies the user's password in constant time and returns a signed 5-minute JWT (`scope: "reauth"`).
+- The client passes this token via the `X-Reauth-Token` header. Step-up tokens cannot be used as access tokens, and access tokens cannot be used as step-up tokens.
+- Attempting to use a step-up token belonging to a different user is rejected with `401 Unauthorized`.
+
+### 4.2 Data Export (`GET /v1/me/export`)
+- **What is Exported:** A single JSON document containing all of the caller's own records across every feature: profile (id, display_name, role, created_at; strictly no password hash or tokens), preferences and consent timestamps, mood check-ins (scores, tags, notes), journal entries (full body and titles), academic events, activity completion and favorites, cycle logs (period dates), study plans and daily suggestions/decisions, submitted resource reports, and account events.
+- **On-the-Fly Generation:** Exports are streamed on-the-fly directly to the response and are never saved to disk or object storage.
+- **Headers:** Returned with `Content-Disposition: attachment; filename="bloomwell-data-export.json"`, `Cache-Control: no-store`, and `Content-Type: application/json`.
+- **Audit Logging:** An `export_requested` event is logged to `account_events` without file content, record counts, or IP/device metadata.
+- **Safety Limits:** Capped at `EXPORT_MAX_RECORDS` (default: 50,000 records). Requests exceeding this limit return `413 Request Entity Too Large` with guidance. Rate limited to 3 exports per user per day.
+
+### 4.3 Account Deletion (`DELETE /v1/me`)
+- **Atomic Deletion:** Requires `X-Reauth-Token` and explicit request body `{"confirm": "DELETE"}`.
+- **Single Transaction:** In a single atomic database transaction, all rows owned by the user across `user_preferences`, `refresh_tokens`, `mood_checkins`, `journal_entries`, `academic_events`, `user_activity_logs`, `cycle_logs`, `study_plans`, and `study_plan_items` are explicitly deleted.
+- **Anonymous Retention:** `resource_reports` rows survive to keep campus facility status accurate, but the `reporter_id` link is set to `NULL`, severing all connection to the user.
+- **Immediate Token Invalidation:** When the `users` row is deleted, the user's old access token fails immediately on all subsequent requests with `401 Unauthorized` because authentication resolves live users from the database.
+- **Backup Retention Window:** Database backups age out under the documented `BACKUP_RETENTION_DAYS` window (default: 14 days), after which deleted data is completely purged from all backup media.
+
+### 4.4 Session Control & Security Log
+- **Session Revocation (`POST /v1/me/sessions/revoke-all`):** Revokes all active refresh token families.
+  - *Honest Session Limit:* The caller's current 15-minute access token remains valid until its natural expiry time (up to 15 minutes), after which refresh is refused and re-authentication is required.
+- **Active Session Count (`GET /v1/me/sessions`):** Returns only `{ "active_sessions": <count> }`. Strictly no IP addresses, device user-agents, or geographical locations are stored or returned.
+- **Security Audit Log (`GET /v1/me/account-events`):** Cursor-paginated log of the user's account security events (`export_requested`, `password_changed`, `sessions_revoked`, `cycle_data_deleted`, `consent_changed`). Disappears permanently when the account is deleted.

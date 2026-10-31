@@ -884,5 +884,150 @@ Updates an article, marks as reviewed, or publishes.
 Permanently deletes an educational article.
 - **Response Format (204 No Content)**.
 
+---
+
+### 14. Privacy Center & Account Management
+
+#### `POST /v1/me/reauth`
+Verifies user password and returns a short-lived step-up token for sensitive actions.
+- **Rate Limit:** 5 requests per minute per user and per IP.
+- **Request Body:**
+  ```json
+  {
+    "password": "UserPassword123!"
+  }
+  ```
+- **Response Format (200 OK):**
+  ```json
+  {
+    "step_up_token": "eyJhbGciOiJIUzI1NiIs...",
+    "token_type": "bearer",
+    "expires_in": 300
+  }
+  ```
+
+#### `GET /v1/me/export`
+Generates and downloads on-the-fly JSON export of the caller's complete data bundle.
+- **Headers Required:** `Authorization: Bearer <access_token>`, `X-Reauth-Token: <step_up_token>`.
+- **Rate Limit:** 3 requests per user per day.
+- **Response Headers:**
+  - `Content-Disposition: attachment; filename="bloomwell-data-export.json"`
+  - `Cache-Control: no-store`
+  - `Content-Type: application/json`
+- **Response Format (200 OK):** Complete user data export including metadata, profile, preferences, check-ins, journal entries, academic events, activity logs, cycle logs, study plans, and account events.
+- **Error (413 Request Entity Too Large):** If total records exceed `EXPORT_MAX_RECORDS` (default: 50,000).
+
+#### `DELETE /v1/me`
+Permanently deletes the caller's account and all associated personal data in one database transaction.
+- **Headers Required:** `Authorization: Bearer <access_token>`, `X-Reauth-Token: <step_up_token>`.
+- **Request Body:**
+  ```json
+  {
+    "confirm": "DELETE"
+  }
+  ```
+- **Response Format (204 No Content)**. Old access token fails with 401 immediately after deletion.
+
+#### `GET /v1/me/consents`
+Returns the overview of feature and privacy consents.
+- **Response Format (200 OK):**
+  ```json
+  {
+    "cycle_tracking": {
+      "enabled": true,
+      "enabled_at": "2026-10-26T10:00:00Z"
+    },
+    "planner_cycle": {
+      "enabled": true,
+      "enabled_at": "2026-10-26T10:05:00Z"
+    },
+    "ai_recommendations": {
+      "enabled": false
+    },
+    "journal_ai": {
+      "enabled": false,
+      "consented_at": null
+    },
+    "ai_available": false,
+    "reminders_enabled": true
+  }
+  ```
+
+#### `PUT /v1/me/consents/ai-recommendations`
+Toggles AI recommendations consent.
+- **Request Body:**
+  ```json
+  {
+    "enabled": true
+  }
+  ```
+- **Response Format (200 OK):**
+  ```json
+  {
+    "enabled": true,
+    "consented_at": null,
+    "ai_available": false
+  }
+  ```
+
+#### `PUT /v1/me/consents/journal-ai`
+Toggles Journal AI reflection consent.
+- **Request Body:**
+  ```json
+  {
+    "enabled": true
+  }
+  ```
+- **Response Format (200 OK):**
+  ```json
+  {
+    "enabled": true,
+    "consented_at": "2026-10-31T12:00:00Z",
+    "ai_available": false
+  }
+  ```
+
+#### `POST /v1/me/password`
+Changes account password, verifies current password, enforces minimum 10 chars and denylist, revokes all sessions, and returns a fresh token pair.
+- **Request Body:**
+  ```json
+  {
+    "current_password": "OldPassword123!",
+    "new_password": "NewSecretPassword456!"
+  }
+  ```
+- **Response Format (200 OK):** `TokenResponse` with `access_token` and `refresh_token`.
+
+#### `POST /v1/me/sessions/revoke-all`
+Revokes all refresh tokens ("log out everywhere").
+- **Response Format (204 No Content)**. Note: current access token stays valid until expiration (15 minutes max).
+
+#### `GET /v1/me/sessions`
+Returns active session count without storing or exposing device or IP info.
+- **Response Format (200 OK):**
+  ```json
+  {
+    "active_sessions": 2
+  }
+  ```
+
+#### `GET /v1/me/account-events`
+Returns cursor-paginated security activity audit log, newest first.
+- **Query Parameters:** `limit` (default: 20, max: 100), `cursor` (UUID).
+- **Response Format (200 OK):**
+  ```json
+  {
+    "items": [
+      {
+        "id": "e4587ba2-8e10-4e31-8f4b-2259161a067a",
+        "event_type": "password_changed",
+        "created_at": "2026-10-31T12:15:00Z"
+      }
+    ],
+    "next_cursor": null,
+    "has_more": false
+  }
+  ```
+
 
 
