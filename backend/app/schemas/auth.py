@@ -72,3 +72,17 @@ class AuthSuccessResponse(BaseModel):
 
     tokens: TokenResponse
     user: UserProfileResponse
+
+
+class ReauthRequest(BaseModel):
+    """Step-up re-authentication payload."""
+
+    password: str = Field(..., description="User password for step-up verification")
+
+
+class ReauthResponse(BaseModel):
+    """Step-up token response."""
+
+    step_up_token: str
+    token_type: str = "bearer"
+    expires_in: int = 300

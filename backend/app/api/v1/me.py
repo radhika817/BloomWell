@@ -203,3 +203,52 @@ def get_my_resource_reports(
     service = ResourceReportService(db)
     return service.get_my_reports(user_id=current_user.id, limit=limit, cursor=cursor)
 
+
+from app.core.security import (
+    create_step_up_token,
+    rate_limit,
+    verify_dummy_password,
+    verify_password,
+)
+from app.schemas.auth import ReauthRequest, ReauthResponse
+
+# Rate limiters for step-up reauthentication:
+# 5 attempts per minute per IP, 5 attempts per minute per user
+reauth_ip_limiter = rate_limit(max_requests=5, window_seconds=60)
+reauth_user_limiter = rate_limit(
+    max_requests=5,
+    window_seconds=60,
+    key_func=lambda req: getattr(req.state, "user_id", "anonymous"),
+)
+
+
+@router.post(
+    "/reauth",
+    response_model=ReauthResponse,
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(reauth_ip_limiter)],
+    summary="Step-up re-authentication",
+    description="Verifies the caller's password in constant time and returns a 5-minute step-up token for sensitive operations.",
+)
+def reauthenticate(
+    req: ReauthRequest,
+    current_user: User = Depends(get_current_user),
+) -> ReauthResponse:
+    # Check rate limit per user
+    reauth_user_limiter.check_rate_limit(str(current_user.id))
+
+    # Constant-time password verification
+    if not verify_password(req.password, current_user.password_hash):
+        verify_dummy_password(req.password)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect password.",
+        )
+
+    step_up_token = create_step_up_token(current_user.id)
+    return ReauthResponse(
+        step_up_token=step_up_token,
+        token_type="bearer",
+        expires_in=300,
+    )
+

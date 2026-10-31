@@ -100,8 +100,16 @@ def decode_access_token(token: str) -> Dict[str, Any]:
     """
     Decode and strictly validate JWT access token claims.
     Raises HTTPException(401) on missing/tampered/expired token.
+    Explicitly rejects step-up tokens.
     """
     try:
+        unverified = jwt.decode(token, options={"verify_signature": False})
+        if unverified.get("scope") == "reauth":
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Step-up token cannot be used as an access token.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
         payload = jwt.decode(
             token,
             settings.APP_SECRET_KEY,
@@ -113,6 +121,8 @@ def decode_access_token(token: str) -> Dict[str, Any]:
             },
         )
         return payload
+    except HTTPException:
+        raise
     except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -124,6 +134,63 @@ def decode_access_token(token: str) -> Dict[str, Any]:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid access token.",
             headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+def create_step_up_token(user_id: Union[uuid.UUID, str]) -> str:
+    """
+    Issue a short-lived signed JWT step-up token (5 minutes) for sensitive actions.
+    Claims strictly limited to: sub, scope="reauth", jti, exp.
+    """
+    now = datetime.now(timezone.utc)
+    expires_at = now + timedelta(minutes=5)
+    token_id = str(uuid.uuid4())
+
+    payload = {
+        "sub": str(user_id),
+        "scope": "reauth",
+        "jti": token_id,
+        "exp": int(expires_at.timestamp()),
+    }
+
+    return jwt.encode(payload, settings.APP_SECRET_KEY, algorithm="HS256")
+
+
+def decode_step_up_token(token: str) -> Dict[str, Any]:
+    """
+    Decode and validate a step-up token.
+    Must contain sub, scope='reauth', jti, exp.
+    Rejects tokens with missing scope, invalid scope (e.g. access tokens), or expired tokens.
+    """
+    try:
+        unverified = jwt.decode(token, options={"verify_signature": False})
+        if unverified.get("scope") != "reauth":
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid step-up token: missing or incorrect scope.",
+            )
+        payload = jwt.decode(
+            token,
+            settings.APP_SECRET_KEY,
+            algorithms=["HS256"],
+            options={
+                "require": ["sub", "scope", "jti", "exp"],
+                "verify_signature": True,
+                "verify_exp": True,
+            },
+        )
+        return payload
+    except HTTPException:
+        raise
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Step-up re-authentication token has expired.",
+        )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid step-up token.",
         )
 
 
