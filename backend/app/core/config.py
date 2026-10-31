@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     ALLOW_DEMO_RESOURCES: Optional[bool] = None
     ALLOW_DRAFT_CONTENT: Optional[bool] = None
     RESOURCE_STALE_DAYS: int = 180
+    EXPORT_MAX_RECORDS: int = 50000
+    BACKUP_RETENTION_DAYS: int = 14
 
     @property
     def cors_origins_list(self) -> List[str]:

@@ -68,6 +68,25 @@ def test_helphub_and_education_defaults_in_production():
     assert config.RESOURCE_STALE_DAYS == 180
 
 
+def test_privacy_and_retention_defaults():
+    """Verify default export record cap and backup retention days."""
+    config = Settings(
+        APP_ENV="development",
+        APP_SECRET_KEY="replace-with-local-development-secret",
+    )
+    assert config.EXPORT_MAX_RECORDS == 50000
+    assert config.BACKUP_RETENTION_DAYS == 14
+
+    custom = Settings(
+        APP_ENV="development",
+        APP_SECRET_KEY="replace-with-local-development-secret",
+        EXPORT_MAX_RECORDS=1000,
+        BACKUP_RETENTION_DAYS=30,
+    )
+    assert custom.EXPORT_MAX_RECORDS == 1000
+    assert custom.BACKUP_RETENTION_DAYS == 30
+
+
 def test_helphub_and_education_production_overrides_to_false():
     """Verify that even if True is passed for demo/draft, production enforces False."""
     secure_key = "a-very-strong-and-secure-random-secret-key-32-chars!"
