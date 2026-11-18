@@ -1,4 +1,5 @@
 import hashlib
+import ipaddress
 import secrets
 import time
 import uuid
@@ -204,10 +205,33 @@ def hash_refresh_token(raw_token: str) -> str:
     return hashlib.sha256(raw_token.encode("utf-8")).hexdigest()
 
 
+def is_trusted_proxy(peer_ip: str, trusted_list: List[str]) -> bool:
+    """Determine whether peer_ip is in trusted proxy list (exact IP or CIDR)."""
+    if not peer_ip or peer_ip == "unknown":
+        return False
+    try:
+        peer_addr = ipaddress.ip_address(peer_ip)
+    except ValueError:
+        return peer_ip in trusted_list
+
+    for trusted in trusted_list:
+        try:
+            if "/" in trusted:
+                if peer_addr in ipaddress.ip_network(trusted, strict=False):
+                    return True
+            else:
+                if peer_addr == ipaddress.ip_address(trusted):
+                    return True
+        except ValueError:
+            if peer_ip == trusted:
+                return True
+    return False
+
+
 class InMemoryRateLimiter:
     """
     Sliding-window in-memory rate limiter supporting custom key derive functions
-    (e.g., per-IP or per-email).
+    (e.g., per-IP or per-email) and trusted proxy X-Forwarded-For resolution.
     """
 
     def __init__(
@@ -215,19 +239,35 @@ class InMemoryRateLimiter:
         max_requests: int = 60,
         window_seconds: int = 60,
         key_func: Optional[Callable[[Request], str]] = None,
+        trusted_proxies: Optional[List[str]] = None,
     ) -> None:
         self.max_requests = max_requests
         self.window_seconds = window_seconds
         self.key_func = key_func
+        self.trusted_proxies = trusted_proxies
         self._records: Dict[str, List[float]] = defaultdict(list)
 
     def _get_client_ip(self, request: Request) -> str:
-        forwarded_for = request.headers.get("x-forwarded-for")
-        if forwarded_for:
-            return forwarded_for.split(",")[0].strip()
-        if request.client and request.client.host:
-            return request.client.host
-        return "unknown"
+        """
+        Derive the real client IP.
+        Only honor X-Forwarded-For if the immediate peer is a configured trusted proxy.
+        Ignore X-Forwarded-For from untrusted sources to prevent spoofing.
+        """
+        peer_ip = request.client.host if request.client and request.client.host else "unknown"
+        trusted_list = (
+            self.trusted_proxies
+            if self.trusted_proxies is not None
+            else settings.trusted_proxy_ips_list
+        )
+
+        if is_trusted_proxy(peer_ip, trusted_list):
+            forwarded_for = request.headers.get("x-forwarded-for")
+            if forwarded_for:
+                client_ip = forwarded_for.split(",")[0].strip()
+                if client_ip:
+                    return client_ip
+
+        return peer_ip
 
     def check_rate_limit(self, key: str) -> None:
         """Check and record request timestamp for given key."""
@@ -256,10 +296,12 @@ def rate_limit(
     max_requests: int = 60,
     window_seconds: int = 60,
     key_func: Optional[Callable[[Request], str]] = None,
+    trusted_proxies: Optional[List[str]] = None,
 ) -> InMemoryRateLimiter:
     """Factory creating rate limiting dependency."""
     return InMemoryRateLimiter(
         max_requests=max_requests,
         window_seconds=window_seconds,
         key_func=key_func,
+        trusted_proxies=trusted_proxies,
     )
