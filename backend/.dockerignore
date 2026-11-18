@@ -1,0 +1,21 @@
+# Ignore environment and secret files
+.env
+.env.*
+!.env.example
+
+# Python cache and virtual environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Test suites and developer configs
+tests/
+.git/
+.gitignore
+*.md
