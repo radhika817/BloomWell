@@ -19,7 +19,7 @@ if [ -n "$staged_files" ]; then
         base=$(basename "$file")
 
         # Allow explicit whitelist exceptions
-        if [ "$base" = ".env.example" ]; then
+        if [ "$base" = ".env.example" ] || [ "$base" = ".env.production.example" ]; then
             continue
         fi
 

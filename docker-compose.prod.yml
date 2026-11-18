@@ -1,0 +1,92 @@
+services:
+  caddy:
+    image: caddy:2.9-alpine
+    container_name: bloomwell-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:-example.com}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      api:
+        condition: service_started
+    networks:
+      - internal-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: bloomwell-api:latest
+    container_name: bloomwell-api
+    restart: unless-stopped
+    env_file:
+      - path: .env.production
+        required: false
+    networks:
+      - internal-net
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  local-db:
+    profiles:
+      - local-db
+    image: postgres:16-alpine
+    container_name: bloomwell-local-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bloomwell}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-local-only}
+      POSTGRES_DB: ${POSTGRES_DB:-bloomwell}
+    volumes:
+      - local-postgres-data:/var/lib/postgresql/data
+    networks:
+      - internal-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-bloomwell} -d $${POSTGRES_DB:-bloomwell}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  internal-net:
+    driver: bridge
+
+volumes:
+  caddy-data:
+  caddy-config:
+  local-postgres-data:
