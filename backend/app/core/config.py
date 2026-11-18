@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     CORS_ORIGINS: Union[str, List[str]] = "http://localhost:3000"
     LOG_LEVEL: str = "INFO"
     AI_PROVIDER: str = "disabled"
+    ENABLE_DOCS: Optional[bool] = None
+    TRUSTED_PROXY_IPS: Union[str, List[str]] = "127.0.0.1,::1"
     ALLOW_DEMO_RESOURCES: Optional[bool] = None
     ALLOW_DRAFT_CONTENT: Optional[bool] = None
     RESOURCE_STALE_DAYS: int = 180
@@ -38,18 +40,34 @@ class Settings(BaseSettings):
             if origin.strip()
         ]
 
-    @model_validator(mode="after")
-    def validate_production_secret(self) -> "Settings":
-        """Refuse to start in production if APP_SECRET_KEY is still a placeholder, and enforce production content rules."""
-        is_production = self.APP_ENV.lower() in ("production", "prod")
-        val = self.APP_SECRET_KEY.strip()
-        val_lower = val.lower()
-        placeholders = [
-            "replace-with",
-            "change-me",
-            "placeholder",
+    @property
+    def trusted_proxy_ips_list(self) -> List[str]:
+        """Parse TRUSTED_PROXY_IPS string or list into a list of trusted proxy IPs."""
+        if isinstance(self.TRUSTED_PROXY_IPS, list):
+            return self.TRUSTED_PROXY_IPS
+        return [
+            ip.strip()
+            for ip in self.TRUSTED_PROXY_IPS.split(",")
+            if ip.strip()
         ]
+
+    @model_validator(mode="after")
+    def validate_production_settings(self) -> "Settings":
+        """Refuse to start in production if security rules are violated and configure defaults."""
+        is_production = self.APP_ENV.lower() in ("production", "prod")
+
+        # ENABLE_DOCS defaults to False in production, True in development if not explicitly set
+        if self.ENABLE_DOCS is None:
+            self.ENABLE_DOCS = False if is_production else True
+
         if is_production:
+            val = self.APP_SECRET_KEY.strip()
+            val_lower = val.lower()
+            placeholders = [
+                "replace-with",
+                "change-me",
+                "placeholder",
+            ]
             if (
                 not val
                 or any(ph in val_lower for ph in placeholders)
@@ -59,9 +77,25 @@ class Settings(BaseSettings):
                 raise ValueError(
                     "APP_SECRET_KEY must be configured with a secure, non-placeholder secret in production (minimum 32 characters)."
                 )
-            # In production, demo resources and draft education content are never returned
-            self.ALLOW_DEMO_RESOURCES = False
-            self.ALLOW_DRAFT_CONTENT = False
+
+            # DATABASE_URL must not contain placeholder password
+            db_url_lower = self.DATABASE_URL.lower()
+            if any(ph in db_url_lower for ph in ("change-me", "replace-with", "placeholder")):
+                raise ValueError(
+                    "DATABASE_URL must not contain placeholder credentials in production."
+                )
+
+            # CORS_ORIGINS must not contain wildcard "*"
+            if "*" in self.cors_origins_list:
+                raise ValueError(
+                    "CORS_ORIGINS must not contain '*' in production."
+                )
+
+            # In production, demo resources and draft content default to False unless explicitly set
+            if self.ALLOW_DEMO_RESOURCES is None:
+                self.ALLOW_DEMO_RESOURCES = False
+            if self.ALLOW_DRAFT_CONTENT is None:
+                self.ALLOW_DRAFT_CONTENT = False
         else:
             if self.ALLOW_DEMO_RESOURCES is None:
                 self.ALLOW_DEMO_RESOURCES = True

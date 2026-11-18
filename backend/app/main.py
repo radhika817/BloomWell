@@ -71,11 +71,18 @@ class RequestIdMiddleware(BaseHTTPMiddleware):
 
 def create_application() -> FastAPI:
     """FastAPI application factory."""
+    docs_url = "/docs" if settings.ENABLE_DOCS else None
+    redoc_url = "/redoc" if settings.ENABLE_DOCS else None
+    openapi_url = "/openapi.json" if settings.ENABLE_DOCS else None
+
     app = FastAPI(
         title="BloomWell API",
         description="Privacy-first menstrual wellness and peer-support platform backend.",
         version="0.1.0",
         lifespan=lifespan,
+        docs_url=docs_url,
+        redoc_url=redoc_url,
+        openapi_url=openapi_url,
     )
 
     # 1. Request ID Middleware
