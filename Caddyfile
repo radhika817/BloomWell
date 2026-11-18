@@ -1,0 +1,54 @@
+# BloomWell Production Caddy Reverse Proxy Configuration
+# Automatic HTTPS, TLS termination, Security Headers, and Privacy-Safe Logging
+
+{$DOMAIN:example.com} {
+	# Enforce request body size limit (10MB for JSON API payloads)
+	request_body {
+		max_size 10MB
+	}
+
+	# Explicitly block access to API documentation and schema endpoints
+	@blocked_docs {
+		path /docs /docs/* /redoc /redoc/* /openapi.json /openapi.json/*
+	}
+	respond @blocked_docs 404
+
+	# Privacy-first logging: exclude request bodies, query strings, and Authorization headers
+	log {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>headers>Authorization replace [REDACTED]
+				request>headers>Cookie replace [REDACTED]
+				request>headers>X-Reauth-Token replace [REDACTED]
+				request>uri query [REDACTED]
+			}
+		}
+		level INFO
+	}
+
+	# Strict Security Headers suited for a private JSON API
+	header {
+		# Enforce HTTPS across all subdomains for 2 years
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		# Prevent MIME sniffing
+		X-Content-Type-Options "nosniff"
+		# Disallow framing
+		X-Frame-Options "DENY"
+		# Never send referrer information
+		Referrer-Policy "no-referrer"
+		# Restrictive CSP for JSON-only REST backend
+		Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+		# Disable browser sensors and unnecessary features
+		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+		# Remove server identifier
+		-Server
+	}
+
+	# Reverse proxy to the backend API service on internal network
+	reverse_proxy api:8000 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+	}
+}
