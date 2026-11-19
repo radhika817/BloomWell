@@ -1,0 +1,67 @@
+name: Build Release APK
+
+"on":
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Build Android Release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate API_BASE_URL Repository Variable
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: |
+          if [ -z "${API_BASE_URL:-}" ]; then
+            echo "::error::Repository variable API_BASE_URL is missing or empty! Please configure it under repository Settings -> Secrets and variables -> Actions -> Variables." >&2
+            exit 1
+          fi
+          if [[ "${API_BASE_URL}" != https://* ]]; then
+            echo "::error::API_BASE_URL must start with 'https://' for production release APK builds (received: '${API_BASE_URL}'). Plain HTTP is rejected per security policy." >&2
+            exit 1
+          fi
+          echo "Validated API_BASE_URL: ${API_BASE_URL}"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.7"
+          channel: "stable"
+          cache: true
+
+      - name: Install Mobile Dependencies
+        run: |
+          cd mobile
+          flutter pub get
+
+      - name: Build Release APK
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: |
+          cd mobile
+          flutter build apk --release --dart-define=API_BASE_URL="${API_BASE_URL}"
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bloomwell-release-apk
+          path: mobile/build/app/outputs/flutter-apk/*.apk
+          retention-days: 14
