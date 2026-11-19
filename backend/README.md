@@ -106,7 +106,9 @@ alembic upgrade head
 ```bash
 uvicorn app.main:app --reload
 ```
-The API is available at `http://localhost:8000`. OpenAPI documentation is available at `http://localhost:8000/docs`.
+The API is available at `http://localhost:8000`. OpenAPI documentation is available at `http://localhost:8000/docs` (served when `ENABLE_DOCS=true`; disabled by default in production).
+
+For production deployment instructions, see [docs/deployment.md](../docs/deployment.md) and the [docs/launch-checklist.md](../docs/launch-checklist.md).
 
 ### 7. Run Automated Tests
 ```bash

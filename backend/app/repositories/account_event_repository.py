@@ -46,7 +46,20 @@ class AccountEventRepository:
             .order_by(AccountEvent.created_at.desc(), AccountEvent.id.desc())
         )
         if cursor:
-            # We can support cursor as created_at ISO or ID
-            stmt = stmt.where(AccountEvent.id < uuid.UUID(cursor))
+            try:
+                cursor_id = uuid.UUID(cursor)
+                cursor_event = self.db.scalars(
+                    select(AccountEvent).where(AccountEvent.id == cursor_id)
+                ).first()
+                if cursor_event:
+                    stmt = stmt.where(
+                        (AccountEvent.created_at < cursor_event.created_at)
+                        | (
+                            (AccountEvent.created_at == cursor_event.created_at)
+                            & (AccountEvent.id < cursor_event.id)
+                        )
+                    )
+            except ValueError:
+                pass
         stmt = stmt.limit(limit)
         return list(self.db.scalars(stmt).all())
