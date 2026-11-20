@@ -207,7 +207,7 @@ erDiagram
     account_events {
         uuid id PK
         uuid user_id FK
-        string event_type "export_requested, password_changed, sessions_revoked, cycle_data_deleted, consent_changed"
+        string event_type "export_requested, password_changed, sessions_revoked, cycle_data_deleted, consent_changed, doctor_summary_generated"
         timestamptz created_at
     }
 ```
@@ -334,5 +334,5 @@ erDiagram
   - Primary Key: `id` (UUID).
   - Foreign Key: `user_id` -> `users.id` with `ON DELETE CASCADE` (audit log permanently disappears when the user account is deleted).
   - Index: `ix_account_events_user_id_created_at` on `(user_id, created_at)` for efficient cursor pagination (newest first).
-  - Enum: `event_type IN ('export_requested', 'password_changed', 'sessions_revoked', 'cycle_data_deleted', 'consent_changed')`.
+  - Enum: `event_type IN ('export_requested', 'password_changed', 'sessions_revoked', 'cycle_data_deleted', 'consent_changed', 'doctor_summary_generated')`.
   - Privacy: Contains only event type and created timestamp. Strictly no request payloads, IP addresses, or device info.

@@ -98,4 +98,4 @@ Every educational article must conclude with clear, neutral guidance encouraging
 - **Session Revocation (`POST /v1/me/sessions/revoke-all`):** Revokes all active refresh token families.
   - *Honest Session Limit:* The caller's current 15-minute access token remains valid until its natural expiry time (up to 15 minutes), after which refresh is refused and re-authentication is required.
 - **Active Session Count (`GET /v1/me/sessions`):** Returns only `{ "active_sessions": <count> }`. Strictly no IP addresses, device user-agents, or geographical locations are stored or returned.
-- **Security Audit Log (`GET /v1/me/account-events`):** Cursor-paginated log of the user's account security events (`export_requested`, `password_changed`, `sessions_revoked`, `cycle_data_deleted`, `consent_changed`). Disappears permanently when the account is deleted.
+- **Security Audit Log (`GET /v1/me/account-events`):** Cursor-paginated log of the user's account security events (`export_requested`, `password_changed`, `sessions_revoked`, `cycle_data_deleted`, `consent_changed`, `doctor_summary_generated`). Disappears permanently when the account is deleted.

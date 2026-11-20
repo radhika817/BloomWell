@@ -17,6 +17,7 @@ class AccountEventType(str, enum.Enum):
     SESSIONS_REVOKED = "sessions_revoked"
     CYCLE_DATA_DELETED = "cycle_data_deleted"
     CONSENT_CHANGED = "consent_changed"
+    DOCTOR_SUMMARY_GENERATED = "doctor_summary_generated"
 
 
 class AccountEvent(Base):
