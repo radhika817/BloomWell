@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from app.models.checkin import MoodCheckin
     from app.models.journal import JournalEntry
     from app.models.academic_event import AcademicEvent
-    from app.models.cycle import CycleLog
+    from app.models.cycle import CycleLog, SymptomLog
     from app.models.activity import UserActivityLog
     from app.models.study_plan import StudyPlan
     from app.models.resource import ResourceReport
@@ -87,6 +87,11 @@ class User(Base, TimestampMixin):
     )
     cycle_logs: Mapped[List["CycleLog"]] = relationship(
         "CycleLog",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    symptom_logs: Mapped[List["SymptomLog"]] = relationship(
+        "SymptomLog",
         back_populates="user",
         cascade="all, delete-orphan",
     )

@@ -7,7 +7,7 @@ from app.models.academic_event import AcademicEvent
 from app.models.account_event import AccountEvent
 from app.models.activity import UserActivityLog
 from app.models.checkin import MoodCheckin
-from app.models.cycle import CycleLog
+from app.models.cycle import CycleLog, SymptomLog
 from app.models.journal import JournalEntry
 from app.models.preference import UserPreference
 from app.models.resource import ResourceReport
@@ -108,6 +108,10 @@ def _delete_cycle_logs(db: Session, user_id: uuid.UUID) -> None:
     db.execute(delete(CycleLog).where(CycleLog.user_id == user_id))
 
 
+def _delete_symptom_logs(db: Session, user_id: uuid.UUID) -> None:
+    db.execute(delete(SymptomLog).where(SymptomLog.user_id == user_id))
+
+
 def _delete_study_plans(db: Session, user_id: uuid.UUID) -> None:
     # Delete study_plan_items child records then study_plans
     plan_ids = select(StudyPlan.id).where(StudyPlan.user_id == user_id)
@@ -132,5 +136,6 @@ deletion_registry.register("journal_entries", _delete_journal_entries)
 deletion_registry.register("academic_events", _delete_academic_events)
 deletion_registry.register("user_activity_logs", _delete_user_activity_logs)
 deletion_registry.register("cycle_logs", _delete_cycle_logs)
+deletion_registry.register("symptom_logs", _delete_symptom_logs)
 deletion_registry.register("study_plans", _delete_study_plans)
 deletion_registry.register("resource_reports", _delete_resource_reports)

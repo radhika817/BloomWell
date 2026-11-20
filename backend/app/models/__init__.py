@@ -5,7 +5,7 @@ from app.models.checkin import MoodCheckin
 from app.models.journal import JournalEntry
 from app.models.academic_event import AcademicEvent
 from app.models.activity import Activity, UserActivityLog
-from app.models.cycle import CycleLog
+from app.models.cycle import CycleLog, SymptomLog
 from app.models.study_plan import (
     StudyPlan,
     StudyPlanItem,
@@ -40,6 +40,7 @@ __all__ = [
     "Activity",
     "UserActivityLog",
     "CycleLog",
+    "SymptomLog",
     "StudyPlan",
     "StudyPlanItem",
     "StudyPlanMode",

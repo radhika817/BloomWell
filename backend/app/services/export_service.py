@@ -9,7 +9,7 @@ from app.models.account_event import AccountEvent, AccountEventType
 from app.models.academic_event import AcademicEvent
 from app.models.activity import UserActivityLog
 from app.models.checkin import MoodCheckin
-from app.models.cycle import CycleLog
+from app.models.cycle import CycleLog, SymptomLog
 from app.models.journal import JournalEntry
 from app.models.preference import UserPreference
 from app.models.resource import ResourceReport
@@ -202,6 +202,28 @@ def _export_cycle_logs(db: Session, user_id: uuid.UUID) -> List[Dict[str, Any]]:
     ]
 
 
+def _export_symptom_logs(db: Session, user_id: uuid.UUID) -> List[Dict[str, Any]]:
+    logs = list(
+        db.scalars(
+            select(SymptomLog)
+            .where(SymptomLog.user_id == user_id)
+            .order_by(SymptomLog.date.asc(), SymptomLog.created_at.asc())
+        ).all()
+    )
+    return [
+        {
+            "id": str(s.id),
+            "date": s.date.isoformat(),
+            "symptom_type": s.symptom_type,
+            "custom_label": s.custom_label,
+            "severity": s.severity,
+            "notes": s.notes,
+            "created_at": s.created_at.isoformat() if s.created_at else None,
+        }
+        for s in logs
+    ]
+
+
 def _export_study_plans(db: Session, user_id: uuid.UUID) -> List[Dict[str, Any]]:
     plans = list(db.scalars(select(StudyPlan).where(StudyPlan.user_id == user_id).order_by(StudyPlan.week_start)).all())
     results = []
@@ -270,6 +292,7 @@ export_registry.register("journal", "journal_entries", _export_journal)
 export_registry.register("academic_events", "academic_events", _export_academic_events)
 export_registry.register("activity_logs", "user_activity_logs", _export_activity_logs)
 export_registry.register("cycle_logs", "cycle_logs", _export_cycle_logs)
+export_registry.register("symptom_logs", "symptom_logs", _export_symptom_logs)
 export_registry.register("study_plans", "study_plans", _export_study_plans)
 export_registry.register("resource_reports", "resource_reports", _export_resource_reports)
 export_registry.register("account_events", "account_events", _export_account_events)

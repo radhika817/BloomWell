@@ -8,13 +8,15 @@ Architectural Rules (docs/architecture.md Section 5):
 3. Moderation and Community components are architecturally isolated from private repositories.
 """
 from app.repositories.checkin_repository import CheckinRepository
+from app.repositories.cycle_repository import CycleRepository
+from app.repositories.education_repository import EducationRepository
 from app.repositories.journal_repository import JournalRepository
 from app.repositories.refresh_token_repository import RefreshTokenRepository
-from app.repositories.study_plan_repository import StudyPlanRepository
-from app.repositories.user_repository import UserRepository
-from app.repositories.resource_repository import ResourceRepository
 from app.repositories.resource_report_repository import ResourceReportRepository
-from app.repositories.education_repository import EducationRepository
+from app.repositories.resource_repository import ResourceRepository
+from app.repositories.study_plan_repository import StudyPlanRepository
+from app.repositories.symptom_repository import SymptomRepository
+from app.repositories.user_repository import UserRepository
 
 __all__ = [
     "UserRepository",
@@ -25,5 +27,7 @@ __all__ = [
     "ResourceRepository",
     "ResourceReportRepository",
     "EducationRepository",
+    "CycleRepository",
+    "SymptomRepository",
 ]
 
