@@ -32,6 +32,10 @@ pytest-asyncio==1.4.0
 python-dotenv==1.2.4
 python-json-logger==4.2.0
 PyYAML==6.0.3
+# PDF Rendering: ReportLab generates in-memory doctor summary PDFs
+charset-normalizer==3.5.3
+pillow==13.0.0
+reportlab==5.1.0
 SQLAlchemy==2.1.5
 starlette==1.8.0
 typing-inspection==0.4.4

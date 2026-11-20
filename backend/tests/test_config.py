@@ -87,6 +87,28 @@ def test_privacy_and_retention_defaults():
     assert custom.BACKUP_RETENTION_DAYS == 30
 
 
+def test_doctor_summary_settings_defaults_and_overrides():
+    """Verify Doctor-visit Summary configuration defaults and custom overrides."""
+    default_config = Settings(
+        APP_ENV="development",
+        APP_SECRET_KEY="replace-with-local-development-secret",
+    )
+    assert default_config.DOCTOR_SUMMARY_MAX_DAYS == 366
+    assert default_config.DOCTOR_SUMMARY_MAX_SYMPTOM_ROWS == 500
+    assert default_config.DOCTOR_SUMMARY_DAILY_LIMIT == 5
+
+    custom_config = Settings(
+        APP_ENV="development",
+        APP_SECRET_KEY="replace-with-local-development-secret",
+        DOCTOR_SUMMARY_MAX_DAYS=90,
+        DOCTOR_SUMMARY_MAX_SYMPTOM_ROWS=100,
+        DOCTOR_SUMMARY_DAILY_LIMIT=2,
+    )
+    assert custom_config.DOCTOR_SUMMARY_MAX_DAYS == 90
+    assert custom_config.DOCTOR_SUMMARY_MAX_SYMPTOM_ROWS == 100
+    assert custom_config.DOCTOR_SUMMARY_DAILY_LIMIT == 2
+
+
 def test_helphub_and_education_production_explicit_override_honored():
     """Verify that if True is explicitly passed for demo/draft in production, it is honored."""
     secure_key = "a-very-strong-and-secure-random-secret-key-32-chars!"

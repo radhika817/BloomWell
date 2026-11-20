@@ -1,0 +1,5 @@
+# Development and test-only dependencies
+-r requirements.txt
+
+# pypdf: Test-only dependency used to parse and verify in-memory generated PDF text in unit tests
+pypdf==7.1.1

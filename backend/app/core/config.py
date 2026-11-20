@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     RESOURCE_STALE_DAYS: int = 180
     EXPORT_MAX_RECORDS: int = 50000
     BACKUP_RETENTION_DAYS: int = 14
+    DOCTOR_SUMMARY_MAX_DAYS: int = 366
+    DOCTOR_SUMMARY_MAX_SYMPTOM_ROWS: int = 500
+    DOCTOR_SUMMARY_DAILY_LIMIT: int = 5
 
     @property
     def cors_origins_list(self) -> List[str]:
