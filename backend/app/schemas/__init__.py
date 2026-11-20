@@ -12,6 +12,11 @@ from app.schemas.checkin import (
     CheckinResponse,
     CheckinUpdateRequest,
 )
+from app.schemas.doctor_summary import (
+    DoctorSummaryInclude,
+    DoctorSummaryRequest,
+    UnsupportedLanguageError,
+)
 from app.schemas.error import ErrorResponse
 from app.schemas.health import HealthResponse
 from app.schemas.journal import (
@@ -42,4 +47,7 @@ __all__ = [
     "JournalSummaryResponse",
     "JournalDetailResponse",
     "JournalListResponse",
+    "DoctorSummaryInclude",
+    "DoctorSummaryRequest",
+    "UnsupportedLanguageError",
 ]

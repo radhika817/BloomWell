@@ -132,6 +132,31 @@ def create_application() -> FastAPI:
         request: Request, exc: RequestValidationError
     ) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
+        # Check if error is specifically an unsupported language error -> return 400
+        for err in exc.errors():
+            ctx = err.get("ctx", {})
+            err_obj = ctx.get("error") if isinstance(ctx, dict) else None
+            msg = str(err.get("msg", ""))
+            if (
+                getattr(err_obj, "code", None) == "unsupported_language"
+                or "unsupported_language" in msg
+                or "Unsupported language" in msg
+            ):
+                error_msg = str(err_obj) if err_obj else msg
+                if "Value error, " in error_msg:
+                    error_msg = error_msg.replace("Value error, ", "")
+                return JSONResponse(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    content={
+                        "code": "unsupported_language",
+                        "message": error_msg,
+                        "detail": error_msg,
+                        "details": None,
+                        "request_id": request_id,
+                    },
+                    headers={"X-Request-ID": request_id} if request_id else None,
+                )
+
         # Never echo submitted input text in error responses per privacy rules
         sanitized_errors = []
         for err in exc.errors():
