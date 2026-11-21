@@ -1,9 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_step_up
+from app.core.config import settings
+from app.core.security import InMemoryRateLimiter
 from app.db.session import get_db
+from app.models.account_event import AccountEventType
 from app.models.user import User
+from app.repositories.account_event_repository import AccountEventRepository
 from app.repositories.user_repository import UserRepository
 from app.schemas.consent import (
     CycleTrackingStatusResponse,
@@ -11,7 +15,15 @@ from app.schemas.consent import (
     PlannerCycleConsentRequest,
     PlannerCycleConsentResponse,
 )
+from app.schemas.doctor_summary import DoctorSummaryRequest
 from app.schemas.user import PreferencesUpdateRequest, UserProfileResponse
+from app.services.doctor_summary_service import DoctorSummaryCollectorService
+from app.services.pdf_renderer import render_summary
+
+doctor_summary_limiter = InMemoryRateLimiter(
+    max_requests=settings.DOCTOR_SUMMARY_DAILY_LIMIT,
+    window_seconds=86400,
+)
 
 router = APIRouter(prefix="/me", tags=["Profile"])
 
@@ -595,4 +607,89 @@ def get_my_account_events(
         next_cursor=next_cursor,
         has_more=has_more,
     )
+
+
+@router.post(
+    "/doctor-summary",
+    summary="Generate doctor-visit summary PDF",
+    description="Generates an in-memory doctor-visit summary PDF. Requires active cycle tracking and re-authentication.",
+    responses={
+        200: {
+            "content": {"application/pdf": {}},
+            "description": "Doctor-visit summary PDF successfully generated in memory.",
+        },
+        400: {"description": "Unsupported language requested."},
+        401: {"description": "Authentication or step-up re-authentication required."},
+        403: {"description": "Cycle tracking is disabled."},
+        413: {"description": "Date range contains too many symptom entries."},
+        422: {"description": "Invalid date range parameters."},
+        429: {"description": "Daily summary rate limit exceeded."},
+    },
+)
+def generate_doctor_summary(
+    req: DoctorSummaryRequest,
+    current_user: User = Depends(require_step_up),
+    db: Session = Depends(get_db),
+) -> Response:
+    """
+    Generate doctor-visit summary PDF in memory.
+    Strictly zero disk writes. Logs doctor_summary_generated audit event.
+    """
+    # 1. Daily rate limiting per user
+    doctor_summary_limiter.check_rate_limit(str(current_user.id))
+
+    # 2. Check that cycle tracking is explicitly enabled
+    if not (current_user.preferences and current_user.preferences.cycle_tracking_enabled):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "code": "cycle_tracking_disabled",
+                "message": "Doctor summary requires cycle tracking to be enabled. Please enable cycle tracking in settings first.",
+            },
+        )
+
+    # 3. User timezone future check
+    user_tz = current_user.preferences.timezone if (current_user.preferences and current_user.preferences.timezone) else "UTC"
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    try:
+        tz = ZoneInfo(user_tz)
+    except Exception:
+        tz = ZoneInfo("UTC")
+
+    today_in_tz = datetime.now(tz).date()
+    max_allowed = today_in_tz + timedelta(days=1)
+    if req.to_date > max_allowed:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={
+                "code": "VALIDATION_ERROR",
+                "message": f"to_date '{req.to_date}' cannot be more than 1 day in the future (max allowed: {max_allowed} in timezone {user_tz}).",
+            },
+        )
+
+    # 4. Collect user data using owner-scoped repositories
+    collector = DoctorSummaryCollectorService(db)
+    data = collector.collect_summary_data(current_user.id, req)
+
+    # 5. Render PDF in memory only (BytesIO)
+    pdf_bytes = render_summary(data, req)
+
+    # 6. Audit event recording
+    event_repo = AccountEventRepository(db)
+    event_repo.record_event(
+        current_user.id, AccountEventType.DOCTOR_SUMMARY_GENERATED
+    )
+
+    # 7. Return streaming PDF response with zero-store caching headers
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": 'attachment; filename="bloomwell-summary.pdf"',
+            "Cache-Control": "no-store",
+            "Pragma": "no-cache",
+        },
+    )
+
 
