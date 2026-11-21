@@ -4,9 +4,11 @@ import inspect
 import pytest
 
 from app.repositories.checkin_repository import CheckinRepository
+from app.repositories.cycle_repository import CycleRepository
 from app.repositories.journal_repository import JournalRepository
-from app.repositories.study_plan_repository import StudyPlanRepository
 from app.repositories.resource_report_repository import ResourceReportRepository
+from app.repositories.study_plan_repository import StudyPlanRepository
+from app.repositories.symptom_repository import SymptomRepository
 
 
 def test_moderation_community_and_resource_admin_import_boundaries():
@@ -30,6 +32,11 @@ def test_moderation_community_and_resource_admin_import_boundaries():
         "StudyPlan",
         "StudyPlanItem",
         "CycleLog",
+        "SymptomLog",
+        "CycleRepository",
+        "SymptomRepository",
+        "DoctorSummaryCollectorService",
+        "render_summary",
         "AcademicEvent",
         "UserActivityLog",
         "export_registry",
@@ -41,6 +48,8 @@ def test_moderation_community_and_resource_admin_import_boundaries():
         "app.repositories.checkin_repository",
         "app.repositories.journal_repository",
         "app.repositories.study_plan_repository",
+        "app.repositories.cycle_repository",
+        "app.repositories.symptom_repository",
         "app.repositories.account_event_repository",
         "app.models.checkin",
         "app.models.journal",
@@ -50,6 +59,9 @@ def test_moderation_community_and_resource_admin_import_boundaries():
         "app.models.activity",
         "app.services.export_service",
         "app.services.deletion_service",
+        "app.services.doctor_summary_service",
+        "app.services.pdf_renderer",
+        "app.services.cycle_algorithm",
     }
 
     # Find all moderation, community, resource, education, and admin related files
@@ -87,7 +99,13 @@ def test_private_repositories_require_user_id_scoping():
     Every private-data repository method must take an explicit user_id and filter by it.
     The client never supplies the owner ID.
     """
-    for repo_cls in [CheckinRepository, JournalRepository, StudyPlanRepository]:
+    for repo_cls in [
+        CheckinRepository,
+        JournalRepository,
+        StudyPlanRepository,
+        CycleRepository,
+        SymptomRepository,
+    ]:
         methods = [
             m for m in inspect.getmembers(repo_cls, predicate=inspect.isfunction)
             if not m[0].startswith("_")

@@ -95,6 +95,7 @@ def create_application() -> FastAPI:
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["Content-Disposition"],
     )
 
     # 3. Exception Handlers ensuring consistent problem-details JSON error format
