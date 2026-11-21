@@ -13,3 +13,4 @@ Every draft article must be reviewed by a qualified health educator or clinical 
 | `supporting-a-friend` | How to Support a Friend During Their Period | en | draft | | | Team draft. Peer support without stigma. |
 | `how-parents-and-family-can-support` | How Families and Guardians Can Offer Support | en | draft | | | Team draft. Home environment and encouragement. |
 | `talking-comfortably-with-a-health-worker` | Talking Comfortably With a Healthcare Professional | en | draft | | | Team draft. Consultation preparation tips. |
+| `doctor-summary-suggested-questions` | Doctor Summary: Questions You May Want to Ask | en | draft | | | Neutral discussion questions for clinician consults. |

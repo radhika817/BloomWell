@@ -9,6 +9,10 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
+from app.core.doctor_summary_constants import (
+    DOCTOR_SUMMARY_DISCLAIMER,
+    DOCTOR_SUMMARY_QUESTIONS,
+)
 from app.schemas.doctor_summary import DoctorSummaryRequest
 from app.services.doctor_summary_service import DoctorSummaryData
 
@@ -124,6 +128,15 @@ def _build_styles():
         textColor=colors.HexColor("#2B2D42"),
     )
 
+    disclaimer_style = ParagraphStyle(
+        "DisclaimerText",
+        parent=styles["Normal"],
+        fontName="Helvetica-Oblique",
+        fontSize=8.5,
+        leading=12,
+        textColor=colors.HexColor("#555555"),
+    )
+
     return {
         "title": title_style,
         "meta": meta_style,
@@ -133,6 +146,7 @@ def _build_styles():
         "td": table_cell,
         "est_banner": estimate_banner,
         "est_body": estimate_body,
+        "disclaimer": disclaimer_style,
     }
 
 
@@ -338,6 +352,53 @@ def render_summary(data: DoctorSummaryData, options: DoctorSummaryRequest) -> by
         )
         story.append(est_box)
         story.append(Spacer(1, 10))
+
+    # 5. Questions Section (rendered only when include.questions is True)
+    if options.include.questions:
+        story.append(Paragraph("Questions you may want to ask", styles["section"]))
+
+        q_items = []
+        for i, q_text in enumerate(DOCTOR_SUMMARY_QUESTIONS, 1):
+            q_items.append(
+                [
+                    Paragraph(f"<b>{i}.</b>", styles["td"]),
+                    Paragraph(q_text, styles["body"]),
+                ]
+            )
+
+        qt = Table(q_items, colWidths=[20, 503.27])
+        qt.setStyle(
+            TableStyle(
+                [
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("TOPPADDING", (0, 0), (-1, -1), 2),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ]
+            )
+        )
+        story.append(qt)
+        story.append(Spacer(1, 12))
+
+    # 6. Mandatory Closing Disclaimer (ALWAYS rendered at the end of the summary)
+    disc_box = Table(
+        [[Paragraph(DOCTOR_SUMMARY_DISCLAIMER, styles["disclaimer"])]],
+        colWidths=[523.27],
+    )
+    disc_box.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#F8F9FA")),
+                ("BOX", (0, 0), (-1, -1), 0.5, colors.HexColor("#D8D8D8")),
+                ("TOPPADDING", (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ]
+        )
+    )
+    story.append(disc_box)
 
     doc.build(story, canvasmaker=NumberedCanvas)
     return buffer.getvalue()
