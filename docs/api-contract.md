@@ -917,6 +917,49 @@ Generates and downloads on-the-fly JSON export of the caller's complete data bun
 - **Response Format (200 OK):** Complete user data export including metadata, profile, preferences, check-ins, journal entries, academic events, activity logs, cycle logs, study plans, and account events.
 - **Error (413 Request Entity Too Large):** If total records exceed `EXPORT_MAX_RECORDS` (default: 50,000).
 
+#### `POST /v1/me/doctor-summary`
+Generates and streams an on-demand, in-memory PDF summary of self-recorded cycle dates and symptoms for healthcare visits.
+- **Headers Required:**
+  - `Authorization: Bearer <access_token>`
+  - `X-Reauth-Token: <step_up_token>` (obtained via `POST /v1/me/reauth`)
+- **Prerequisite:** Cycle tracking must be enabled (`cycle_tracking_enabled: true`). Returns HTTP 403 `cycle_tracking_disabled` if disabled.
+- **Rate Limit:** 5 requests per user per day (`DOCTOR_SUMMARY_DAILY_LIMIT`). Exceeding returns HTTP 429 with `Retry-After`.
+- **Request Body (JSON):**
+  ```json
+  {
+    "from_date": "2026-01-01",
+    "to_date": "2026-03-31",
+    "include": {
+      "periods": true,
+      "symptoms": true,
+      "symptom_notes": false,
+      "estimate": false,
+      "questions": true
+    },
+    "language": "en"
+  }
+  ```
+- **Validation Rules:**
+  - `from_date` must not be after `to_date`.
+  - Date span cannot exceed 366 days (`DOCTOR_SUMMARY_MAX_DAYS`).
+  - `to_date` cannot be more than 1 day in the future relative to the caller's timezone.
+  - At least one of `periods` or `symptoms` must be `true`.
+  - Unknown fields are forbidden (no journal, mood, energy, or sleep fields accepted).
+  - `language` must be `"en"` (other values return HTTP 400 `unsupported_language`).
+- **Response (200 OK):**
+  - Media Type: `application/pdf`
+  - Headers:
+    - `Content-Disposition: attachment; filename="bloomwell-summary.pdf"`
+    - `Cache-Control: no-store`
+    - `Pragma: no-cache`
+- **Error Responses:**
+  - `400 Bad Request`: `code: "unsupported_language"` if non-English language is requested.
+  - `401 Unauthorized`: Missing access token, missing step-up token, expired token, or token for a different user.
+  - `403 Forbidden`: `code: "cycle_tracking_disabled"` if user has not enabled cycle tracking.
+  - `413 Content Too Large`: `code: "summary_too_large"` if symptoms in range exceed `DOCTOR_SUMMARY_MAX_SYMPTOM_ROWS` (default: 500).
+  - `422 Unprocessable Content`: `code: "VALIDATION_ERROR"` for invalid dates, extra fields, or span violations.
+  - `429 Too Many Requests`: Daily rate limit exceeded.
+
 #### `DELETE /v1/me`
 Permanently deletes the caller's account and all associated personal data in one database transaction.
 - **Headers Required:** `Authorization: Bearer <access_token>`, `X-Reauth-Token: <step_up_token>`.

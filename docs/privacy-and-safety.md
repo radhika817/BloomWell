@@ -99,3 +99,21 @@ Every educational article must conclude with clear, neutral guidance encouraging
   - *Honest Session Limit:* The caller's current 15-minute access token remains valid until its natural expiry time (up to 15 minutes), after which refresh is refused and re-authentication is required.
 - **Active Session Count (`GET /v1/me/sessions`):** Returns only `{ "active_sessions": <count> }`. Strictly no IP addresses, device user-agents, or geographical locations are stored or returned.
 - **Security Audit Log (`GET /v1/me/account-events`):** Cursor-paginated log of the user's account security events (`export_requested`, `password_changed`, `sessions_revoked`, `cycle_data_deleted`, `consent_changed`, `doctor_summary_generated`). Disappears permanently when the account is deleted.
+
+### 4.5 Doctor-visit Summary (`POST /v1/me/doctor-summary`)
+- **Purpose:** Generates a clean, readable PDF summary of user-recorded cycle dates and symptoms to facilitate discussions with healthcare workers.
+- **On-Demand & In-Memory Lifecycle:** PDFs are rendered 100% in memory (`io.BytesIO`) using ReportLab and streamed directly to the caller. Zero temporary or persistent files are ever written to disk (not even to temporary storage).
+- **Step-Up Re-Authentication:** Requires recent password or biometric re-authentication via `X-Reauth-Token`. Cross-user tokens are strictly rejected.
+- **What is Included:**
+  - Header: Date range, generated date, list of included categories. Strictly NO name, email, or user UUID appears anywhere in the document body or PDF metadata.
+  - Recorded periods: Table of recorded period start/end dates and cycle length between consecutive starts ("Recorded by me in BloomWell").
+  - Logged symptoms: Grouped by symptom type and custom label (using user's exact labels), days logged, severity range, and dates. User notes are included ONLY when explicitly selected (`symptom_notes: true`) and labeled as `"User note: ..."`.
+  - Next cycle estimate: Included ONLY when explicitly selected (`estimate: true`) AND enough usable data exists. Always styled as `"Estimate. This can be wrong. Not medical advice."` with a date range (never an exact single date).
+  - Suggested questions: 6 neutral, non-diagnostic questions to ask clinicians (managing discomfort, what to log, check-up timing).
+  - Closing disclaimer: Always included at the bottom: `"This summary was created by the person from the dates and symptoms they recorded themselves. It is not a medical record, an assessment or a diagnosis."`
+- **What is Strictly Excluded:**
+  - Strictly NO journal text, mood scores, energy scores, stress scores, or sleep scores can be included.
+  - Strictly NO diagnostic claims, fertility language, or pregnancy language anywhere ("ovulation", "fertile", "pregnant", "abnormal", "irregular", "indicates", "suggests", "you have", "likely", "probably").
+- **Device Security Notice:** Once downloaded, the PDF is an unencrypted standard PDF file stored in the user's personal device downloads. The client application reminds the user to store and share the file responsibly.
+- **Language Support:** English (`"en"`) only in v1. Devanagari localization (Hindi, Marathi) is planned for future versions with embedded fonts.
+- **Audit Logging & Rate Limits:** A `doctor_summary_generated` event is logged to `account_events` without file content or medical details. Capped at 5 generations per user per day (`DOCTOR_SUMMARY_DAILY_LIMIT`).

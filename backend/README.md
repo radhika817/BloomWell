@@ -180,3 +180,76 @@ The included `rate_limit` dependency (`app.core.security.InMemoryRateLimiter`) o
 
 When scaling horizontally across multiple processes (e.g. multiple Uvicorn workers or container instances behind an AWS Application Load Balancer), this must be backed by a centralized store (such as Redis) to synchronize rate limits across workers.
 
+---
+
+## Doctor-Visit Summary Manual Testing Guide
+
+Follow these steps to manually test the Doctor-visit Summary PDF generation end-to-end using fictional demo credentials:
+
+### 1. Log In to Obtain an Access Token
+```bash
+curl -X POST http://localhost:8000/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "demo.student@example.edu",
+    "password": "demo-password-123"
+  }'
+```
+Save the returned `access_token`.
+
+### 2. Enable Cycle Tracking Consent
+Cycle tracking must be active before generating a summary:
+```bash
+curl -X PUT http://localhost:8000/v1/me/cycle-tracking \
+  -H "Authorization: Bearer <ACCESS_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cycle_tracking_enabled": true
+  }'
+```
+
+### 3. Re-Authenticate to Obtain Step-Up Token
+Generating sensitive health summaries requires recent re-authentication:
+```bash
+curl -X POST http://localhost:8000/v1/me/reauth \
+  -H "Authorization: Bearer <ACCESS_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "password": "demo-password-123"
+  }'
+```
+Save the returned `reauth_token`.
+
+### 4. Generate Doctor Summary PDF
+Request the summary PDF using fictional demo dates and categories:
+```bash
+curl -X POST http://localhost:8000/v1/me/doctor-summary \
+  -H "Authorization: Bearer <ACCESS_TOKEN>" \
+  -H "X-Reauth-Token: <REAUTH_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "from_date": "2026-01-01",
+    "to_date": "2026-03-31",
+    "include": {
+      "periods": true,
+      "symptoms": true,
+      "symptom_notes": true,
+      "estimate": true,
+      "questions": true
+    },
+    "language": "en"
+  }' \
+  --output bloomwell-summary.pdf
+```
+
+### 5. Verify the Generated PDF
+Open `bloomwell-summary.pdf` to verify:
+- Clean A4 layout with neutral styling.
+- Header: "Personal health notes summary", date range, generated timestamp.
+- Strict anonymity: No names, emails, or user IDs anywhere in body or metadata.
+- Periods section: "Recorded by me in BloomWell" table with start/end dates and cycle lengths.
+- Symptoms section: Logged symptoms grouped by type and custom label, with dates and severity.
+- Estimate section (if usable history exists): Date range labeled "Estimate. This can be wrong. Not medical advice."
+- Questions section: 6 neutral discussion questions for clinician consults.
+- Mandatory disclaimer at bottom: "This summary was created by the person from the dates and symptoms they recorded themselves. It is not a medical record, an assessment or a diagnosis."
+
